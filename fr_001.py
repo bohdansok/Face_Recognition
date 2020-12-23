@@ -30,22 +30,26 @@ def sel_dir(rootwnd, Title): # selecting a directory with pictures
     return os.path.normpath(sel_dir_path)
 
 def dir_load_allimg(directory):
+    # os.chdir(directory)
+    cnt = 1
     for entry in os.scandir(directory):
         if (entry.path.endswith(".jpg") or entry.path.endswith(".png")) and entry.is_file():
-            # enc = face_recognition.face_encodings(entry.path)[0]
-            print(entry.path)
-            # print(enc)
+            image = face_recognition.load_image_file(entry.path)
+            enc = face_recognition.face_encodings(image)[0]
+            print(cnt, entry.path)
+            print(enc)
+            cnt += 1
     return
    
 wnd = tk.Tk(screenName='Faces 0.001')
-ftypes = [('JPG files', '*.jpg'), ('All files', '*')]
-dlg = filedialog.Open(wnd, filetypes = ftypes)
-fn_wanted = dlg.show()
-image = face_recognition.load_image_file(fn_wanted)
-unknown_encoding = face_recognition.face_encodings(image)[0]
+# ftypes = [('JPG files', '*.jpg'), ('All files', '*')]
+# dlg = filedialog.Open(wnd, filetypes = ftypes)
+# fn_wanted = dlg.show()
+# image = face_recognition.load_image_file(fn_wanted)
+# unknown_encoding = face_recognition.face_encodings(image)[0]
 dirpath = sel_dir(wnd, 'Select a directory with wanted pics')
-print(unknown_encoding)
-print(len(image))
+# print(unknown_encoding)
+# print(len(image))
 print(dirpath)
 # dirpath = dirpath.replace("/", r"\"")
 dir_load_allimg(dirpath)
