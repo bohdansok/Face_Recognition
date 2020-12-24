@@ -1,6 +1,12 @@
 
 # first attemt to create a rec and comp app
 # $ face_recognition --cpus -1
+# from sys import version_info
+# if version_info.major == 2:
+#     import Tkinter as tk
+# elif version_info.major == 3:
+#     import tkinter as tk
+    
 import face_recognition, os, pickle, os.path
 import tkinter as tk
 from tkinter import *
@@ -79,6 +85,7 @@ def pic_search():
         while i < ei:
             print(KnownFaceDic["encodings"][i], i, KnownFaceDic["names"][i])
             i += 1
+    return
         
 ## GUI   
 wnd = tk.Tk(screenName='Faces 0.004')
@@ -95,23 +102,19 @@ label1 = tk.Label(master=frame1,
                   )
 label1.pack()
 frame1.pack()
-but_lb = tk.Button(master=wnd,
-                   text='Оберіть каталог з еталоними фото ',
-                   relief=RAISED,
-                   command=dir_load_allimg(wnd, "Оберіть каталог з еталоними фото")
-                   )
+frame2 = tk.Frame(master=wnd, relief=tk.RAISED, borderwidth=8)
+label2 = tk.Label(master=frame2,
+                  text='''1. Оберіть кпапки (по одній) з еталонними фото для наповнення бази даних.
+                  Сканувати тільки олин раз. Нові фото класти у нові папки''',
+                  font=("Times New Roman", 12),
+                  background='green',
+                  foreground="white",
+                  height=3
+                  )
+label2.pack()
+but_lb = tk.Button(master=frame2, text='Оберіть каталог з еталоними фото ', relief=RAISED, command=dir_load_allimg(wnd, "Оберіть каталог з еталоними фото"))
 but_lb.pack()
-but_ab = tk.Button(master=wnd,
-                   text='Пошук',
-                   relief=RAISED,
-                   command=pic_search()
-                   )
+frame2.pack()
+but_ab = tk.Button(master=wnd, text='Пошук',  relief=RAISED, command=pic_search())
 but_ab.pack()
-# dirpath = sel_dir(wnd, 'Select a directory with wanted pics')
-# # print(unknown_encoding)
-# # print(len(image))
-# print(dirpath)
-# # dirpath = dirpath.replace("/", r"\"")
-# dir_load_allimg(dirpath)
-# wnd.destroy()
 wnd.mainloop()
