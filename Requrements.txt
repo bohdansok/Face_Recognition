@@ -1,0 +1,4 @@
+dlib
+face_recognition
+pillow
+xlsxwriter
