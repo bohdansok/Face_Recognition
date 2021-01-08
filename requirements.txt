@@ -1,4 +1,5 @@
 dlib
+numpy
 face_recognition
 pillow
 xlsxwriter
