@@ -1,5 +1,6 @@
-dlib
 numpy
+click
+dlib
 face_recognition
 pillow
 xlsxwriter
