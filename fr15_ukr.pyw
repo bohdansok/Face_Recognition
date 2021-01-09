@@ -1,7 +1,7 @@
 # first attemt to create a rec and comp app
 # Author - Bohdan SOKRUT
-# https://github.com/bohdansok/Face_Recognition
-##4
+# https://github.com/bohdansok/FR
+##
     
 import face_recognition, os, pickle, os.path, glob
 import json
@@ -61,9 +61,9 @@ def sel_dir(rootwnd, Title, dl, notskipcheck, subd):
         return
     else:
         if sel_dir_path in dl and notskipcheck: # якщо шлях у списку сканованих і є флаг га перевірку
-            if tk.messagebox.askyesno("Увага!", "Папка %s вже сканувлась. Повторити?" % dl[sel_dir_path]):
+            if tk.messagebox.askyesno("Увага!", "Ця тека вже сканувлась %s. Повторити?" % dl.get(sel_dir_path)):
                 if subd:
-                    dl[sel_dir_path + " (з вкл.теками)"] = str(datetime.now().strftime("%Y-%m-%d %H.%M.%S"))
+                    dl[sel_dir_path] = str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")) + " (з вклад. теками)"
                 else:
                     dl[sel_dir_path] = str(datetime.now().strftime("%Y-%m-%d %H.%M.%S"))
                 return sel_dir_path
@@ -73,7 +73,7 @@ def sel_dir(rootwnd, Title, dl, notskipcheck, subd):
         else:
             if sel_dir_path != None:
                 if subd:
-                     dl[sel_dir_path + " (з вкл.теками)"] = str(datetime.now().strftime("%Y-%m-%d %H.%M.%S"))
+                     dl[sel_dir_path] = str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")) + " (з вклад.теками)"
                 else:
                     dl[sel_dir_path] = str(datetime.now().strftime("%Y-%m-%d %H.%M.%S"))
         return sel_dir_path
@@ -180,6 +180,7 @@ def dir_load_allimg_sub(parwnd, title):
     allimgf.extend(glob.glob(directory + "/**/*.jpeg", recursive = True))
     allimgf.extend(glob.glob(directory + "/**/*.png", recursive = True))
     for entry in allimgf:
+        if os.path.isfile(entry):
             parwnd.title(appcurver + " - вже додано %d облич(чя) з %d зображень..." % (cnt, fcnt))
             fcnt += 1
             image = face_recognition.load_image_file(entry)
@@ -191,8 +192,10 @@ def dir_load_allimg_sub(parwnd, title):
                             cnt += 1
                             # print(cnt, entry)
                             # print(enc)
-            else:
-                    print(entry, 'Облич немає!')
+            # else:
+            #         print(entry, 'Облич немає!')
+        else:
+            continue
     allimgf.clear()
    # print("Додано %d облич з %d зображень. Зберігаю кодування облич до файлу..." % (cnt, fcnt))
     tk.messagebox.showinfo('Інформація', "Додано %d облич з %d зображень. Зберігаю кодування облич до файлу..." % (cnt, fcnt))
