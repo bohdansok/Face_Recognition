@@ -1,6 +1,6 @@
 # first attemt to create a rec and comp app
 # Author - Bohdan SOKRUT
-# https://github.com/bohdansok/FR
+# https://github.com/bohdansok/Face_Recognition
 ##
     
 import face_recognition, os, pickle, os.path, glob
