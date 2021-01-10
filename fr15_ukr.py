@@ -23,6 +23,12 @@ fl_Dir_List_Loaded = False
 ##
 # Читаємо дані про раніше скановані каталоги з файлу "_dirlist.ini", якщо він є
 def LoadDirList():
+    """[Reading a list of earlier scanned directories from JSON-type file _dirlist.ini]
+
+    Returns:
+        [dl]: [dictionary with path:date_time]
+        [fl]: [flag is True (loaded) or False (not loaded)]
+    """    
     dlnm = "_dirlist.ini"
     dl = {}
     fl = False
@@ -43,6 +49,11 @@ def LoadDirList():
 
 # Записуємо до файлу "_dirlist.ini" дані про скановані каталоги
 def SaveDirList(dl):
+    """[Saves DirList dictionary to file JSON-type file _dirlist.ini]
+
+    Args:
+        dl ([Dictionary]): [dictionary with path:date_time]
+    """    
     dlnm = "_dirlist.ini"
     try:
         f = open(dlnm, "w")
@@ -56,6 +67,18 @@ def SaveDirList(dl):
 
 # Обираємо каталог для сканування наявності облич у файлах зображень JPG, PNG
 def sel_dir(rootwnd, Title, dl, notskipcheck, subd):
+    """[GUI choos a directory to scan with check if is already in DirList as scanned one]
+
+    Args:
+        rootwnd ([Tkinter widget]): [parent Tkinter widget]
+        Title ([str]): [Title for tkinter.filedialog.askdirectory messagebox]
+        dl ([dict]): [DirList]
+        notskipcheck ([boolean]): [True to check if a selected directory is alreadu in DirList]
+        subd ([boolean]): [True of a selected directory and all subdirectories to be scanned]
+
+    Returns:
+        [str]: [path to a directory to be scanned]
+    """    
     sel_dir_path = tk.filedialog.askdirectory(parent=rootwnd, title=Title, mustexist=True)
     if sel_dir_path in [".", "", None]:
         return
@@ -79,7 +102,13 @@ def sel_dir(rootwnd, Title, dl, notskipcheck, subd):
         return sel_dir_path
 
 
-def dir_load_allimg(parwnd, title):
+def dir_load_allimg(parwnd):
+    """[Finds all image-type files in a particulr dirctory, recognizes faces and adds face' encodings
+    and path to image into appropriated dictionary KnownFaceDic]
+
+    Args:
+        rootwnd ([Tkinter widget]): [parent Tkinter widget]
+    """    
     knownEncodings = []
     knownNames = []
     KnownFaceDic = {"encodings": knownEncodings, "names": knownNames}
@@ -91,7 +120,7 @@ def dir_load_allimg(parwnd, title):
         if answ == 2: mod = "cnn"
     else:
         mod = "hog"
-    directory = sel_dir(parwnd, title, Dir_List, True, False)
+    directory = sel_dir(parwnd, "Оберіть теку з еталонними фото", Dir_List, True, False)
     print(directory)
     if directory in [".", "", None]: return
     knwdbdir = os.path.join(os.path.join(os.getcwd(), "_DB"))
@@ -139,7 +168,13 @@ def dir_load_allimg(parwnd, title):
     fl_Dir_List_Saved = True
     return
 
-def dir_load_allimg_sub(parwnd, title):
+def dir_load_allimg_sub(parwnd):
+    """[Finds all image-type files in a particulr dirctory, recognizes faces and adds face' encodings
+    and path to image into appropriated dictionary KnownFaceDic]
+
+    Args:
+        rootwnd ([Tkinter widget]): [parent Tkinter widget]
+    """    
     knownEncodings = []
     knownNames = []
     allimgf = []
@@ -152,7 +187,8 @@ def dir_load_allimg_sub(parwnd, title):
         if answ == 2: mod = "cnn"
     else:
         mod = "hog"
-    directory = sel_dir(parwnd, title, Dir_List, True, True)
+    directory = sel_dir(parwnd, "Оберіть папку з еталонними фото (із вклад. теками)",
+                        Dir_List, True, True)
     print(directory)
     if directory in [".", "", None]: return
     ## creating workin folders
@@ -208,7 +244,13 @@ def dir_load_allimg_sub(parwnd, title):
     fl_Dir_List_Saved = True
     return
 
-def dir_load_wantedimg(parwnd, title): # Loading and encoding wanted people
+def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
+    """[Finds all image-type files in a particulr dirctory, recognizes faces and adds face' encodings
+    and path to image into appropriated dictionary KnownFaceDic]
+
+    Args:
+        rootwnd ([Tkinter widget]): [parent Tkinter widget]
+    """    
     wantedEncodings = []
     wantedNames = []
     WantedFaceDic = {"encodings": wantedEncodings, "names": wantedNames}
@@ -220,7 +262,7 @@ def dir_load_wantedimg(parwnd, title): # Loading and encoding wanted people
         if answ == 2: mod = "cnn"
     else:
         mod = "hog"
-    directory = sel_dir(parwnd, title, Dir_List, False, False)
+    directory = sel_dir(parwnd, "Оберіть теку з фото невідомих осіб.", Dir_List, False, False)
     if directory in [".", "", None]: return
     wantedEncodings.clear()
     wantedNames.clear()
@@ -303,6 +345,14 @@ def dir_load_wantedimg(parwnd, title): # Loading and encoding wanted people
     return    
     
 def facedic_load(dicfilename):
+    """[Loads a dictionary with face encodings from Pickle-type file]
+
+    Args:
+        dicfilename ([str]): [Pickle-type file *.pkl]
+
+    Returns:
+        [dict]: [a dictionary with face encodings : path ti image file]
+    """    
     try:
         f = open(dicfilename, "rb")
     except (IOError, EOFError) as e:
@@ -324,6 +374,12 @@ def facedic_load(dicfilename):
 #
 #
 def pic_search(parwnd):
+    """[Searches wanted face encoding from WantedFaceDic among known faces in KnownFaceDic, 
+    and outputs reports as .txt and .xlsx files]
+
+    Args:
+    rootwnd ([Tkinter widget]): [parent Tkinter widget]
+    """    
     ### vars
     tmpwlist = []
     tmpetlist = []
@@ -461,6 +517,11 @@ def pic_search(parwnd):
     return
 
 def showdirlist(fl):
+    """[If DirList loaded from file outputs a tkinter window with scrillable text of DirList]
+
+    Args:
+        fl ([boolean]): [True if DirList was leaded from _dirlist.ini]
+    """    
     if fl:
         f = open("_dirlist.ini", "rt")
         dl = {}
@@ -519,14 +580,14 @@ but_lb = tk.Button(master=frame2,
                    height=1,
                    font=("Times New Roman", 16),
                    bg='lightgreen',
-                   command=lambda: dir_load_allimg(wnd, "Оберіть теку з еталонними фото"))
+                   command=lambda: dir_load_allimg(wnd))
 but_lbsub = tk.Button(master=frame2,
                    text='Сканувати еталонні фото (із вклад. теками) ',
                    relief=tk.RAISED,
                    height=1,
                    font=("Times New Roman", 16),
                    bg='lightgreen',
-                   command=lambda: dir_load_allimg_sub(wnd, "Оберіть папку з еталонними фото (із вклад. теками)"))
+                   command=lambda: dir_load_allimg_sub(wnd))
 but_lb.pack(side=tk.LEFT)
 but_lbsub.pack(side=tk.RIGHT)
 frame2.pack()
@@ -546,7 +607,7 @@ but_lw = tk.Button(master=frame3,
                    height=1,
                    font=("Times New Roman", 16),
                    bg='lightgreen',
-                   command=lambda: dir_load_wantedimg(wnd, "Оберіть теку з фото невідомих осіб."))
+                   command=lambda: dir_load_wantedimg(wnd))
 but_lw.pack()
 frame3.pack()
 ##
