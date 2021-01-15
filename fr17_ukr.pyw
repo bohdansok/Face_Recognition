@@ -269,7 +269,8 @@ def dir_load_allimg_sub(parwnd):
     del(knownEncodings)
     del(knownNames)
     del(encies)
-    executor.shutdown()
+    # shutdowm multythread session
+    if fl_MultyTh: executor.shutdown(wait=False)
     parwnd.title(appcurver)
     SaveDirList(Dir_List)
     fl_Dir_List_Saved = True
@@ -360,7 +361,8 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
             del(frlif)
             del(frfl)
             del(frfe)
-            executor.shutdown()
+            # shutdowm multythread session
+    if      fl_MultyTh: executor.shutdown(wait=False)
             parwnd.title(appcurver)
             return
         else:
@@ -410,7 +412,8 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
         del(frlif)
         del(frfl)
         del(frfe)
-        executor.shutdown()
+        # shutdowm multythread session
+    if  fl_MultyTh: executor.shutdown(wait=False)
         parwnd.title(appcurver)
     return    
     
@@ -584,7 +587,8 @@ def pic_search(parwnd):
     wsx.close()
     txtrep.flush()
     txtrep.close()
-    executor.shutdown()
+    # shutdowm multythread session
+    if fl_MultyTh: executor.shutdown(wait=False)
     del(WantedFaceDic)
     del(KnownFaceDic)
     del(frcf)
