@@ -296,6 +296,7 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
         if answ == 2: mod = "cnn"
     directory = sel_dir(parwnd, "Оберіть теку з фото невідомих осіб.", Dir_List, False, False)
     if directory in [".", "", None]: return
+   ### making local copies of global funcs
     frlif = face_recognition.load_image_file
     frfl = face_recognition.face_locations
     frfe = face_recognition.face_encodings
@@ -305,6 +306,7 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
         fl_MultyTh = True
     except:
         fl_MultyTh = False
+    ### check if _wanted folder available
     wntdbdir = os.path.join(os.path.join(os.getcwd(), "_Wanted"))
     if not os.path.exists(wntdbdir):
         try:
@@ -354,6 +356,14 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
             data = {"encodings": wantedEncodings, "names": wantedNames}
             pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
             f.close()
+             # writing the search set path to _dir.ini (JSON-type) file
+            wssfn = os.path.join(wntdbdir, "_dir.ini")
+            try:
+                f = open(wssfn, "w")
+                json.dump(directory, f)
+                f.close()
+            except OSError:
+                tk.messagebox.showwarning("Увага!", "Не можу записати параметри пошуку у файл %s. Звіти зберігатимуться у робочу теку програми" % wssfn)
             del(data)
             del(wantedEncodings)
             del(wantedNames)
@@ -361,8 +371,7 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
             del(frlif)
             del(frfl)
             del(frfe)
-            # shutdowm multythread session
-    if      fl_MultyTh: executor.shutdown(wait=False)
+            if fl_MultyTh: executor.shutdown(wait=False)
             parwnd.title(appcurver)
             return
         else:
@@ -375,7 +384,7 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
             del(frlif)
             del(frfl)
             del(frfe)
-            executor.shutdown()
+            if fl_MultyTh: executor.shutdown(wait=False)
             return
         cnt = 0
         fcnt = 0
@@ -405,6 +414,14 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
         data = {"encodings": wantedEncodings, "names": wantedNames}
         pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
         f.close()
+        # writing the search set path to _dir.ini (JSON-type) file
+        wssfn = os.path.join(wntdbdir, "_dir.ini")
+        try:
+            f = open(wssfn, "w")
+            json.dump(directory, f)
+            f.close()
+        except OSError:
+            tk.messagebox.showwarning("Увага!", "Не можу записати параметри пошуку у файл %s. Звіти зберігатимуться у робочу теку програми" % wssfn)
         del(data)
         del(wantedEncodings)
         del(wantedNames)
@@ -412,11 +429,10 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
         del(frlif)
         del(frfl)
         del(frfe)
-        # shutdowm multythread session
-    if  fl_MultyTh: executor.shutdown(wait=False)
+        if fl_MultyTh: executor.shutdown(wait=False)
         parwnd.title(appcurver)
     return    
-    
+        
 def facedic_load(dicfilename):
     """[Loads a dictionary with face encodings from Pickle-type file]
 
@@ -459,6 +475,8 @@ def pic_search(parwnd):
     KnownFaceDic = {"encodings": knownEncodings, "names": knownNames}
     wantedEncodings = []
     wantedNames = []
+    report_dir = ""
+    fl_rep_dir_default = False
     fl_MultyTh = False
     ###
     answ = tk.simpledialog.askfloat("Точність розпізнавання облич", "Менше значення - точніше (0<x<1, непогано 0.45):",
@@ -479,15 +497,47 @@ def pic_search(parwnd):
     if not os.path.exists(fnw):
         tk.messagebox.showwarning("Увага!", "Файл даних рошукуваних осіб  %s відсутній або недоступний. Проскануйте папку!" % fnw)
         return
-    try:
-        txtfn = "Report_" + str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")).replace(":",".") + ".txt"
-        txtrep = open(txtfn, "wt")
-    except (IOError, EOFError) as e:
-        tk.messagebox.showwarning("Увага!", "Не можу записати файл звіту {}".format(e.args[-1]))
-        return
-    xlxfn = "Report_" + str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")).replace(":",".") + ".xlsx" #xlsx
-    wsx = xlsxwriter.Workbook(xlxfn)
-        #init multythread session
+    ### defining path to the current reports
+    rep_conf_fn = os.path.join(wntdbdir, "_dir.ini")
+    if os.path.exists(rep_conf_fn):
+        try:
+            dcf = open(rep_conf_fn, "r")
+            rep_dir = json.load(dcf)
+            dcf.close()
+            if not os.path.exists(rep_dir): fl_rep_dir_default = True # path to report folder is loaded and is nor blank
+        except (IOError, EOFError) as e:
+            fl_rep_dir_default = True
+            tk.messagebox.showwarning("Увага!", "Не можу знайти/прочитати файл даних сканованих папок: {}".format(e.args[-1]))
+    else:
+        fl_rep_dir_default = True
+    ### creatin report's files
+    if fl_rep_dir_default:
+        try:
+            txtfn = "Report_" + str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")).replace(":",".") + ".txt"
+            txtrep = open(txtfn, "wt")
+        except (IOError, EOFError) as e:
+            tk.messagebox.showwarning("Увага!", "Не можу записати файл звіту {}".format(e.args[-1]))
+            return
+        try:    
+            xlxfn = "Report_" + str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")).replace(":",".") + ".xlsx" #xlsx
+            wsx = xlsxwriter.Workbook(xlxfn)
+        except (IOError, EOFError) as e:
+            tk.messagebox.showwarning("Увага!", "Не можу записати файл звіту {}".format(e.args[-1]))
+            return
+    else:
+        try:
+            txtfn = os.path.join(rep_dir, "Report_" + str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")).replace(":",".") + ".txt")
+            txtrep = open(txtfn, "wt")
+        except (IOError, EOFError) as e:
+            tk.messagebox.showwarning("Увага!", "Не можу записати файл звіту {}".format(e.args[-1]))
+            return
+        try:    
+            xlxfn = os.path.join(rep_dir, "Report_" + str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")).replace(":",".") + ".xlsx") #xlsx
+            wsx = xlsxwriter.Workbook(xlxfn)
+        except (IOError, EOFError) as e:
+            tk.messagebox.showwarning("Увага!", "Не можу записати файл звіту {}".format(e.args[-1]))
+            return
+    #init multythread session
     try:
         executor = concurrent.futures.ThreadPoolExecutor()
         fl_MultyTh = True
@@ -587,7 +637,6 @@ def pic_search(parwnd):
     wsx.close()
     txtrep.flush()
     txtrep.close()
-    # shutdowm multythread session
     if fl_MultyTh: executor.shutdown(wait=False)
     del(WantedFaceDic)
     del(KnownFaceDic)
