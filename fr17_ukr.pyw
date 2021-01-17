@@ -14,7 +14,7 @@ from PIL import Image
 
 
 ## Global vars - Start
-appcurver = "Faces Recognition 1.7 by Bohdan SOKRUT and Python 3.8, dlib, face_recognition"
+appcurver = "Faces Recognition 1.71 by Bohdan SOKRUT and Python 3.8, dlib, face_recognition"
 Dir_List = {}
 fl_Dir_list_Saved = False
 fl_Dir_List_Loaded = False
