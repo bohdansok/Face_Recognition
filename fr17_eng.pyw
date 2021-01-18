@@ -22,7 +22,6 @@ fl_Dir_List_Loaded = False
 ##
 def LoadDirList():
     """[Reading a list of earlier scanned directories from JSON-type file _dirlist.ini]
-
     Returns:
         [dl]: [dictionary with path:date_time]
         [fl]: [flag is True (loaded) or False (not loaded)]
@@ -43,7 +42,6 @@ def LoadDirList():
 
 def SaveDirList(dl):
     """[Saves csanned folders data - DirList dictionary, to the file JSON-type file _dirlist.ini]
-
     Args:
         dl ([Dictionary]): [dictionary with path:date_time]
     """    
@@ -59,14 +57,12 @@ def SaveDirList(dl):
 
 def sel_dir(rootwnd, Title, dl, notskipcheck, subd):
     """[Choose an image folder to scan while checking if it is already in DirList as scanned one]
-
     Args:
         rootwnd ([Tkinter widget]): [parent Tkinter widget]
         Title ([str]): [Title for tkinter.filedialog.askdirectory messagebox]
         dl ([dict]): [DirList]
         notskipcheck ([boolean]): [True to check if a selected folder is alreadu in DirList]
         subd ([boolean]): [True of a selected folder and all it's subfolders should be scanned too]
-
     Returns:
         [str]: [path to an image folder to be scanned]
     """    
@@ -87,7 +83,7 @@ def sel_dir(rootwnd, Title, dl, notskipcheck, subd):
         else:
             if sel_dir_path != None:
                 if subd:
-                     dl[sel_dir_path] = str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")) + " (with subfolders)"
+                    dl[sel_dir_path] = str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")) + " (with subfolders)"
                 else:
                     dl[sel_dir_path] = str(datetime.now().strftime("%Y-%m-%d %H.%M.%S"))
         return sel_dir_path
@@ -95,7 +91,6 @@ def sel_dir(rootwnd, Title, dl, notskipcheck, subd):
 def dir_load_allimg(parwnd):
     """[Finds all image-type files in a particulr image folder, recognizes faces and adds face' encodings
     and pathes to the images into at dictionary and then saves it at .pkl (Pickle-type) file]
-
     Args:
         rootwnd ([Tkinter widget]): [parent Tkinter widget]
     """    
@@ -111,19 +106,26 @@ def dir_load_allimg(parwnd):
     else:
         mod = "hog"
     directory = sel_dir(parwnd, "Select a folder with reference pictures", Dir_List, True, False)
-    if directory in [".", "", None]: return
+    if directory in [".", "", None]:
+        del(knownNames)
+        del(knownEncodings)
+        return
     knwdbdir = os.path.join(os.path.join(os.getcwd(), "_DB"))
     if not os.path.exists(knwdbdir):
         try:
             os.mkdir(knwdbdir)
         except OSError:
             tk.messagebox.showwarning("Attention!", "Can't create working folder %s" % knwdbdir)
+            del(knownNames)
+            del(knownEncodings)
             return
     fn = os.path.join(knwdbdir, str(datetime.now()).replace(":",".") + ".pkl")
     try:
         f = open(fn, "wb")
     except OSError:
             tk.messagebox.showwarning("Attention!","Can't create face database file %s" % fn)
+            del(knownNames)
+            del(knownEncodings)
             return
     cnt = 0
     fcnt = 0
@@ -159,8 +161,6 @@ def dir_load_allimg(parwnd):
     del(frlif)
     del(frfl)
     del(frfe)
-    tk.messagebox.showinfo("Information",
-                           "Added %d face(s) from %d  pictures at %s. Saving encodings to file..." % (cnt, fcnt, directory))
     del(entries)
     # shutdowm multythread session
     if fl_MultyTh: executor.shutdown(wait=False)
@@ -168,19 +168,19 @@ def dir_load_allimg(parwnd):
     data = {"encodings": knownEncodings, "names": knownNames}
     pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
     f.close()
-    parwnd.title(appcurver)
     SaveDirList(Dir_List)
     fl_Dir_List_Saved = True
     del(data)
     del(knownNames)
     del(knownEncodings)
-    del(encies)
+    tk.messagebox.showinfo("Information",
+                           "Added %d face(s) from %d  pictures at %s. Saving encodings to file..." % (cnt, fcnt, directory))
+    parwnd.title(appcurver)
     return
 
 def dir_load_allimg_sub(parwnd):
     """[Finds all image-type files in a particulr image folder and it's subfolders, recognizes faces and adds face' encodings
     and pathes to the images into at dictionary and then saves it at .pkl (Pickle-type) file]
-
     Args:
         rootwnd ([Tkinter widget]): [parent Tkinter widget]
     """    
@@ -197,7 +197,11 @@ def dir_load_allimg_sub(parwnd):
     else:
         mod = "hog"
     directory = sel_dir(parwnd, "Select a folder with reference pictures to scan (with subfoders)", Dir_List, True, True)
-    if directory in [".", "", None]: return
+    if directory in [".", "", None]:
+        del(allimgf) #clearing trash
+        del(knownNames)
+        del(knownEncodings)
+        return
     ## creating workin folders
     knwdbdir = os.path.join(os.path.join(os.getcwd(), "_DB"))
     if not os.path.exists(knwdbdir):
@@ -205,12 +209,18 @@ def dir_load_allimg_sub(parwnd):
             os.mkdir(knwdbdir)
         except OSError:
             tk.messagebox.showwarning("Attention!", "Can't create working folder %s" % knwdbdir)
+            del(allimgf) #clearing trash
+            del(knownNames)
+            del(knownEncodings)
             return
     fn = os.path.join(knwdbdir, str(datetime.now()).replace(":",".") + ".pkl")
     try:
         f = open(fn, "wb")
     except OSError:
             tk.messagebox.showwarning("Attention!","Can't create face database file %s" % fn)
+            del(allimgf) #clearing trash
+            del(knownNames)
+            del(knownEncodings)
             return
     cnt = 0
     fcnt = 0
@@ -255,9 +265,6 @@ def dir_load_allimg_sub(parwnd):
     del(frlif)
     del(frfl)
     del(frfe)
-    tk.messagebox.showinfo("Information",
-                           "Added %d face(s) from %d  pictures at %s. Saving encodings to file..." % (cnt, fcnt, directory)
-                           )
     data = {}
     data = {"encodings": knownEncodings, "names": knownNames}
     pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
@@ -265,18 +272,19 @@ def dir_load_allimg_sub(parwnd):
     del(data)
     del(knownEncodings)
     del(knownNames)
-    del(encies)
     # shutdowm multythread session
     if fl_MultyTh: executor.shutdown(wait=False)
-    parwnd.title(appcurver)
     SaveDirList(Dir_List)
     fl_Dir_List_Saved = True
+    tk.messagebox.showinfo("Information",
+                           "Added %d face(s) from %d  pictures at %s. Saving encodings to file..." % (cnt, fcnt, directory)
+                           )
+    parwnd.title(appcurver)
     return
 
 def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
     """[Finds all image-type files in a particulr dirctory, recognizes faces and adds face' encodings
     and path to image into  temp dictionary and then save it at .pkl (Pickle-type) file]
-
     Args:
         rootwnd ([Tkinter widget]): [parent Tkinter widget]
     """    
@@ -292,7 +300,10 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
         if answ == 1: mod = "hog"
         if answ == 2: mod = "cnn"
     directory = sel_dir(parwnd, "Choose a folder with the pistures of wanted individual(s)", Dir_List, False, False)
-    if directory in [".", "", None]: return
+    if directory in [".", "", None]:
+        del(wantedEncodings)
+        del(wantedNames)
+        return
    ### making local copies of global funcs
     frlif = face_recognition.load_image_file
     frfl = face_recognition.face_locations
@@ -313,6 +324,8 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
             del(frlif)
             del(frfl)
             del(frfe)
+            del(wantedEncodings)
+            del(wantedNames)
             return
     fn = os.path.join(wntdbdir, "wanted.pkl")
     if os.path.exists(fn):
@@ -324,6 +337,8 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
                 del(frlif)
                 del(frfl)
                 del(frfe)
+                del(wantedEncodings)
+                del(wantedNames)
                 return
             cnt = 0
             fcnt = 0
@@ -348,8 +363,6 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
                             wantedEncodings.append(enc)
                             wantedNames.append(entry.path)
                             cnt += 1
-            tk.messagebox.showinfo('Information.',
-                           "Added %d face(s) from %d  pistures at %s. Saving encodings to file..." % (cnt, fcnt, directory))
             data = {"encodings": wantedEncodings, "names": wantedNames}
             pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
             f.close()
@@ -364,11 +377,12 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
             del(data)
             del(wantedEncodings)
             del(wantedNames)
-            del(encies)
             del(frlif)
             del(frfl)
             del(frfe)
             if fl_MultyTh: executor.shutdown(wait=False)
+            tk.messagebox.showinfo('Information.',
+                           "Added %d face(s) from %d  pistures at %s. Saving encodings to file..." % (cnt, fcnt, directory))
             parwnd.title(appcurver)
             return
         else:
@@ -406,8 +420,6 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
                         wantedEncodings.append(enc)
                         wantedNames.append(entry.path)
                         cnt += 1
-        tk.messagebox.showinfo('Інформація',
-                           "Added %d face(s) from %d  pistures at %s. Saving encodings to file.." % (cnt, fcnt, directory))
         data = {"encodings": wantedEncodings, "names": wantedNames}
         pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
         f.close()
@@ -422,20 +434,19 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
         del(data)
         del(wantedEncodings)
         del(wantedNames)
-        del(encies)
         del(frlif)
         del(frfl)
         del(frfe)
         if fl_MultyTh: executor.shutdown(wait=False)
+        tk.messagebox.showinfo('Інформація',
+                           "Added %d face(s) from %d  pistures at %s. Saving encodings to file.." % (cnt, fcnt, directory))
         parwnd.title(appcurver)
     return    
     
 def facedic_load(dicfilename):
     """[Loads a dictionary with face encodings from Pickle-type file]
-
     Args:
         dicfilename ([str]): [Pickle-type file *.pkl]
-
     Returns:
         [dict]: [a dictionary with face encodings : path ti image file]
     """    
@@ -460,19 +471,18 @@ def facedic_load(dicfilename):
 def pic_search(parwnd):
     """[Searches wanted face encoding from WantedFaceDic among known faces in KnownFaceDic, 
     and outputs reports as .txt and .xlsx files]
-
     Args:
     rootwnd ([Tkinter widget]): [parent Tkinter widget]
     """    
     ### vars
     tmpwlist = []
     tmpetlist = []
-    knownEncodings = []
-    knownNames = []
-    KnownFaceDic = {"encodings": knownEncodings, "names": knownNames}
-    wantedEncodings = []
-    wantedNames = []
-    report_dir = ""
+    # knownEncodings = []
+    # knownNames = []
+    # KnownFaceDic = {"encodings": knownEncodings, "names": knownNames}
+    # wantedEncodings = []
+    # wantedNames = []
+    # report_dir = ""
     fl_rep_dir_default = False
     fl_MultyTh = False
     ###
@@ -548,9 +558,9 @@ def pic_search(parwnd):
     wrksx.write(3, 1, "Wanted individual's picture thumbnail")
     wrksx.write(3, 2, "Reference individual's picture thumbnail")
     wrksx.write(3, 3, "Reference individual's picture file")
-    wrksx.set_column(0,0, 45) #width of columns
-    wrksx.set_column(1,2, 27)
-    wrksx.set_column(3,3, 45)
+    wrksx.set_column(0, 0, 45) #width of columns
+    wrksx.set_column(1, 2, 27)
+    wrksx.set_column(3, 3, 45)
     ## txt header
     print("Report created ", str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")), " by %s" % appcurver, file=txtrep, end="\n", flush=False)
     print("Accuracy: ", str(tol), file=txtrep, end="\n", flush=False)
@@ -656,7 +666,6 @@ def pic_search(parwnd):
 
 def showdirlist(fl):
     """[If DirList loaded from file outputs a tkinter window with scrillable text of DirList]
-
     Args:
         fl ([boolean]): [True if DirList was leaded from _dirlist.ini]
     """    
