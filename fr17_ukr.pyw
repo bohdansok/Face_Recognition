@@ -133,7 +133,7 @@ def dir_load_allimg(parwnd):
     frlif = face_recognition.load_image_file
     frfl = face_recognition.face_locations
     frfe = face_recognition.face_encodings
-    #init multythread session
+    #init multithread session
     try:
         executor = concurrent.futures.ThreadPoolExecutor()
         fl_MultyTh = True
@@ -162,8 +162,6 @@ def dir_load_allimg(parwnd):
     del(frlif)
     del(frfl)
     del(frfe)
-    tk.messagebox.showinfo('Інформація',
-                           "Додано %d облич з %d зображень з теки %s. Зберігаю кодування облич до файлу..." % (cnt, fcnt, directory))
     del(entries)
     # shutdowm multythread session
     if fl_MultyTh: executor.shutdown(wait=False)
@@ -171,13 +169,14 @@ def dir_load_allimg(parwnd):
     data = {"encodings": knownEncodings, "names": knownNames}
     pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
     f.close()
-    parwnd.title(appcurver)
     SaveDirList(Dir_List)
     fl_Dir_List_Saved = True
     del(data)
     del(knownNames)
     del(knownEncodings)
-    del(encies)
+    tk.messagebox.showinfo('Інформація',
+                           "Додано %d облич з %d зображень з теки %s. Зберігаю кодування облич до файлу..." % (cnt, fcnt, directory))
+    parwnd.title(appcurver)
     return
 
 def dir_load_allimg_sub(parwnd):
@@ -258,9 +257,6 @@ def dir_load_allimg_sub(parwnd):
     del(frlif)
     del(frfl)
     del(frfe)
-    tk.messagebox.showinfo('Інформація',
-                           "Додано %d облич з %d зображень з теки %s та вкладених тек. Зберігаю кодування облич до файлу..." % (cnt, fcnt, directory)
-                           )
     data = {}
     data = {"encodings": knownEncodings, "names": knownNames}
     pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
@@ -268,12 +264,13 @@ def dir_load_allimg_sub(parwnd):
     del(data)
     del(knownEncodings)
     del(knownNames)
-    del(encies)
-    # shutdowm multythread session
     if fl_MultyTh: executor.shutdown(wait=False)
-    parwnd.title(appcurver)
     SaveDirList(Dir_List)
     fl_Dir_List_Saved = True
+    tk.messagebox.showinfo('Інформація',
+                           "Додано %d облич з %d зображень з теки %s та вкладених тек. Зберігаю кодування облич до файлу..." % (cnt, fcnt, directory)
+                           )
+    parwnd.title(appcurver)
     return
 
 def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
@@ -351,8 +348,6 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
                             wantedEncodings.append(enc)
                             wantedNames.append(entry.path)
                             cnt += 1
-            tk.messagebox.showinfo('Інформація',
-                           "Додано %d облич з %d зображень з теки %s. Зберігаю кодування облич до файлу..." % (cnt, fcnt, directory))
             data = {"encodings": wantedEncodings, "names": wantedNames}
             pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
             f.close()
@@ -367,11 +362,12 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
             del(data)
             del(wantedEncodings)
             del(wantedNames)
-            del(encies)
             del(frlif)
             del(frfl)
             del(frfe)
             if fl_MultyTh: executor.shutdown(wait=False)
+            tk.messagebox.showinfo('Інформація',
+                           "Додано %d облич з %d зображень з теки %s. Зберігаю кодування облич до файлу..." % (cnt, fcnt, directory))
             parwnd.title(appcurver)
             return
         else:
@@ -409,8 +405,6 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
                         wantedEncodings.append(enc)
                         wantedNames.append(entry.path)
                         cnt += 1
-        tk.messagebox.showinfo('Інформація',
-                           "Додано %d облич з %d зображень з теки %s. Зберігаю кодування облич до файлу..." % (cnt, fcnt, directory))
         data = {"encodings": wantedEncodings, "names": wantedNames}
         pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
         f.close()
@@ -425,14 +419,15 @@ def dir_load_wantedimg(parwnd): # Loading and encoding wanted people
         del(data)
         del(wantedEncodings)
         del(wantedNames)
-        del(encies)
         del(frlif)
         del(frfl)
         del(frfe)
         if fl_MultyTh: executor.shutdown(wait=False)
+        tk.messagebox.showinfo('Інформація',
+                           "Додано %d облич з %d зображень з теки %s. Зберігаю кодування облич до файлу..." % (cnt, fcnt, directory))
         parwnd.title(appcurver)
     return    
-        
+    
 def facedic_load(dicfilename):
     """[Loads a dictionary with face encodings from Pickle-type file]
 
@@ -781,4 +776,4 @@ frame4.pack()
 wnd.mainloop()
 if not fl_Dir_list_Saved: 
     SaveDirList(Dir_List)
-del(Dir_List)
+    del(Dir_List)
