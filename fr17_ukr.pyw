@@ -782,6 +782,3 @@ but_dir.pack(side=tk.RIGHT)
 frame4.pack()
 ##
 wnd.mainloop()
-if not fl_Dir_list_Saved: 
-    SaveDirList(Dir_List)
-del(Dir_List)
