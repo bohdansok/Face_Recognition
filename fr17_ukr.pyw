@@ -44,18 +44,26 @@ def LoadDirList():
 
 # Записуємо до файлу "_dirlist.ini" дані про скановані каталоги
 def SaveDirList(dl):
-    """[Saves csanned folders data - DirList dictionary, to the file JSON-type file _dirlist.ini]
-
+    """[Saves sсanned folders data - DirList dictionary, to the file JSON-type file _dirlist.ini]
     Args:
         dl ([Dictionary]): [dictionary with path:date_time]
     """    
     dlnm = "_dirlist.ini"
+    dltmp = {}
+    try:
+        f = open(dlnm, "r")
+        dltmp = json.load(f)
+        f.close()
+        dl.update(dltmp)
+        del(dltmp)
+    except:
+        pass
     try:
         f = open(dlnm, "w")
         json.dump(dl, f)
         f.close()
     except OSError:
-        tk.messagebox.showwarning("Attention!", "Can't write scanned folders data file %s" % dlnm)
+        tk.messagebox.showwarning("Увага!", "Не можу записати дані про скановані теки %s" % dlnm)
         return
     return
 
