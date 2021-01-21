@@ -2,5 +2,6 @@ numpy
 click
 dlib
 face_recognition
+face_recognition_models
 pillow
 xlsxwriter
