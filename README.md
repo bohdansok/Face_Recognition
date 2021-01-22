@@ -2,6 +2,7 @@
 The most recent release of the app:
 - aspect ratio issue of the thumbnails in the xlsx-reports is solved now;
 - optimization (in fact – consolidation) of the face encodings data files is now available;
+
 Найсвіжіший випуск, вер. 1.8x:
 - виправлено проблему з порушення пропорцій ескізів в xlsx-звітах;
 - додано можливість оптимізації (шляхом консолідації) файлів даних кодувань обличь.
