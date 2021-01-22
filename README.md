@@ -1,12 +1,18 @@
-# Face Recognition v1.7
+# Face Recognition v1.8x
 The most recent release of the app:
+- aspect ratio issue of the thumbnails in the xlsx-reports is solved now;
+- optimization (in fact – consolidation) of the face encodings data files is now available;
+Найсвіжіший випуск, вер. 1.8x:
+- виправлено проблему з порушення пропорцій ескізів в xlsx-звітах;
+- додано можливість оптимізації (шляхом консолідації) файлів даних кодувань обличь.
+
+# Face Recognition v1.7
 - now it's in Ukrainian and English;
 - memory leaks removed (at least ones I've recognized);
 - multithread approach implemented for the most "heavy" mathematics;
 - slow disk IO operations are minimized;
 - some other basic optimization being done (now it works up to 3 times faster than v.1.5)
 
-Найсвіжіший випуск, вер. 1.7x:
 - тепер українською та англійською мовою;
 - "витоки" пам’яті усунене (як мінімум ті, що я виявив);
 - застосовано багатопотоковий підхід для найбільш важких математичних обчислень;
