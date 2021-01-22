@@ -589,7 +589,7 @@ def pic_search(parwnd):
             txtfn = "Report_" + str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")).replace(":",".") + ".txt"
             txtrep = open(txtfn, "wt")
         except (IOError, EOFError) as e:
-            tk.messagebox.showwarning("Attention!", "Не можу записати файл звіту {}".format(e.args[-1]))
+            tk.messagebox.showwarning("Attention!", "Can't write report file {}".format(e.args[-1]))
             return
         try:    
             xlxfn = "Report_" + str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")).replace(":",".") + ".xlsx" #xlsx
@@ -687,7 +687,7 @@ def pic_search(parwnd):
                         except:
                                 wrksx.write(xlcnt,
                                             1,
-                                            "Ескізу не буде"
+                                            "No thumbnail"
                                             )
                         try:
                                 im = Image.open(t2)
@@ -704,7 +704,7 @@ def pic_search(parwnd):
                         except:
                                 wrksx.write(xlcnt,
                                             2,
-                                            "Ескізу не буде"
+                                            "No thumbnail"
                                             )
                         xlcnt += 1
     wsx.close()
