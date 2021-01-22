@@ -5,3 +5,4 @@ face_recognition
 face_recognition_models
 pillow
 xlsxwriter
+shutil
