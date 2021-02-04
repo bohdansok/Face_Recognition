@@ -1,13 +1,15 @@
-# Face Recognition v1.83
+# Face Recognition v1.84
 The most recent release of the app:
 - aspect ratio issue of the thumbnails in the xlsx-reports is solved now;
 - optimization (in fact – consolidation) of the face encodings data files is now available;
-- reporting code became faster and more compact.
+- reporting code became faster and more compactж
+- code is shorted a little bit.
 
-Найсвіжіший випуск, вер. 1.83:
+Найсвіжіший випуск, вер. 1.84:
 - виправлено проблему з порушення пропорцій ескізів в xlsx-звітах;
 - додано можливість оптимізації (шляхом консолідації) файлів даних кодувань обличь;
-- код підготовки звіту став швидшим та компактнішим.
+- код підготовки звіту став швидшим та компактнішим;
+- ше трохи скорочення коду.
 
 # Face Recognition v1.7
 - now it's in Ukrainian and English;
