@@ -1,13 +1,13 @@
 # Face Recognition v1.90 (Ukrainian version only so far)
 The most recent release of the app:
-	now both wanted and found faces are highlighted (framed, including group pictures) at xlsx-report sheet;
-	new, down-compatible face encodings data files format implemented;
-	help file added;
+-	now both wanted and found faces are highlighted (framed, including group pictures) at xlsx-report sheet;
+-	new, down-compatible face encodings data files format implemented;
+-	help file added;
 Найсвіжіший випуск, вер. 1.90:
-	тепер у звіті обличчя на фото виділяються рамками, у тому числі й на групових зображеннях;
-	при використанні групових фото в якості пошукових окремі обличчя та послідовний пошук га ними відбувається автоматично;
-	впроваджено новий, зворотно-сумісний із старим, формат файлів даних кодувань обличь;
-	додано файл довідки.
+-	тепер у звіті обличчя на фото виділяються рамками, у тому числі й на групових зображеннях;
+-	при використанні групових фото в якості пошукових окремі обличчя та послідовний пошук га ними відбувається автоматично;
+-	впроваджено новий, зворотно-сумісний із старим, формат файлів даних кодувань обличь;
+-	додано файл довідки.
 
 # Face Recognition v1.84
 The most recent release of the app:
