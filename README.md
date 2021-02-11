@@ -2,7 +2,8 @@
 The most recent release of the app:
 -	now both wanted and found faces are highlighted (framed, including group pictures) at xlsx-report sheet;
 -	new, down-compatible face encodings data files format implemented;
--	help file added;
+-	help file added.
+
 Найсвіжіший випуск, вер. 1.90:
 -	тепер у звіті обличчя на фото виділяються рамками, у тому числі й на групових зображеннях;
 -	при використанні групових фото в якості пошукових окремі обличчя та послідовний пошук га ними відбувається автоматично;
