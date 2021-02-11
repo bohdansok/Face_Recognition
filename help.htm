@@ -1,0 +1,479 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1251">
+<meta name=Generator content="Microsoft Word 14 (filtered)">
+<title>Довідка з Face Recognition 2.x</title>
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:Cambria;
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:10.0pt;
+	margin-left:0cm;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+h1
+	{mso-style-link:"Заголовок 1 Знак";
+	margin-top:24.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	font-family:"Cambria","serif";
+	color:#365F91;}
+h2
+	{mso-style-link:"Заголовок 2 Знак";
+	margin-top:10.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:13.0pt;
+	font-family:"Cambria","serif";
+	color:#4F81BD;}
+p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText
+	{mso-style-link:"Текст сноски Знак";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoHeader, li.MsoHeader, div.MsoHeader
+	{mso-style-link:"Верхний колонтитул Знак";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoFooter, li.MsoFooter, div.MsoFooter
+	{mso-style-link:"Нижний колонтитул Знак";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+span.MsoFootnoteReference
+	{vertical-align:super;}
+p.MsoTitle, li.MsoTitle, div.MsoTitle
+	{mso-style-link:"Название Знак";
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:15.0pt;
+	margin-left:0cm;
+	border:none;
+	padding:0cm;
+	font-size:26.0pt;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+p.MsoTitleCxSpFirst, li.MsoTitleCxSpFirst, div.MsoTitleCxSpFirst
+	{mso-style-link:"Название Знак";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	border:none;
+	padding:0cm;
+	font-size:26.0pt;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+p.MsoTitleCxSpMiddle, li.MsoTitleCxSpMiddle, div.MsoTitleCxSpMiddle
+	{mso-style-link:"Название Знак";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	border:none;
+	padding:0cm;
+	font-size:26.0pt;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+p.MsoTitleCxSpLast, li.MsoTitleCxSpLast, div.MsoTitleCxSpLast
+	{mso-style-link:"Название Знак";
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:15.0pt;
+	margin-left:0cm;
+	border:none;
+	padding:0cm;
+	font-size:26.0pt;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+p.MsoSubtitle, li.MsoSubtitle, div.MsoSubtitle
+	{mso-style-link:"Подзаголовок Знак";
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:10.0pt;
+	margin-left:0cm;
+	line-height:115%;
+	font-size:12.0pt;
+	font-family:"Cambria","serif";
+	color:#4F81BD;
+	letter-spacing:.75pt;
+	font-style:italic;}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{mso-style-link:"Текст выноски Знак";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:10.0pt;
+	margin-left:36.0pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoListParagraphCxSpFirst, li.MsoListParagraphCxSpFirst, div.MsoListParagraphCxSpFirst
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoListParagraphCxSpMiddle, li.MsoListParagraphCxSpMiddle, div.MsoListParagraphCxSpMiddle
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoListParagraphCxSpLast, li.MsoListParagraphCxSpLast, div.MsoListParagraphCxSpLast
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:10.0pt;
+	margin-left:36.0pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+span.1
+	{mso-style-name:"Заголовок 1 Знак";
+	mso-style-link:"Заголовок 1";
+	font-family:"Cambria","serif";
+	color:#365F91;
+	font-weight:bold;}
+span.2
+	{mso-style-name:"Заголовок 2 Знак";
+	mso-style-link:"Заголовок 2";
+	font-family:"Cambria","serif";
+	color:#4F81BD;
+	font-weight:bold;}
+span.a
+	{mso-style-name:"Название Знак";
+	mso-style-link:Название;
+	font-family:"Cambria","serif";
+	color:#17365D;
+	letter-spacing:.25pt;}
+span.a0
+	{mso-style-name:"Подзаголовок Знак";
+	mso-style-link:Подзаголовок;
+	font-family:"Cambria","serif";
+	color:#4F81BD;
+	letter-spacing:.75pt;
+	font-style:italic;}
+span.a1
+	{mso-style-name:"Верхний колонтитул Знак";
+	mso-style-link:"Верхний колонтитул";}
+span.a2
+	{mso-style-name:"Нижний колонтитул Знак";
+	mso-style-link:"Нижний колонтитул";}
+span.a3
+	{mso-style-name:"Текст выноски Знак";
+	mso-style-link:"Текст выноски";
+	font-family:"Tahoma","sans-serif";}
+span.a4
+	{mso-style-name:"Текст сноски Знак";
+	mso-style-link:"Текст сноски";}
+.MsoChpDefault
+	{font-size:10.0pt;
+	font-family:"Calibri","sans-serif";}
+ /* Page Definitions */
+ @page WordSection1
+	{size:595.3pt 841.9pt;
+	margin:42.5pt 42.5pt 42.5pt 70.85pt;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+
+</head>
+
+<body lang=UK>
+
+<div class=WordSection1>
+
+<div style='border:none;border-bottom:solid #4F81BD 1.0pt;padding:0cm 0cm 4.0pt 0cm'>
+
+<p class=MsoTitleCxSpFirst align=center style='text-align:center'>ДОВІДКА З
+ВИКОРИСТАННЯ ПРОГРАМИ</p>
+
+<p class=MsoTitleCxSpLast align=center style='text-align:center'>FACE
+RECOGNITION 2.63<span lang=EN-US>DB (1.90)</span></p>
+
+</div>
+
+<h1 style='text-align:justify'><span style='font-family:"Times New Roman","serif"'>Призначення
+програми.</span></h1>
+
+<p class=MsoNormal style='text-align:justify'><span style='font-size:14.0pt;
+line-height:115%;font-family:"Times New Roman","serif"'>Програму призначено для
+розпізнавання та пошуку обличь на фото, що знаходяться у вигляді файлів на
+локальному носії (мова не йде про пошук фото в Інтернеті, тому підключення
+комп’ютера до мережі не потрібне!!!). В результаті обробки фотографій, як
+індивідуальних так і групових, програмою формується та зберігається цифрова
+модель обличчя. Таким чином, маючи масив оброблених програмою «еталонних» фото,
+особи на яких ідентифіковані, з’являється можливість виявляти ці ж обличчя на
+інших фото.</span></p>
+
+<h1 style='text-align:justify'>Поради щодо «еталонних» фотографій:</h1>
+
+<p class=MsoListParagraphCxSpFirst style='text-align:justify;text-indent:-18.0pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>найкраще
+– фото паспортного типу: фронтальні, з відкритим обличчям;</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-align:justify;text-indent:-18.0pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>розмір
+фото - 640х480 пікселів або близько до того;</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-align:justify;text-indent:-18.0pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>скануйте
+теки з пошуковими фото як «еталонні» для врахування у майбутніх пошуках.</span></p>
+
+<h1 style='text-align:justify'>Щодо пошуку:</h1>
+
+<p class=MsoListParagraphCxSpFirst style='text-align:justify;text-indent:-18.0pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>давайте
+змістовну назву файлам пошукових фото;</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-align:justify;text-indent:-18.0pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>для
+кожного пошуку створюйте окрему теку, куди й кладіть пошукові фото;</span></p>
+
+<h1 style='text-align:justify'>Загальні поради щодо сканування фото в усіх
+випадках, як «еталонних», так і «пошукових» (тобто фото невідомих осіб):</h1>
+
+<p class=MsoListParagraphCxSpFirst style='text-align:justify;text-indent:-18.0pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span class=a0><span style='font-size:12.0pt;line-height:115%'>якщо
+використовуються «непаспортні» фотографії</span></span><span style='font-size:
+14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>, зображення «з
+життя», то краще перед обробкою вирізати з групових фото зображення обличь
+окремих осіб та зберегти їх у вигляді окремих файлів (640х480 пікселів або
+близько до того) в окрему пошукову папку, яку й просканувати надалі програмою. <b>АЛЕ!</b>
+Групові фото (коли на зображення представлено декілька обличь) <b><u>також
+будуть оброблені</u></b>: <b><u>пошук буде проведено за кожним з облич,
+виділених програмою на зображенні</u></b>. Відповідно у звіті (форматі </span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>xlsx</span><span
+lang=RU style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>)</span><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>,
+обличчя з групового фото, за яким проводиться пошук, буде представлене в якості
+ескізу, а також виділено червоною рамкою на ескізі зазначеного групового фото;
+аналогічно, якщо пошукове обличчя знайдене на «еталонному» груповому фото, то у
+звіті буде ескіз обличчя та помічене зеленою рамкою його розташування на
+груповому фото<a href="#_ftn1" name="_ftnref1" title=""><span
+class=MsoFootnoteReference><span class=MsoFootnoteReference><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>[1]</span></span></span></a>;
+</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-align:justify;text-indent:-18.0pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span class=a0><span style='font-size:12.0pt;line-height:115%'>щодо
+вибору математичної моделі «HOG» (1, за замовченням) або «CNN» (2)</span></span><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>.
+<u>Перша модель</u> якісно кодує фронтальні зображення обличь і не дуже добре –
+коли обличчя повернуте, нахилене або відображене частково. В останніх випадках
+краще використовувати <u>другу модель</u>. Втім, <u>друга модель</u> є набагато
+складнішою, тож якщо на комп’ютері немає сучасної відеокарти </span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>NVIDIA</span><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>,
+не встановлено драйвер </span><span lang=EN-US style='font-size:14.0pt;
+line-height:115%;font-family:"Times New Roman","serif"'>CUDA</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>
+</span><span style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>та
+не скомпільовано належним чином бібліотеку </span><span lang=EN-US
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>dlib</span><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>
+:), то час обробки фото зросте у 2 – 3 рази. Якщо ж вам пощастило, то модель «</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>CNN</span><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>»
+зможе задіяти графічну підсистему і не тільки якість кодування обличь зросте,
+але й час обробки зменшиться на порядок чи ще більше;</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-align:justify;text-indent:-18.0pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span class=a0><span style='font-size:12.0pt;line-height:115%'>щодо
+вибору кількості «Проходів пошуку облич»</span></span><span style='font-size:
+14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>. За замовченням
+буде зроблено 1 прохід, проте чим більше – тим менші за розміром обличчя буде
+виявлено на фото. Але, й час на обробку відповідно зростає. Збільшувати
+кількість проходів (понад 1) доцільно, коли обробляються групові фото (декілька
+обличь на одному зображенні);</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-align:justify;text-indent:-18.0pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span class=a0><span style='font-size:12.0pt;line-height:115%'>щодо
+вибору кількості «Проходів при кодуванні облич»</span></span><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>.
+За замовченням буде зроблено 1 прохід, проте чим більше – тим точнішою буде
+модель. Кількість часу на обробку зростає кратно обраній кількості проходів;</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-align:justify;text-indent:-18.0pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span class=a0><span style='font-size:12.0pt;line-height:115%'>щодо
+вибору «Оберіть модель кодування облич»</span></span><span style='font-size:
+14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>. За замовченням
+буде використовуватися «<b><i>велика</i></b>» математична модель (2), що
+характеризує обличчя за 68 елементами (у цьому випадку буде використовуватися
+модель «HOG» незалежно від того, яку обрали ви). Можливо обрати (1) «<b><i>малу</i></b>»
+модель за 5 елементами, буде трохи швидше, але зросте кількість хибних ідентифікацій.</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-align:justify;text-indent:-18.0pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span class=a0><span style='font-size:12.0pt;line-height:115%'>щодо
+додаткових коментарів при обробці тек. </span></span><i><span style='font-size:
+14.0pt;line-height:115%;font-family:"Times New Roman","serif"'> </span></i><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>Можливо
+додати коментар до всіх зображень у теці, що сканується, який потім
+відображатиметься у звіті. Коментар зберігається безпосередньо у теці, що
+сканується у файлі <i> &quot;_</i></span><span style='font-size:14.0pt;
+line-height:115%;font-family:"Times New Roman","serif"'>facrecmnt.ini&quot;,
+який має формат простого тексту; дані зберігаються <b><i>[назва файлу]
+табуляція [текст коментаря]</i></b><a href="#_ftn2" name="_ftnref2" title=""><span
+class=MsoFootnoteReference><span class=MsoFootnoteReference><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>[2]</span></span></span></a>,
+таким чином, за потреби надалі можливо для певних файлів зображень відкоригувати
+текст коментаря вручну.</span></p>
+
+<h1 style='text-align:justify'>Щодо аналізу та звітів:</h1>
+
+<p class=MsoListParagraphCxSpFirst style='text-align:justify;text-indent:-18.0pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span class=a0><span style='font-size:12.0pt;line-height:115%'>точність
+порівняння кодувань обличь між собою (невідомих з «еталонними»)</span></span><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>
+безпосередньо визначає кількість запропонованих варіантів збігів: чим більше значення,
+тим більший простір для фантазії ви даєте програмі. Значення за замовченням
+(0.45)  дає гарні результати для «<b><i>малої</i></b>» моделі (див. вище), для
+«<b><i>великої</i></b>» моделі доцільно обирати значення 0.40 – 0.42;</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-align:justify;text-indent:-18.0pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span class=a0><span style='font-size:12.0pt;line-height:115%'>файли
+звітів</span></span><span style='font-size:14.0pt;line-height:115%;font-family:
+"Times New Roman","serif"'> у форматі простого тексту (</span><span lang=EN-US
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>txt</span><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>)
+та таблиці Ексель (</span><span lang=EN-US style='font-size:14.0pt;line-height:
+115%;font-family:"Times New Roman","serif"'>xlsx</span><span style='font-size:
+14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>) буде збережено
+до теки з пошуковими фото. До звіту у форматі Ексель включено для візуального
+порівняння ескізи пошукового фото та запропонованого «еталонного», назви
+файлів, а також, у разі наявності, ідентифікуючі дані особи на «еталонному»
+фото.</span></p>
+
+<h1 style='text-align:justify'>Оптимізація бази даних:</h1>
+
+<p class=MsoListParagraph style='text-align:justify;text-indent:-18.0pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span class=a0><span style='font-size:12.0pt;line-height:115%'>після
+сканування тек з «еталонними» фото</span></span><span style='font-size:14.0pt;
+line-height:115%;font-family:"Times New Roman","serif"'> доцільно проводити
+оптимізацію бази даних еталонних кодувань обличь, в результаті якої наявні
+файли з невеликою кількістю кодувань буде об’єднано в один файл без втрати
+даних: чим менше файлів з даними – тим швидше відбуватиметься аналіз. <b>ВАЖЛИВО!</b>
+Назви файлів даних кодувань обличь, створених програмою версії 2.63DB (1.90)
+або вище, починаються з «</span><b><span lang=EN-US style='font-size:14.0pt;
+line-height:115%;font-family:"Times New Roman","serif"'>v</span></b><b><span
+lang=RU style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>3-...</span></b><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>»,
+оскільки формат цих даних відрізняється від формату даних, створених старішими
+версіями програми (тому, файли старого та нового форматів автоматично
+оптимізуються програмою окремо). <b>НІКОЛИ</b> не змінюйте цю частину назви
+файлу даних (за бажання, решту назви файлу можна змінювати, наприклад, для
+надання їй змістовності).</span></p>
+
+</div>
+
+<div><br clear=all>
+
+<hr align=left size=1 width="33%">
+
+<div id=ftn1>
+
+<p class=MsoFootnoteText style='text-align:justify'><a href="#_ftnref1"
+name="_ftn1" title=""><span class=MsoFootnoteReference><span style='font-family:
+"Times New Roman","serif"'><span class=MsoFootnoteReference><span
+style='font-size:10.0pt;line-height:115%;font-family:"Times New Roman","serif"'>[1]</span></span></span></span></a><span
+style='font-family:"Times New Roman","serif"'> Такі ескізи та рамки будуть у
+звіті лише у випадку, коли пошукові та/або еталонні фото оброблялись програмою
+у версії 2.63 або новішою. Старі файли даних кодувань обличь, створені
+програмою версій до 2.63,  також нормально використовуватимуться програмою, але
+у звіті не буде відповідних ескізів обличь та рамок на фото.</span></p>
+
+</div>
+
+<div id=ftn2>
+
+<p class=MsoFootnoteText style='text-align:justify'><a href="#_ftnref2"
+name="_ftn2" title=""><span class=MsoFootnoteReference><span style='font-family:
+"Times New Roman","serif"'><span class=MsoFootnoteReference><span
+style='font-size:10.0pt;line-height:115%;font-family:"Times New Roman","serif"'>[2]</span></span></span></span></a><span
+style='font-family:"Times New Roman","serif"'> Не змінюйте цю структуру, бо
+коментар не відображатиметься у звіті!</span></p>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
