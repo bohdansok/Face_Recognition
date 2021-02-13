@@ -1174,13 +1174,21 @@ def showdirlist():
         return
 
 def showhelp():
-    if os.path.exists("help.pdf"):
-         os.system("start help.pdf")
-    elif os.path.exists("help.htm"):
-         os.system("start help.htm")
+    try:
+        if os.path.getsize("help.pdf")
+    except:
+        pass
     else:
-        tk.messagebox.showwarning(
-                "Увага!", "Не можу знайти/прочитати файл довідки")
+        os.system("start help.pdf"
+        return
+    try:
+        if os.pathgetsize("help.htm"):
+    except:
+        pass
+    else:
+        os.system("start help.htm")
+        return
+    tk.messagebox.showwarning("Увага!", "Не можу знайти/прочитати файл довідки")
     return
 
 # GUI
