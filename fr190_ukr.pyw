@@ -786,7 +786,10 @@ def optim():
                 Encodings.extend(td["encodings"])
                 Names.extend(td["names"])
                 facelocs.extend(td["locations"])
-                shutil.move(entry.path, backupdir)
+                stry:
+                    shutil.move(entry.path, backupdir)
+                except:
+                    os.remove(entry.path)
                 del(td)
                 v3fcnt += 1
         fn = os.path.join(knwdbdir, "v3-opt_" + str(datetime.now()).replace(":", ".") + ".pkl")
@@ -817,7 +820,10 @@ def optim():
                 td = facedic_load(entry.path)  # Reading facedic
                 Encodings.extend(td["encodings"])
                 Names.extend(td["names"])
-                shutil.move(entry.path, backupdir)
+                try:
+                    shutil.move(entry.path, backupdir)
+                except:
+                    os.remove(entry.path)
                 del(td)
                 fcnt += 1
         fn = os.path.join(knwdbdir, "opt_" + str(datetime.now()).replace(":", ".") + ".pkl")
