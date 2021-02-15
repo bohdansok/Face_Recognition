@@ -786,10 +786,10 @@ def optim():
                 Encodings.extend(td["encodings"])
                 Names.extend(td["names"])
                 facelocs.extend(td["locations"])
-                stry:
-                    shutil.move(entry.path, backupdir)
+                try:
+                    shutil.move(entry.path, os.path.join(backupdir, entry.name))
                 except:
-                    os.remove(entry.path)
+                    pass                   
                 del(td)
                 v3fcnt += 1
         fn = os.path.join(knwdbdir, "v3-opt_" + str(datetime.now()).replace(":", ".") + ".pkl")
@@ -821,9 +821,9 @@ def optim():
                 Encodings.extend(td["encodings"])
                 Names.extend(td["names"])
                 try:
-                    shutil.move(entry.path, backupdir)
+                    shutil.move(entry.path, os.path.join(backupdir, entry.name))
                 except:
-                    os.remove(entry.path)
+                    pass                   
                 del(td)
                 fcnt += 1
         fn = os.path.join(knwdbdir, "opt_" + str(datetime.now()).replace(":", ".") + ".pkl")
