@@ -1,6 +1,6 @@
-# Face Recognition v1.90 (Ukrainian version only so far)
+# Face Recognition v1.90
 The most recent release of the app:
--	now both wanted and found faces are highlighted (framed, including group pictures) at xlsx-report sheet;
+-	now both wanted and found faces are highlighted by framed, including group pictures, at xlsx-report sheet;
 -	new, down-compatible face encodings data files format implemented;
 -	help file added.
 
