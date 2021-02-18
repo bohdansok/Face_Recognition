@@ -1182,14 +1182,20 @@ def showdirlist():
         return
 
 def showhelp():
-    if os.path.exists("help.pdf"):
-         os.system("start help.pdf")
-    elif os.path.exists("help.htm"):
-         os.system("start help.htm")
-    else:
+    try:
+        if os.path.getsize("help.pdf") > 0:
+             os.system("start help.pdf")
+             return
+    except:
+        pass
+    try:
+        if os.path.getsize("help.htm") > 0:
+             os.system("start help.htm")
+             return
+    except:
         tk.messagebox.showwarning(
                 "Увага!", "Не можу знайти/прочитати файл довідки")
-    return
+        return
 
 # GUI
 wnd = tk.Tk(screenName=appcurver)
