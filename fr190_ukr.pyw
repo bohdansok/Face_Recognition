@@ -472,7 +472,7 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
     mod5_68 = "large"
     fl_dir_comment = True
     fl_dir_cmnt_file_created = False
-    # Load Dir)list
+    # Load Dir_list
     Dir_List = {}
     dl = {}
     dl, fl_Dir_List_Loaded = LoadDirList()
@@ -494,7 +494,7 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
                                       minvalue=1, maxvalue=100, initialvalue=1)
     if nous == None:
         nous = 1
-    njits = tk.simpledialog.askinteger("Проходів при кодуванні обличь",
+    njits = tk.simpledialog.askinteger("Проходів при кодуванні облич",
                                        "1 - 100 (більше - точніше, але довше)",
                                        minvalue=1, maxvalue=100, initialvalue=1)
     if njits == None:
@@ -528,7 +528,7 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
             fl_dir_cmnt_file_created = False
         else:
             fl_dir_cmnt_file_created = True
-    # making local copies of global funcs
+   # making local copies of global funcs
     frlif = face_recognition.load_image_file
     frfl = face_recognition.face_locations
     frfe = face_recognition.face_encodings
@@ -557,197 +557,98 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
             return
     fn = os.path.join(wntdbdir, "wanted.pkl")
     if os.path.exists(fn):
-        if tk.messagebox.askyesno("Увага!", "Файл даних розшукуваних осіб вже існує. Замінити?"):
-            try:
-                f = open(fn, "wb")
-            except OSError:
-                tk.messagebox.showwarning(
-                    "Увага!", "Не можу створити файл бази даних %s" % fn)
-                del(frlif)
-                del(frfl)
-                del(frfe)
-                del(wantedEncodings)
-                del(wantedNames)
-                del(facelocs)
-                if fl_dir_cmnt_file_created:
-                    fcmnt.close()
-                return
-            cnt = 0
-            fcnt = 0
-            data = {}
-            entries = os.scandir(directory)
-            for entry in entries:
-                parwnd.title(
-                    appcurver + " - вже додано %d обличь(чя) з %d зображень..." % (cnt, fcnt))
-                if (entry.name.split(".")[-1].lower() in ["bmp", "gif", "jpg", "jpeg", "png"]) and entry.is_file():
-                    if fl_dir_comment and fl_dir_cmnt_file_created:
-                        print(entry.name, dir_comment, file=fcmnt, sep="\t", end="\n", flush=True)                    
-                    fcnt += 1
-                    if fl_MultyTh:
-                        try:
-                            image = executor.submit(frlif, entry.path).result()
-                        except:
-                            continue
-                        else:
-                            boxes = executor.submit(
-                                frfl, image, number_of_times_to_upsample=nous, model=mod).result()
-                    else:
-                        try:
-                            image = frlif(entry.path)
-                        except:
-                            continue
-                        else:
-                            boxes = frfl(image, number_of_times_to_upsample=nous, model=mod) # maybe cnn - more accu and use GPU/CUDA,
-                    if len(boxes) > 0:
-                        if fl_MultyTh:
-                            encies = executor.submit(
-                                frfe, image, known_face_locations=boxes, num_jitters=njits, model=mod5_68).result()
-                        else:
-                            encies = frfe(image, known_face_locations=boxes, num_jitters=njits, model=mod5_68)
-                        enccnt = 0
-                        for enc in encies:
-                            wantedEncodings.append(enc)
-                            wantedNames.append(entry.path)
-                            facelocs.append(boxes[enccnt])
-                            enccnt += 1
-                            cnt += 1
-                        boxes.clear()
-            data = {"encodings": wantedEncodings, "names": wantedNames, "locations": facelocs}
-            pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
-            f.close()
-            # writing the search set path to _dir.ini (JSON-type) file
-            wssfn = os.path.join(wntdbdir, "_dir.ini")
-            try:
-                f = open(wssfn, "w")
-                json.dump(directory, f)
-                f.close()
-            except OSError:
-                tk.messagebox.showwarning(
-                    "Увага!", "Не можу записати параметри пошуку у файл %s. Звіти зберігатимуться у робочу теку програми" % wssfn)
-            del(data)
+        if not tk.messagebox.askyesno("Увага!", "Файл даних розшукуваних осіб вже існує. Замінити?"):
+            del(frlif)
+            del(frfl)
+            del(frfe)
             del(wantedEncodings)
             del(wantedNames)
             del(facelocs)
-            del(frlif)
-            del(frfl)
-            del(frfe)
-            if fl_dir_cmnt_file_created:
-                fcmnt.close()
-            if fl_MultyTh:
-                executor.shutdown(wait=False)
-            tk.messagebox.showinfo('Інформація',
-                                   "Додано %d обличь з %d зображень з теки %s. Зберігаю кодування обличь до файлу..." % (cnt, fcnt, directory))
-            parwnd.title(appcurver)
-            return
-        else:
             if fl_dir_cmnt_file_created:
                 fcmnt.close()
             return
-    else:
-        try:
-            f = open(fn, "wb")
-        except OSError:
-            tk.messagebox.showwarning(
-                "Увага!", "Не можу створити файл бази даних %s" % fn)
-            del(frlif)
-            del(frfl)
-            del(frfe)
-            if fl_MultyTh:
-                executor.shutdown(wait=False)
-            return
-        cnt = 0
-        fcnt = 0
-        data = {}
-        entries = os.scandir(directory)
-        for entry in entries:
-            parwnd.title(
-                appcurver + " - вже додано %d обличь(чя) з %d зображень..." % (cnt, fcnt))
-            if (entry.name.split(".")[-1].lower() in ["bmp", "gif", "jpg", "jpeg", "png"]) and entry.is_file():
-                if fl_dir_comment and fl_dir_cmnt_file_created:
-                    print(entry.name, dir_comment, file=fcmnt, sep="\t", end="\n", flush=True)                  
-                fcnt += 1
-                if fl_MultyTh:
-                    try:
-                        image = executor.submit(frlif, entry.path).result()
-                    except:
-                        continue
-                    else:
-                        boxes = executor.submit(
-                            frfl, image, number_of_times_to_upsample=nous, model=mod).result()
-                else:
-                    try:
-                        image = frlif(entry.path)
-                    except:
-                        continue
-                    else:
-                        boxes = frfl(image, number_of_times_to_upsample=nous, model=mod) # maybe cnn - more accu and use GPU/CUDA,
-                if len(boxes) > 0:
-                    if fl_MultyTh:
-                        encies = executor.submit(
-                            frfe, image, known_face_locations=boxes, num_jitters=njits, model=mod5_68).result()
-                    else:
-                        encies = frfe(image, known_face_locations=boxes, num_jitters=njits, model=mod5_68)
-                    enccnt = 0
-                    for enc in encies:
-                        wantedEncodings.append(enc)
-                        wantedNames.append(entry.path)
-                        facelocs.append(boxes[enccnt])
-                        enccnt += 1
-                        cnt += 1
-                    boxes.clear()
-        data = {"encodings": wantedEncodings, "names": wantedNames, "locations": facelocs}
-        pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
-        f.close()
-        # writing the search set path to _dir.ini (JSON-type) file
-        wssfn = os.path.join(wntdbdir, "_dir.ini")
-        try:
-            f = open(wssfn, "w")
-            json.dump(directory, f)
-            f.close()
-        except OSError:
-            tk.messagebox.showwarning(
-                "Увага!", "Не можу записати параметри пошуку у файл %s. Звіти зберігатимуться у робочу теку програми" % wssfn)
-        del(data)
-        del(wantedEncodings)
-        del(wantedNames)
-        del(facelocs)
+    try:
+        f = open(fn, "wb")
+    except OSError:
+        tk.messagebox.showwarning(
+                    "Увага!", "Не можу створити файл бази даних %s" % fn)
         del(frlif)
         del(frfl)
         del(frfe)
+        del(wantedEncodings)
+        del(wantedNames)
+        del(facelocs)
         if fl_dir_cmnt_file_created:
-                fcmnt.close()
+            fcmnt.close()
         if fl_MultyTh:
             executor.shutdown(wait=False)
-        tk.messagebox.showinfo('Інформація',
-                               "Додано %d обличь з %d зображень з теки %s. Зберігаю кодування обличь до файлу..." % (cnt, fcnt, directory))
-        parwnd.title(appcurver)
-    return
-
-
-def facedic_load(dicfilename):
-    """[Loads a dictionary with face encodings from Pickle-type file]
-
-    Args:
-        dicfilename ([str]): [Pickle-type file *.pkl]
-
-    Returns:
-        [dict]: [a dictionary with face encodings : path ti image file]
-    """
-    try:
-        f = open(dicfilename, "rb")
-    except (IOError, EOFError) as e:
-        tk.messagebox.showwarning(
-            "Увага!", "Не можу знайти/прочитати файл кодувань обличь: {}".format(e.args[-1]))
         return
-    else:
-        if os.path.getsize(dicfilename) > 15:
-            picdic = {}
-            picdic = pickle.load(f)
-        else:
-            f.close()
-            return None
+    cnt = 0
+    fcnt = 0
+    data = {}
+    entries = os.scandir(directory)
+    for entry in entries:
+        parwnd.title(appcurver + " - вже додано %d обличь(чя) з %d зображень..." % (cnt, fcnt))
+        if (entry.name.split(".")[-1].lower() in ["bmp", "gif", "jpg", "jpeg", "png"]) and entry.is_file():
+            if fl_dir_comment and fl_dir_cmnt_file_created:
+                print(entry.name, dir_comment, file=fcmnt, sep="\t", end="\n", flush=True)                    
+            fcnt += 1
+            if fl_MultyTh:
+                try:
+                    image = executor.submit(frlif, entry.path).result()
+                except:
+                    continue
+                else:
+                    boxes = executor.submit(frfl, image, number_of_times_to_upsample=nous, model=mod).result()
+            else:
+                try:
+                    image = frlif(entry.path)
+                except:
+                    continue
+                else:
+                    # may be cnn - more accu and use GPU/CUDA,
+                    boxes = frfl(image, number_of_times_to_upsample=nous, model=mod) # maybe cnn - more accu and use GPU/CUDA,
+            if len(boxes) > 0:
+                if fl_MultyTh:
+                    encies = executor.submit(
+                        frfe, image, known_face_locations=boxes, num_jitters=njits, model=mod5_68).result()
+                else:
+                    encies = frfe(image, known_face_locations=boxes, num_jitters=njits, model=mod5_68)
+                enccnt = 0
+                for enc in encies:
+                    wantedEncodings.append(enc)
+                    wantedNames.append(entry.path)
+                    facelocs.append(boxes[enccnt])
+                    enccnt += 1
+                    cnt += 1
+                boxes.clear()
+    if fl_MultyTh:
+        executor.shutdown(wait=False)
+    data = {"encodings": wantedEncodings, "names": wantedNames, "locations": facelocs}
+    pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
     f.close()
-    return picdic
+     # writing the search set path to _dir.ini (JSON-type) file
+    wssfn = os.path.join(wntdbdir, "_dir.ini")
+    try:
+        f = open(wssfn, "w")
+        json.dump(directory, f)
+        f.close()
+    except OSError:
+        tk.messagebox.showwarning(
+            "Увага!", "Не можу записати параметри пошуку у файл %s. Звіти зберігатимуться у робочу теку програми" % wssfn)
+    del(data)
+    del(wantedEncodings)
+    del(wantedNames)
+    del(facelocs)
+    del(frlif)
+    del(frfl)
+    del(frfe)
+    if fl_dir_cmnt_file_created:
+        fcmnt.close()
+    tk.messagebox.showinfo('Інформація',
+                            "Додано %d обличь з %d зображень з теки %s. Зберігаю кодування обличь до файлу..." % (cnt, fcnt, directory))
+    parwnd.title(appcurver)
+    return
 
 # optimization of *.pkl face encodings data files: all 1 k ... 10M files to be cosolidated
 # Less files - faster search
