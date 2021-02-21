@@ -454,6 +454,7 @@ def dir_load_allimg_sub(parwnd):
 def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
     """[Finds all image-type files in a particulr dirctory, recognizes faces and adds face' encodings
     and path to image into  temp dictionary and then save it at .pkl (Pickle-type) file]
+
     Args:
         rootwnd ([Tkinter widget]): [parent Tkinter widget]
     """
@@ -465,7 +466,7 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
     mod5_68 = "large"
     fl_dir_comment = True
     fl_dir_cmnt_file_created = False
-    # Load Dir)list
+    # Load Dir_list
     Dir_List = {}
     dl = {}
     dl, fl_Dir_List_Loaded = LoadDirList()
@@ -475,24 +476,25 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
     ###
     fl_MultyTh = False
     ### vars - end
-    answ = tk.simpledialog.askinteger("Choose a FR Math model", "1 - HOG (faster), 2- CNN (more accurate):",
+    answ = tk.simpledialog.askinteger("Choose Math model for face encoding",
+                                      "1 - HOG (faster, default), 2- CNN (more accurate):",
                                       minvalue=1, maxvalue=2, initialvalue=1)
-    if answ != None:  # setting tolerance for facecomp
+    if answ != None:  # 
         if answ == 1:
             mod = "hog"
         if answ == 2:
             mod = "cnn"
-    nous = tk.simpledialog.askinteger("Проходів пошуку обличь",
-                                      "1 - 100 (більше - точніше, але довше)",
+    nous = tk.simpledialog.askinteger("Number of face search upsamplings",
+                                      "1 - 100 (as bigger as smaller faces to be found)",
                                       minvalue=1, maxvalue=100, initialvalue=1)
     if nous == None:
         nous = 1
-    njits = tk.simpledialog.askinteger("Проходів при кодуванні обличь",
-                                       "1 - 100 (більше - точніше, але довше)",
+    njits = tk.simpledialog.askinteger("Number of jitters for face encoding",
+                                       "1 - 100 (bigger one is more accurate but longer)",
                                        minvalue=1, maxvalue=100, initialvalue=1)
     if njits == None:
         njits = 1
-    answ = tk.simpledialog.askinteger("Оберіть модель кодування обличь", "1 - мала (швидше), 2- велика (точніше):",
+    answ = tk.simpledialog.askinteger("Choose face encoding model", "1 - small (faster), 2- large (default):",
                                       minvalue=1, maxvalue=2, initialvalue=2)
     if answ != None:  # setting tolerance for facecomp
         if answ == 1:
@@ -501,13 +503,13 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
             mod5_68 = "large"
     # setting common comment for all pictures in the folder
     dir_comment = tk.simpledialog.askstring(
-        "Додайте коментар", "Коментар буде додано для усіх зображень (якщо немає - Enter)",
+        "Add a comment", "This comment will be added to all pictures in the folder(or Enter to skip)",
         initialvalue="")
     if dir_comment in ["", "None", None]:  #  do not create comments' file if no comments
         fl_dir_comment = False
     # selecting wanted folder
     directory = sel_dir(
-        parwnd, "Choose a folder with the pictures of wanted individual(s)", Dir_List, False, False)
+        parwnd, "Choose folder with wanted persons' pictures", Dir_List, False, False)
     if directory in [".", "", None]:
         del(wantedEncodings)
         del(wantedNames)
@@ -525,7 +527,7 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
     frlif = face_recognition.load_image_file
     frfl = face_recognition.face_locations
     frfe = face_recognition.face_encodings
-    # init multythread session
+    # init multithread session
     try:
         executor = concurrent.futures.ThreadPoolExecutor()
         fl_MultyTh = True
@@ -538,7 +540,7 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
             os.mkdir(wntdbdir)
         except OSError:
             tk.messagebox.showwarning(
-                "Attention!", "Can't create working foldeг %s" % wntdbdir)
+                "Attention!", "Can't create working folder %s" % wntdbdir)
             del(frlif)
             del(frfl)
             del(frfe)
@@ -550,170 +552,97 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
             return
     fn = os.path.join(wntdbdir, "wanted.pkl")
     if os.path.exists(fn):
-        if tk.messagebox.askyesno("Attention!", "Wanted individuals data file already exists. Replace?"):
-            try:
-                f = open(fn, "wb")
-            except OSError:
-                tk.messagebox.showwarning(
-                    "Attention!", "Can't create face database file %s" % fn)
-                del(frlif)
-                del(frfl)
-                del(frfe)
-                del(wantedEncodings)
-                del(wantedNames)
-                del(facelocs)
-                if fl_dir_cmnt_file_created:
-                    fcmnt.close()
-                return
-            cnt = 0
-            fcnt = 0
-            data = {}
-            entries = os.scandir(directory)
-            for entry in entries:
-                parwnd.title(
-                    appcurver + " - added %d face(s) from %d pictures..." % (cnt, fcnt))
-                if (entry.name.split(".")[-1].lower() in ["bmp", "gif", "jpg", "jpeg", "png"]) and entry.is_file():
-                        if fl_dir_comment and fl_dir_cmnt_file_created:
-                        print(entry.name, dir_comment, file=fcmnt, sep="\t", end="\n", flush=True)                    
-                    fcnt += 1
-                    if fl_MultyTh:
-                        try:
-                            image = executor.submit(frlif, entry.path).result()
-                        except:
-                            continue
-                        else:
-                            boxes = executor.submit(
-                                frfl, image, number_of_times_to_upsample=nous, model=mod).result()
-                    else:
-                        try:
-                            image = frlif(entry.path)
-                        except:
-                            continue
-                        else:
-                            boxes = frfl(image, number_of_times_to_upsample=nous, model=mod) # maybe cnn - more accu and use GPU/CUDA,
-                    if len(boxes) > 0:
-                        if fl_MultyTh:
-                            encies = executor.submit(
-                                frfe, image, known_face_locations=boxes, num_jitters=njits, model=mod5_68).result()
-                        else:
-                            encies = frfe(image, known_face_locations=boxes, num_jitters=njits, model=mod5_68)
-                        enccnt = 0
-                        for enc in encies:
-                            wantedEncodings.append(enc)
-                            wantedNames.append(entry.path)
-                            facelocs.append(boxes[enccnt])
-                            enccnt += 1
-                            cnt += 1
-                        boxes.clear()
-            data = {"encodings": wantedEncodings, "names": wantedNames, "locations": facelocs}
-            pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
-            f.close()
-            # writing the search set path to _dir.ini (JSON-type) file
-            wssfn = os.path.join(wntdbdir, "_dir.ini")
-            try:
-                f = open(wssfn, "w")
-                json.dump(directory, f)
-                f.close()
-            except OSError:
-                tk.messagebox.showwarning(
-                    "Attention!", "Can't write search options to file %s. Reports will be saved at the app's working folder" % wssfn)
-            del(data)
+        if not tk.messagebox.askyesno("Attention!", "Wanted persons data file already exists. Replace?"):
+            del(frlif)
+            del(frfl)
+            del(frfe)
             del(wantedEncodings)
             del(wantedNames)
             del(facelocs)
-            del(frlif)
-            del(frfl)
-            del(frfe)
-            if fl_dir_cmnt_file_created:
-                fcmnt.close()
-            if fl_MultyTh:
-                executor.shutdown(wait=False)
-            tk.messagebox.showinfo('Information.',
-                                   "Added %d face(s) from %d  pistures at %s. Saving encodings to file..." % (cnt, fcnt, directory))
-            parwnd.title(appcurver)
-            return
-        else:
             if fl_dir_cmnt_file_created:
                 fcmnt.close()
             return
-    else:
-        try:
-            f = open(fn, "wb")
-        except OSError:
-            tk.messagebox.showwarning(
-                "Attention!", "Can't create face database file %s" % fn)
-            del(frlif)
-            del(frfl)
-            del(frfe)
-            if fl_MultyTh:
-                executor.shutdown(wait=False)
-            return
-        cnt = 0
-        fcnt = 0
-        data = {}
-        entries = os.scandir(directory)
-        for entry in entries:
-            parwnd.title(
-                appcurver + " - added %d face(s) from %d pictures..." % (cnt, fcnt))
-            if (entry.name.split(".")[-1].lower() in ["bmp", "gif", "jpg", "jpeg", "png"]) and entry.is_file():
-                if fl_dir_comment and fl_dir_cmnt_file_created:
-                    print(entry.name, dir_comment, file=fcmnt, sep="\t", end="\n", flush=True)                  
-                fcnt += 1
-                if fl_MultyTh:
-                    try:
-                        image = executor.submit(frlif, entry.path).result()
-                    except:
-                        continue
-                    else:
-                        boxes = executor.submit(
-                            frfl, image, number_of_times_to_upsample=nous, model=mod).result()
-                else:
-                    try:
-                        image = frlif(entry.path)
-                    except:
-                        continue
-                    else:
-                        boxes = frfl(image, number_of_times_to_upsample=nous, model=mod) # maybe cnn - more accu and use GPU/CUDA,
-                if len(boxes) > 0:
-                    if fl_MultyTh:
-                        encies = executor.submit(
-                            frfe, image, known_face_locations=boxes, num_jitters=njits, model=mod5_68).result()
-                    else:
-                        encies = frfe(image, known_face_locations=boxes, num_jitters=njits, model=mod5_68)
-                    enccnt = 0
-                    for enc in encies:
-                        wantedEncodings.append(enc)
-                        wantedNames.append(entry.path)
-                        facelocs.append(boxes[enccnt])
-                        enccnt += 1
-                        cnt += 1
-                    boxes.clear()
-        data = {"encodings": wantedEncodings, "names": wantedNames, "locations": facelocs}
-        pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
-        f.close()
-        # writing the search set path to _dir.ini (JSON-type) file
-        wssfn = os.path.join(wntdbdir, "_dir.ini")
-        try:
-            f = open(wssfn, "w")
-            json.dump(directory, f)
-            f.close()
-        except OSError:
-            tk.messagebox.showwarning(
-                "Attention!", "Can't write search options to file %s. Reports will be saved at the app's working folder" % wssfn)
-        del(data)
-        del(wantedEncodings)
-        del(wantedNames)
-        del(facelocs)
+    try:
+        f = open(fn, "wb")
+    except OSError:
+        tk.messagebox.showwarning(
+                    "Attention!", "Can't create database file %s" % fn)
         del(frlif)
         del(frfl)
         del(frfe)
+        del(wantedEncodings)
+        del(wantedNames)
+        del(facelocs)
         if fl_dir_cmnt_file_created:
-                fcmnt.close()
+            fcmnt.close()
         if fl_MultyTh:
             executor.shutdown(wait=False)
-        tk.messagebox.showinfo('Інформація',
-                               "Added %d face(s) from %d  pistures at %s. Saving encodings to file.." % (cnt, fcnt, directory))
-        parwnd.title(appcurver)
+        return
+    cnt = 0
+    fcnt = 0
+    data = {}
+    entries = os.scandir(directory)
+    for entry in entries:
+        parwnd.title(appcurver + " - added %d faces(s) from %d images..." % (cnt, fcnt))
+        if (entry.name.split(".")[-1].lower() in ["bmp", "gif", "jpg", "jpeg", "png"]) and entry.is_file():
+            if fl_dir_comment and fl_dir_cmnt_file_created:
+                print(entry.name, dir_comment, file=fcmnt, sep="\t", end="\n", flush=True)                    
+            fcnt += 1
+            if fl_MultyTh:
+                try:
+                    image = executor.submit(frlif, entry.path).result()
+                except:
+                    continue
+                else:
+                    boxes = executor.submit(frfl, image, number_of_times_to_upsample=nous, model=mod).result()
+            else:
+                try:
+                    image = frlif(entry.path)
+                except:
+                    continue
+                else:
+                    # may be cnn - more accu and use GPU/CUDA,
+                    boxes = frfl(image, number_of_times_to_upsample=nous, model=mod) # maybe cnn - more accu and use GPU/CUDA,
+            if len(boxes) > 0:
+                if fl_MultyTh:
+                    encies = executor.submit(
+                        frfe, image, known_face_locations=boxes, num_jitters=njits, model=mod5_68).result()
+                else:
+                    encies = frfe(image, known_face_locations=boxes, num_jitters=njits, model=mod5_68)
+                enccnt = 0
+                for enc in encies:
+                    wantedEncodings.append(enc)
+                    wantedNames.append(entry.path)
+                    facelocs.append(boxes[enccnt])
+                    enccnt += 1
+                    cnt += 1
+                boxes.clear()
+    if fl_MultyTh:
+        executor.shutdown(wait=False)
+    data = {"encodings": wantedEncodings, "names": wantedNames, "locations": facelocs}
+    pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
+    f.close()
+     # writing the search set path to _dir.ini (JSON-type) file
+    wssfn = os.path.join(wntdbdir, "_dir.ini")
+    try:
+        f = open(wssfn, "w")
+        json.dump(directory, f)
+        f.close()
+    except OSError:
+        tk.messagebox.showwarning(
+            "Attention!", "Can't write search parameters to file %s. Reports to be saved at the app's working folder" % wssfn)
+    del(data)
+    del(wantedEncodings)
+    del(wantedNames)
+    del(facelocs)
+    del(frlif)
+    del(frfl)
+    del(frfe)
+    if fl_dir_cmnt_file_created:
+        fcmnt.close()
+    tk.messagebox.showinfo('Information',
+                            "Added %d faces from %d images at folder %s. Saving encodings to file..." % (cnt, fcnt, directory))
+    parwnd.title(appcurver)
     return
 
 
