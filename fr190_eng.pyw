@@ -1082,7 +1082,7 @@ def showdirlist():
     fl = False
     dl, fl = LoadDirList()
     if fl:
-        win = tk.Tk()
+        win = tk.Toplevel()
         win.title("Список сканованих папок з еталонними фото")
         text_area = tk.scrolledtext.ScrolledText(win,
                                                  wrap=tk.WORD,
@@ -1096,8 +1096,8 @@ def showdirlist():
         del(dl)
         text_area.configure(state='disabled')
         text_area.focus()
-        text_area.pack()
-        win.mainloop()
+        ttext_area.pack()
+        win.focus()
         return
     else:
         return
