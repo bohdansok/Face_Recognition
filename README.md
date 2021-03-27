@@ -1,6 +1,15 @@
+# Face Recognition v1.92
+The most recent release of the app:
+-	first attempt to sove "medicalmask issue";
+-	help file updated.
+
+Найсвіжіший випуск, вер. 1.92:
+-	перша спроба вирішити проблему "медичних маск";
+-	оновлено файл довідки.
+
 # Face Recognition v1.90
 The most recent release of the app:
--	now both wanted and found faces are highlighted by framed, including group pictures, at xlsx-report sheet;
+-	now both wanted and found faces are highlighted by frames, including group pictures, at xlsx-report sheet;
 -	new, down-compatible face encodings data files format implemented;
 -	help file added.
 
