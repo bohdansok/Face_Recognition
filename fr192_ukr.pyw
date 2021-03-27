@@ -1258,7 +1258,6 @@ def pic_search(parwnd, mask=False):
     del(frcf)
     del(frfd)
     del(allfound)
-    del(LOCWANTED)
     parwnd.title(appcurver)
     return
 
