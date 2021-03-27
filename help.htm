@@ -237,23 +237,32 @@ ul
 <p class=MsoTitleCxSpFirst align=center style='text-align:center'>ДОВІДКА З
 ВИКОРИСТАННЯ ПРОГРАМИ</p>
 
-<p class=MsoTitleCxSpLast align=center style='text-align:center'>FACE
-RECOGNITION 2.63<span lang=EN-US>DB (1.90)</span></p>
+<p class=MsoTitleCxSpMiddle align=center style='text-align:center'>FACE
+RECOGNITION </p>
+
+<p class=MsoTitleCxSpLast align=center style='text-align:center'>2.<span
+lang=EN-US>90(Data&amp;Video&amp;Masks) / </span><span lang=RU>(1.9</span><span
+lang=EN-US>2</span><span lang=RU>)</span></p>
 
 </div>
 
-<h1 style='text-align:justify'><span style='font-family:"Times New Roman","serif"'>Призначення
-програми.</span></h1>
+<h1 style='text-align:justify;text-indent:35.4pt'><span style='font-family:
+"Times New Roman","serif"'>Призначення програми.</span></h1>
 
-<p class=MsoNormal style='text-align:justify'><span style='font-size:14.0pt;
-line-height:115%;font-family:"Times New Roman","serif"'>Програму призначено для
-розпізнавання та пошуку обличь на фото, що знаходяться у вигляді файлів на
-локальному носії (мова не йде про пошук фото в Інтернеті, тому підключення
-комп’ютера до мережі не потрібне!!!). В результаті обробки фотографій, як
-індивідуальних так і групових, програмою формується та зберігається цифрова
-модель обличчя. Таким чином, маючи масив оброблених програмою «еталонних» фото,
-особи на яких ідентифіковані, з’являється можливість виявляти ці ж обличчя на
-інших фото.</span></p>
+<p class=MsoNormal style='text-align:justify;text-indent:35.4pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>Програму
+призначено для розпізнавання та пошуку обличь на фото, що знаходяться у вигляді
+файлів на локальному носії (мова не йде про пошук фото в Інтернеті, тому
+підключення комп’ютера до мережі не потрібне!!!). В результаті обробки
+фотографій, як індивідуальних так і групових, програмою формується та
+зберігається цифрова модель обличчя. Таким чином, маючи масив оброблених
+програмою «еталонних» фото, особи на яких ідентифіковані, з’являється
+можливість виявляти ці ж обличчя на інших фото.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-indent:35.4pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>Додатково,
+програма має вбудований інструмент аналізу відеофайлів та виділення кадрів, що
+містять придатні для розпізнання обличчя.</span></p>
 
 <h1 style='text-align:justify'>Поради щодо «еталонних» фотографій:</h1>
 
@@ -332,14 +341,34 @@ style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>
 line-height:115%;font-family:"Times New Roman","serif"'>CUDA</span><span
 lang=EN-US style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>
 </span><span style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>та
-не скомпільовано належним чином бібліотеку </span><span lang=EN-US
+не скомпільована належним чином бібліотека </span><span lang=EN-US
 style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>dlib</span><span
 style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>
 :), то час обробки фото зросте у 2 – 3 рази. Якщо ж вам пощастило, то модель «</span><span
 lang=EN-US style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>CNN</span><span
 style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>»
 зможе задіяти графічну підсистему і не тільки якість кодування обличь зросте,
-але й час обробки зменшиться на порядок чи ще більше;</span></p>
+але й час обробки зменшиться на порядок чи ще більше</span><span lang=RU
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>.
+<b>ВАЖЛИВО!</b> М</span><span style='font-size:14.0pt;line-height:115%;
+font-family:"Times New Roman","serif"'>одель «</span><span lang=EN-US
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>CNN</span><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>»
+з використанням </span><span lang=EN-US style='font-size:14.0pt;line-height:
+115%;font-family:"Times New Roman","serif"'>CUDA</span><span lang=EN-US
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>
+</span><span style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>споживає
+багато графічної пам’яті: обробка фото 12Мп вимагає наявності щонайменше 8 </span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>GB</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>
+</span><span style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>вільної
+графічної пам’яті на відеокарті. Тож, зменшення розміру зображення перед
+обробкою є актуальним і у випадку використання моделі «</span><span lang=EN-US
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>CNN</span><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>»<a
+href="#_ftn2" name="_ftnref2" title=""><span class=MsoFootnoteReference><span
+class=MsoFootnoteReference><span style='font-size:14.0pt;line-height:115%;
+font-family:"Times New Roman","serif"'>[2]</span></span></span></a>;</span></p>
 
 <p class=MsoListParagraphCxSpMiddle style='text-align:justify;text-indent:-18.0pt'><span
 style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
@@ -370,9 +399,12 @@ style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
 буде використовуватися «<b><i>велика</i></b>» математична модель (2), що
 характеризує обличчя за 68 елементами (у цьому випадку буде використовуватися
 модель «HOG» незалежно від того, яку обрали ви). Можливо обрати (1) «<b><i>малу</i></b>»
-модель за 5 елементами, буде трохи швидше, але зросте кількість хибних ідентифікацій.</span></p>
+модель за 5 елементами, буде трохи швидше, але зросте кількість хибних ідентифікацій.
+Актуальна версія програми при кодуванні зображень автоматично створює й варіант
+кодування для «обличчя в медичній масці», для чого використовує тільки <b><i>«велику»</i></b>
+модель (68 точок)б незалежно від того, яку модель обрали ви.</span></p>
 
-<p class=MsoListParagraphCxSpLast style='text-align:justify;text-indent:-18.0pt'><span
+<p class=MsoListParagraphCxSpMiddle style='text-align:justify;text-indent:-18.0pt'><span
 style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
 style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span><span class=a0><span style='font-size:12.0pt;line-height:115%'>щодо
@@ -383,12 +415,37 @@ style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>
 відображатиметься у звіті. Коментар зберігається безпосередньо у теці, що
 сканується у файлі <i> &quot;_</i></span><span style='font-size:14.0pt;
 line-height:115%;font-family:"Times New Roman","serif"'>facrecmnt.ini&quot;,
-який має формат простого тексту; дані зберігаються <b><i>[назва файлу]
-табуляція [текст коментаря]</i></b><a href="#_ftn2" name="_ftnref2" title=""><span
+який має формат простого тексту; дані зберігаються <b><i>[назва файлу] табуляція
+[текст коментаря]</i></b><a href="#_ftn3" name="_ftnref3" title=""><span
 class=MsoFootnoteReference><span class=MsoFootnoteReference><span
-style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>[2]</span></span></span></a>,
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>[3]</span></span></span></a>,
 таким чином, за потреби надалі можливо для певних файлів зображень відкоригувати
-текст коментаря вручну.</span></p>
+текст коментаря вручну;</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-align:justify;text-indent:-18.0pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span class=a0><span style='font-size:12.0pt;line-height:115%'>щодо
+обробки відеофайлів. </span></span><i><span style='font-size:14.0pt;line-height:
+115%;font-family:"Times New Roman","serif"'> </span></i><span style='font-size:
+14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>Програма може
+обробляти відео фрагменти в усіх поширених форматах. Слід враховувати, що відео
+файл перед обробкою буде повністю завантажено в оперативну пам’ять комп’ютера,
+отже її вільний обсяг повинен істотно перевищувати розмір файлу<a href="#_ftn4"
+name="_ftnref4" title=""><span class=MsoFootnoteReference><span
+class=MsoFootnoteReference><span style='font-size:14.0pt;line-height:115%;
+font-family:"Times New Roman","serif"'>[4]</span></span></span></a>. Кадри з
+обличчями буде збережено у форматі </span><span lang=EN-US style='font-size:
+14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>JPG</span><span
+lang=EN-US style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>
+</span><span style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>у
+вкладеній теці з назвою </span><span lang=EN-US style='font-size:14.0pt;
+line-height:115%;font-family:"Times New Roman","serif"'>Frames</span><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>,
+створеній програмою у тій самої теці, де розташовано відеофайл. Далі доцільно
+відібрати для подальшого сканування тільки ті кадри, де зображення обличчя
+найбільш повне та близьке до фронтального. <b>ВАЖЛИВО</b>! <u>Не розміщуйте
+відео файли у теках, в назвах та шляхах до яких наявні кириличні букви.</u> </span></p>
 
 <h1 style='text-align:justify'>Щодо аналізу та звітів:</h1>
 
@@ -402,6 +459,19 @@ style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>
 тим більший простір для фантазії ви даєте програмі. Значення за замовченням
 (0.45)  дає гарні результати для «<b><i>малої</i></b>» моделі (див. вище), для
 «<b><i>великої</i></b>» моделі доцільно обирати значення 0.40 – 0.42;</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-align:justify;text-indent:-18.0pt'><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span class=a0><span style='font-size:12.0pt;line-height:115%'>для
+аналіз та пошуку обличь у медичних масках </span></span><span style='font-size:
+14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>натисніть кнопку
+«АНАЛІЗ </span><span lang=RU style='font-size:14.0pt;line-height:115%;
+font-family:"Times New Roman","serif"'>&amp; </span><span style='font-size:
+14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>ЗВІТ (МАСКИ)». У
+цьому режимі здійснюється порівняння за обмеженим набором частин обличчя, які
+видно при вдягнутій медичній масці (очі, брова, перенісся). Точність порівняння
+у цьому режимі не задається, а результат потребує ретельної візуальної верифікації;</span></p>
 
 <p class=MsoListParagraphCxSpLast style='text-align:justify;text-indent:-18.0pt'><span
 style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-<span
@@ -431,10 +501,15 @@ line-height:115%;font-family:"Times New Roman","serif"'> доцільно проводити
 файли з невеликою кількістю кодувань буде об’єднано в один файл без втрати
 даних: чим менше файлів з даними – тим швидше відбуватиметься аналіз. <b>ВАЖЛИВО!</b>
 Назви файлів даних кодувань обличь, створених програмою версії 2.63DB (1.90)
-або вище, починаються з «</span><b><span lang=EN-US style='font-size:14.0pt;
+або новішою, починаються з «</span><b><span lang=EN-US style='font-size:14.0pt;
 line-height:115%;font-family:"Times New Roman","serif"'>v</span></b><b><span
 lang=RU style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>3-...</span></b><span
-style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>»,
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>»
+або «</span><b><span lang=EN-US style='font-size:14.0pt;line-height:115%;
+font-family:"Times New Roman","serif"'>v</span></b><b><span style='font-size:
+14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>4</span></b><b><span
+lang=RU style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>-...</span></b><span
+style='font-size:14.0pt;line-height:115%;font-family:"Times New Roman","serif"'>»,,
 оскільки формат цих даних відрізняється від формату даних, створених старішими
 версіями програми (тому, файли старого та нового форматів автоматично
 оптимізуються програмою окремо). <b>НІКОЛИ</b> не змінюйте цю частину назви
@@ -464,11 +539,34 @@ style='font-family:"Times New Roman","serif"'> Такі ескізи та рамки будуть у
 <div id=ftn2>
 
 <p class=MsoFootnoteText style='text-align:justify'><a href="#_ftnref2"
-name="_ftn2" title=""><span class=MsoFootnoteReference><span style='font-family:
+name="_ftn2" title=""><span class=MsoFootnoteReference><span
+class=MsoFootnoteReference><span style='font-size:10.0pt;line-height:115%;
+font-family:"Calibri","sans-serif"'>[2]</span></span></span></a> <span
+style='font-family:"Times New Roman","serif"'>Перевірено, що при 4 GB вільної
+графічної пам’яті програма / модель “CNN” здатна обробити зображення
+максимальним розміром у 1600 пікселів при розмірі файлу до 900 кБ. При цьому,
+кількість проходів обробка ПОВИННА ДОРІВНЮВАТИ ОДНОМУ (1) !</span></p>
+
+</div>
+
+<div id=ftn3>
+
+<p class=MsoFootnoteText style='text-align:justify'><a href="#_ftnref3"
+name="_ftn3" title=""><span class=MsoFootnoteReference><span style='font-family:
 "Times New Roman","serif"'><span class=MsoFootnoteReference><span
-style='font-size:10.0pt;line-height:115%;font-family:"Times New Roman","serif"'>[2]</span></span></span></span></a><span
+style='font-size:10.0pt;line-height:115%;font-family:"Times New Roman","serif"'>[3]</span></span></span></span></a><span
 style='font-family:"Times New Roman","serif"'> Не змінюйте цю структуру, бо
 коментар не відображатиметься у звіті!</span></p>
+
+</div>
+
+<div id=ftn4>
+
+<p class=MsoFootnoteText style='text-align:justify'><a href="#_ftnref4"
+name="_ftn4" title=""><span class=MsoFootnoteReference><span style='font-family:
+"Times New Roman","serif"'><span class=MsoFootnoteReference><span
+style='font-size:10.0pt;line-height:115%;font-family:"Times New Roman","serif"'>[4]</span></span></span></span></a><span
+style='font-family:"Times New Roman","serif"'> Як мінімум у 4 рази!</span></p>
 
 </div>
 
