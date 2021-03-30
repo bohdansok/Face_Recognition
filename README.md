@@ -1,11 +1,15 @@
 # Face Recognition v1.92
 The most recent release of the app:
 -	first attempt to sove "medicalmask issue";
+-	code became slighyly more DRY;
 -	help file updated.
+-	some bugs fixed.
 
 Найсвіжіший випуск, вер. 1.92:
 -	перша спроба вирішити проблему "медичних маск";
--	оновлено файл довідки.
+-	код став трохи більше DRY
+-	оновлено файл довідки;
+-	виправлено помилки.
 
 # Face Recognition v1.90
 The most recent release of the app:
