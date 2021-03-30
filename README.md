@@ -1,7 +1,7 @@
 # Face Recognition v1.92
 The most recent release of the app:
 -	first attempt to sove "medicalmask issue";
--	code became slighyly more DRY;
+-	code became slightly more DRY;
 -	help file updated.
 -	some bugs fixed.
 
