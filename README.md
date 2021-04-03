@@ -1,3 +1,14 @@
+# Face Recognition v1.94
+The most recent release of the app:
+-	next attempt to solve "medicalmask issue" and IT WORKS! The virtual mask (5 types) application method has been used, so now there 6 encodings instead of 1 made for each reference face (on single- or multiface pictures);
+-	code became slightly more DRY;
+-	some bugs fixed;in Ukrainian only for the moment.
+
+Найсвіжіший випуск, вер. 1.94:
+-	наступнаспроба вирішити проблему "медичних маск" і ТЕПЕР ВСЕ ПРАЦЮЄ! Використано метод віртуального накладання на зображення обличчя маск (5 різних типів), тож замість 1 кодування для кожного еталонного обличчя розраховується 6;
+-	код став трохи більше DRY
+-	виправлено помилки.
+
 # Face Recognition v1.92
 The most recent release of the app:
 -	first attempt to solve "medicalmask issue" (it doesn't work good enough so far);
