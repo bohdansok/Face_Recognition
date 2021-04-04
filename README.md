@@ -1,4 +1,4 @@
-# Face Recognition v1.94
+# Face Recognition v1.94 (coming soon :) )
 The most recent release of the app:
 -	next attempt to solve "medicalmask issue" and IT WORKS! The virtual mask (5 types) application method has been used, so now there 6 encodings instead of 1 made for each reference face (on single- or multiface pictures);
 -	code became slightly more DRY;
