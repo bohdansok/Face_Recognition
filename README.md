@@ -1,6 +1,6 @@
 # Face Recognition v1.94
 The most recent release of the app:
--	next attempt to solve "medicalmask issue" and IT WORKS! The virtual mask (5 types) application method has been used, so now there 6 encodings instead of 1 made for each reference face (on single- or multiface pictures);
+-	next attempt to solve "medical mask issue" and IT WORKS! The virtual mask (5 types) application method has been used, so now there 6 encodings instead of 1 made for each reference face (on single- or multiface pictures);
 -	code became slightly more DRY;
 -	some bugs fixed;in Ukrainian only for the moment;
 -	also you can try mascarade.py to sеe how virtual mask application works: run and choose a face picture (multyface ones are good too).
