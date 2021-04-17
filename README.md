@@ -1,3 +1,21 @@
+# Face Recognition v1.96
+Starting from this release the latest only  version of code to be placed here. 
+The most recent release of the app:
+-	code is more structured now (some functions are moved to MYFR.PY module), a new Face_Dictionary  class was  implemented ;
+-	code became slightly more DRY;
+-	some bugs fixed;
+-	also you can try MASCARADE.PY to sеe  (and then save the results as a file) how virtual mask application works: run and choose a face picture (multiface ones are good too);
+-	a new feature added: use CHANGEPATH.PY for batch modification of the images’  pathes directly in  pkl – face encodings data files. BEWARE! You need to edit source code first by modifying < change_dic> dictionary according to your needs. 
+
+Найсвіжіший випуск, вер. 1.96:
+Починаючи з цього релізу тільки остання версія буде розміщена тут.
+-	код став більш структурований (деякі функції перенесено в окремий модулт MYFR.PY), введено новий клас Face_Dictionary;
+-	код став трохи більше DRY
+-	виправлено помилки;
+-	також додано програмку mascarade.py. Запустить, щоб побачити (та зберегти результат у файл) як працює віртуальне накладання маски: просто оберіть картинку з обличчям (фото з декількома обличчями теж годяться);
+- додано нову можливість: використайте  CHANGEPATH.PY для пакетної зміни шляху до файлів зображень безпосередньо у pkl - файлах даних кодувань обличь. УВАГА! Вам доведеться трохи корегувати код скріпта, змінивши значення < change_dic>  відповідно до ваших потреб.
+
+
 # Face Recognition v1.94
 The most recent release of the app:
 -	next attempt to solve "medical mask issue" and IT WORKS! The virtual mask (5 types) application method has been used, so now there 6 encodings instead of 1 made for each reference face (on single- or multiface pictures);
