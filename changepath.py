@@ -12,8 +12,10 @@ import pickle
 from tkinter import filedialog, messagebox
 
 # Here is dictionary with path replacing data: what for what
-change_dic = {"What_to_change_in_old_path": "New_part_of_path_to_the_pictures_",
-              "C:/Pics_Folders/": "D:/FRPics/Pics_Folders/", }
+change_dic = {
+    "C:/Pics_Folders": "C:/anotherlocation/Pics_Folders",
+    "D:/oldpics/": "F:/newpics/",
+              }
 ######
 
 
@@ -61,17 +63,23 @@ for entry in entries:
         td = {}
         td = facedic_load(entry.path)  # Reading facedic
         Encodings.extend(td["encodings"])
+        baselen = len(Encodings)
         Names.extend(td["names"])
         facelocs.extend(td["locations"])
         del(td)
         v3fcnt += 1
         fl_Madenew = False
-        for old_n in Names:
+        for old_n1 in Names:
             for k in change_dic.keys():
-                if old_n.find(k) != -1:
-                    new_n = old_n.replace(k, change_dic.get(k))
+                if old_n1.find(k) != -1:
+                    new_n1 = old_n1.replace(k, change_dic.get(k))
                     fl_Madenew = True
-            New_names.append(new_n)
+                    #print(old_n1, " ==> ", new_n1)
+                    break
+                else:
+                    new_n1 = old_n1
+                    # print(old_n1, " no change ==> ", new_n1)
+            New_names.append(new_n1)
         if fl_Madenew:
             fnew = os.path.join(directory, "v3-changed_" + entry.name)
             try:
@@ -84,6 +92,8 @@ for entry in entries:
                 sys.exit("Не можу створити файл бази даних %s." % fnew)
             bigdic = {"encodings": Encodings,
                       "names": New_names, "locations": facelocs}
+            print(fnew)
+            print("old number of records:", baselen, "New number: ", len(New_names))
             pickle.dump(bigdic, f, protocol=pickle.HIGHEST_PROTOCOL)
             f.close()
             del(bigdic)
@@ -104,10 +114,17 @@ for entry in entries:
         del(td)
         fcnt += 1
         fl_Madenew = False
+        baselen0 = len(Encodings)
         for old_n in Names:
             for k in change_dic.keys():
-                new_n = old_n.replace(k, change_dic.get(k))
-                fl_Madenew = True
+                if old_n.find(k) != -1:
+                    new_n = old_n.replace(k, change_dic.get(k))
+                    fl_Madenew = True
+                    #print(old_n, " (old) ==> ", new_n)
+                    break
+                else:
+                    new_n = old_n
+                    # print(old_n, " no change (old) ==> ", new_n)
             New_names.append(new_n)
         if fl_Madenew:
             fnew = os.path.join(directory, "changed_" + entry.name)
@@ -121,6 +138,8 @@ for entry in entries:
                 sys.exit("Не можу створити файл бази даних %s." % fnew)
             bigdic = {"encodings": Encodings, "names": New_names}
             pickle.dump(bigdic, f, protocol=pickle.HIGHEST_PROTOCOL)
+            print(fnew)
+            print("old number of records: (old0school)", baselen0, "New number: ", len(New_names))
             f.close()
             del(bigdic)
             del(Encodings)
