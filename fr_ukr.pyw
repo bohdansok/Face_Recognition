@@ -14,9 +14,11 @@ from tkinter import messagebox, simpledialog
 import face_recognition
 import xlsxwriter
 from PIL import Image, ImageDraw
-import myfr
+import myfr1
+import myfrlang
 
 # Global vars - Start
+lang = "ukr"
 appcurver = "Face Recognition 1.96 (Video&Masks) by Bohdan SOKRUT (powered by dlib)"
 Posv_Dir = {}
 fl_Posv_Dir_Loaded = False
@@ -30,6 +32,7 @@ def dir_load_allimg(parwnd):
     Args:
         rootwnd ([Tkinter widget]): [parent Tkinter widget]
     """
+    global lang
     mod = "hog"
     mod5_68 = "large"
     fl_dir_comment = True
@@ -38,21 +41,23 @@ def dir_load_allimg(parwnd):
     # Load Dir_list
     dl = {}
     Dir_List = {}
-    dl, fl_Dir_List_Loaded = myfr.LoadDirList()
+    dl, fl_Dir_List_Loaded = myfr1.LoadDirList(lang)
     if fl_Dir_List_Loaded:
         Dir_List = dl
     del(dl)
     # Getting various encoding params
     directory = ""
     try:
-        mod, nous, njits, mod5_68, fl_dir_comment, dir_comment = myfr.get_params(
-            fl_dir_comment)
+        mod, nous, njits, mod5_68, fl_dir_comment, dir_comment = myfr1.get_params(
+            fl_dir_comment, lang)
     except:
         return
     else:
         # select a target folder
-        directory = myfr.sel_dir(
-             parwnd, "Оберіть теку з еталонними фото", Dir_List, True, False)
+        directory = myfr1.sel_dir(
+             parwnd,
+             myfrlang.lang[lang]["dir_load_allimg"][0],
+             Dir_List, True, False, lang)
         if directory in [".", "", None]:
             return
     fcmnt = None
@@ -70,7 +75,7 @@ def dir_load_allimg(parwnd):
             os.mkdir(knwdbdir)
         except OSError:
             tk.messagebox.showwarning(
-                "Увага!", "Не можу створити робочу теку %s" % knwdbdir)
+                myfrlang.lang[lang]["dir_load_allimg"][1], myfrlang.lang[lang]["dir_load_allimg"][2] % knwdbdir)
             if fl_dir_cmnt_file_created:
                 fcmnt.close()
             return
@@ -82,26 +87,27 @@ def dir_load_allimg(parwnd):
     # collect pictures
     entries = os.scandir(directory)
     # calling face encodings maker
-    cnt, fcnt = myfr.make_encodings(parwnd,
-                                    entries,
-                                    mod,
-                                    nous,
-                                    njits,
-                                    mod5_68,
-                                    fn,
-                                    fcmnt,
-                                    fl_dir_comment,
-                                    fl_dir_cmnt_file_created,
-                                    dir_comment,
-                                    False,
-                                    False)
+    cnt, fcnt = myfr1.make_encodings(parwnd,
+                   entries,
+                   mod,
+                   nous,
+                   njits,
+                   mod5_68,
+                   fn,
+                   fcmnt,
+                   fl_dir_comment,
+                   fl_dir_cmnt_file_created,
+                   dir_comment,
+                   False,
+                   False,
+                   lang)
     del(entries)
     if fl_dir_cmnt_file_created:
                 fcmnt.close()
-    myfr.SaveDirList(Dir_List)
+    myfr1.SaveDirList(Dir_List, lang)
     del(Dir_List)
-    tk.messagebox.showinfo('Інформація',
-                           "Додано %d обличь з %d зображень з теки %s. Зберігаю кодування обличь до файлу..." % (cnt, fcnt, directory))
+    tk.messagebox.showinfo(myfrlang.lang[lang]["dir_load_allimg"][3],
+                           myfrlang.lang[lang]["dir_load_allimg"][4] % (cnt, fcnt, directory))
     parwnd.title(appcurver)
     return
 
@@ -112,6 +118,7 @@ def dir_load_allimg_sub(parwnd):
     Args:
         rootwnd ([Tkinter widget]): [parent Tkinter widget]
     """
+    global lang
     allimgf = []
     mod = "hog"
     mod5_68 = "large"
@@ -120,21 +127,21 @@ def dir_load_allimg_sub(parwnd):
     # Load Dir)list
     Dir_List = {}
     dl = {}
-    dl, fl_Dir_List_Loaded = myfr.LoadDirList()
+    dl, fl_Dir_List_Loaded = myfr1.LoadDirList()
     if fl_Dir_List_Loaded:
         Dir_List = dl
     del(dl)
     # Getting various encoding params
     directory = ""
     try:
-        mod, nous, njits, mod5_68, fl_dir_comment, dir_comment = myfr.get_params(
-            fl_dir_comment)
+        mod, nous, njits, mod5_68, fl_dir_comment, dir_comment = myfr1.get_params(
+            fl_dir_comment, lang)
     except:
         return
     else:
     # select a target folder
-        directory = myfr.sel_dir(
-             parwnd, "Оберіть папку з еталонними фото (із вклад. теками)", Dir_List, True, True)
+        directory = myfr1.sel_dir(
+             parwnd, myfrlang.lang[lang]["dir_load_allimg_sub"][0], Dir_List, True, True, lang)
         if directory in [".", "", None]:
             del(allimgf)  # clearing trash
             return
@@ -145,7 +152,8 @@ def dir_load_allimg_sub(parwnd):
             os.mkdir(knwdbdir)
         except OSError:
             tk.messagebox.showwarning(
-                "Увага!", "Не можу створити робочу теку %s" % knwdbdir)
+                myfrlang.lang[lang]["dir_load_allimg_sub"][1],
+                myfrlang.lang[lang]["dir_load_allimg_sub"][2] % knwdbdir)
             del(allimgf)  # clearing trash
             return
     fn = os.path.join(knwdbdir, "v3-F6-" + mod5_68 + "_" + os.path.basename(directory) + "_" + str(datetime.now()).replace(":", ".") + ".pkl")
@@ -158,24 +166,25 @@ def dir_load_allimg_sub(parwnd):
     allimgf.extend(glob.glob(directory + "/**/*.bmp", recursive=True))
     allimgf.extend(glob.glob(directory + "/**/*.gif", recursive=True))
     # calling face encodings maker
-    cnt, fcnt = myfr.make_encodings(parwnd,
-                                    allimgf,
-                                    mod,
-                                    nous,
-                                    njits,
-                                    mod5_68,
-                                    fn,
-                                    None,
-                                    False,
-                                    False,
-                                    dir_comment,
-                                    True,
-                                    False)
+    cnt, fcnt = myfr1.make_encodings(parwnd,
+                   allimgf,
+                   mod,
+                   nous,
+                   njits,
+                   mod5_68,
+                   fn,
+                   None,
+                   False,
+                   False,
+                   dir_comment,
+                   True,
+                   False,
+                   lang)
     del(allimgf)
-    myfr.SaveDirList(Dir_List)
+    myfr1.SaveDirList(Dir_List)
     del(Dir_List)
-    tk.messagebox.showinfo('Інформація',
-                           "Додано %d обличь з %d зображень з теки %s та вкладених тек. Зберігаю кодування обличь до файлу..." % (
+    tk.messagebox.showinfo(myfrlang.lang[lang]["dir_load_allimg_sub"][3],
+                           myfrlang.lang[lang]["dir_load_allimg_sub"][4] % (
                                cnt, fcnt, directory)
                            )
     parwnd.title(appcurver)
@@ -190,6 +199,7 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
         rootwnd ([Tkinter widget]): [parent Tkinter widget]
     """
     ### vars - start
+    global lang
     mod = "hog"  # default for FR mathem. model
     mod5_68 = "large"
     fl_dir_comment = True
@@ -198,7 +208,7 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
     # Load Dir_list
     Dir_List = {}
     dl = {}
-    dl, fl_Dir_List_Loaded = myfr.LoadDirList()
+    dl, fl_Dir_List_Loaded = myfr1.LoadDirList()
     if fl_Dir_List_Loaded:
         Dir_List = dl
     del(dl)
@@ -206,14 +216,14 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
     # Getting various encoding params
     directory = ""
     try:
-        mod, nous, njits, mod5_68, fl_dir_comment, dir_comment = myfr.get_params(
-            fl_dir_comment)
+        mod, nous, njits, mod5_68, fl_dir_comment, dir_comment = myfr1.get_params(
+            fl_dir_comment, lang)
     except:
         return
     else:
         # select a target folder
-        directory = myfr.sel_dir(
-            parwnd, "Оберіть теку з еталонними фото", Dir_List, False, False)
+        directory = myfr1.sel_dir(
+            parwnd, myfrlang.lang[lang]["dir_load_wantedimg"][0], Dir_List, False, False, lang)
         if directory in [".", "", None]:
             return
     fcmnt = None
@@ -232,7 +242,8 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
             os.mkdir(wntdbdir)
         except OSError:
             tk.messagebox.showwarning(
-                "Увага!", "Не можу створити робочу теку %s" % wntdbdir)
+                myfrlang.lang[lang]["dir_load_wantedimg"][1],
+                myfrlang.lang[lang]["dir_load_wantedimg"][2] % wntdbdir)
             if fl_dir_cmnt_file_created:
                 fcmnt.close()
             return
@@ -241,7 +252,7 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
     fcnt = 0
     entries = os.scandir(directory)
     # calling face encodings maker
-    cnt, fcnt = myfr.make_encodings(parwnd,
+    cnt, fcnt = myfr1.make_encodings(parwnd,
                                     entries,
                                     mod,
                                     nous,
@@ -253,7 +264,8 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
                                     fl_dir_cmnt_file_created,
                                     dir_comment,
                                     False,
-                                    True)
+                                    True,
+                                    lang)
      # writing the search set path to _dir.ini (JSON-type) file
     wssfn = os.path.join(wntdbdir, "_dir.ini")
     try:
@@ -262,11 +274,12 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
         f.close()
     except OSError:
         tk.messagebox.showwarning(
-            "Увага!", "Не можу записати параметри пошуку у файл %s. Звіти зберігатимуться у робочу теку програми" % wssfn)
+            myfrlang.lang[lang]["dir_load_wantedimg"][3],
+            myfrlang.lang[lang]["dir_load_wantedimg"][4] % wssfn)
     if fl_dir_cmnt_file_created:
         fcmnt.close()
-    tk.messagebox.showinfo('Інформація',
-                            "Додано %d обличь з %d зображень з теки %s. Зберігаю кодування обличь до файлу..." % (cnt, fcnt, directory))
+    tk.messagebox.showinfo(myfrlang.lang[lang]["dir_load_wantedimg"][5],
+                            myfrlang.lang[lang]["dir_load_wantedimg"][6] % (cnt, fcnt, directory))
     parwnd.title(appcurver)
     return
 
@@ -278,6 +291,7 @@ def pic_search(parwnd):
     rootwnd ([Tkinter widget]): [parent Tkinter widget]
     """
     # vars
+    global lang
     tmpwlist = []
     tmpetlist = []
     fl_rep_dir_default = False
@@ -286,7 +300,8 @@ def pic_search(parwnd):
     fl_New_knowndir = True
     fl_New_wonteddir = True
     ###
-    answ = tk.simpledialog.askfloat("Точність розпізнавання обличь", "Менше значення - точніше (0<x<1, непогано 0.45):",
+    answ = tk.simpledialog.askfloat(myfrlang.lang[lang]["pic_search"][0],
+                                    myfrlang.lang[lang]["pic_search"][1],
                                     minvalue=0.0, maxvalue=1.0, initialvalue=0.45)
     if answ not in [None, ""]:  # setting tolerance for facecomp
         tol = answ
@@ -296,20 +311,23 @@ def pic_search(parwnd):
         os.getcwd(), "_DB"))  # setting path to _DB
     if not os.path.exists(knwdbdir):
         tk.messagebox.showwarning(
-            "Увага!", "Не можу знайти робочу теку %s" % knwdbdir)
+            myfrlang.lang[lang]["pic_search"][2],
+            myfrlang.lang[lang]["pic_search"][3] % knwdbdir)
         return
     # setting path to _Wanted
     wntdbdir = os.path.join(os.path.join(os.getcwd(), "_Wanted"))
     if not os.path.exists(wntdbdir):
         tk.messagebox.showwarning(
-            "Увага!", "Не можу знайтии робочу теку %s" % wntdbdir)
+            myfrlang.lang[lang]["pic_search"][4],
+            myfrlang.lang[lang]["pic_search"][5] % wntdbdir)
         return
     fnw = os.path.join(wntdbdir, "wanted.pkl")  # trying to load wanted list
     if not os.path.exists(fnw):
         tk.messagebox.showwarning(
-            "Увага!", "Файл даних рошукуваних осіб %s відсутній або недоступний. Проскануйте папку!" % fnw)
+            myfrlang.lang[lang]["pic_search"][6],
+            myfrlang.lang[lang]["pic_search"][7] % fnw)
         return
-    wfd = myfr.Face_Dictionary(fnw, "load")  # Reading wantedfacedic
+    wfd = myfr1.Face_Dictionary(fnw, "load", lang)  # Reading wantedfacedic
     wfdlen = len(wfd.fd["encodings"])
     # defining path to the current reports
     rep_conf_fn = os.path.join(wntdbdir, "_dir.ini")
@@ -323,7 +341,8 @@ def pic_search(parwnd):
         except (IOError, EOFError) as e:
             fl_rep_dir_default = True
             tk.messagebox.showwarning(
-                "Увага!", "Не можу знайти/прочитати файл даних сканованих папок: {}".format(e.args[-1]))
+                myfrlang.lang[lang]["pic_search"][8],
+                myfrlang.lang[lang]["pic_search"][9].format(e.args[-1]))
     else:
         fl_rep_dir_default = True
     # init multythread session
@@ -340,10 +359,10 @@ def pic_search(parwnd):
     entries = os.scandir(knwdbdir)
     for entry in entries:
         parwnd.title(
-            appcurver + " - проведено пошук %d обличь у %d файлах еталонних даних" % (wfdlen, dfcnt))
+            appcurver + myfrlang.lang[lang]["pic_search"][10] % (wfdlen, dfcnt))
         if (entry.name.lower().endswith(".pkl")) and entry.is_file():
             dfcnt += 1
-            kfd = myfr.Face_Dictionary(entry.path, "load")
+            kfd = myfr1.Face_Dictionary(entry.path, "load", lang)
             wcnt = 0
             # у кожному файлі даних шукаємо усі розшукувані пики. Так швидше.
             for wcnt in range(wfdlen):
@@ -425,7 +444,8 @@ def pic_search(parwnd):
                 txtrep = open(txtfn, "wt")
             except (IOError, EOFError) as e:
                 tk.messagebox.showwarning(
-                    "Увага!", "Не можу записати файл звіту {}".format(e.args[-1]))
+                    myfrlang.lang[lang]["pic_search"][11],
+                    myfrlang.lang[lang]["pic_search"][12].format(e.args[-1]))
                 return
             try:
                 xlxfn = "Report_" + str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")
@@ -433,7 +453,8 @@ def pic_search(parwnd):
                 wsx = xlsxwriter.Workbook(xlxfn)
             except (IOError, EOFError) as e:
                 tk.messagebox.showwarning(
-                "Увага!", "Не можу записати файл звіту {}".format(e.args[-1]))
+                    myfrlang.lang[lang]["pic_search"][13],
+                    myfrlang.lang[lang]["pic_search"][14].format(e.args[-1]))
                 return
         else:
             try:
@@ -442,7 +463,8 @@ def pic_search(parwnd):
                 txtrep = open(txtfn, "wt")
             except (IOError, EOFError) as e:
                 tk.messagebox.showwarning(
-                    "Увага!", "Не можу записати файл звіту {}".format(e.args[-1]))
+                    myfrlang.lang[lang]["pic_search"][15],
+                    myfrlang.lang[lang]["pic_search"][16].format(e.args[-1]))
                 return
             try:
                 xlxfn = os.path.join(rep_dir, "Report_" + str(datetime.now().strftime(
@@ -450,7 +472,8 @@ def pic_search(parwnd):
                 wsx = xlsxwriter.Workbook(xlxfn)
             except (IOError, EOFError) as e:
                 tk.messagebox.showwarning(
-                    "Увага!", "Не можу записати файл звіту {}".format(e.args[-1]))
+                    myfrlang.lang[lang]["pic_search"][17],
+                    myfrlang.lang[lang]["pic_search"][18].format(e.args[-1]))
                 return
          # xlsx cell formats
         cell_bold = wsx.add_format()
@@ -573,12 +596,14 @@ def pic_search(parwnd):
             except:
                 continue
         del(tmpetlist)
-        tk.messagebox.showinfo('Інформація',
-                           "Проведено пошук %d обличь у %d файлах еталонних даних. Звіти збережено до файлів %s та %s" % (
+        tk.messagebox.showinfo(
+            myfrlang.lang[lang]["pic_search"][19],
+            myfrlang.lang[lang]["pic_search"][20] % (
         wfdlen, dfcnt, txtfn, xlxfn))
     else:
-        tk.messagebox.showinfo('Інформація',
-                           "Проведено пошук %d обличь у %d файлах еталонних даних. Збігів не знайдено"  % (wfdlen, dfcnt))
+        tk.messagebox.showinfo(
+            myfrlang.lang[lang]["pic_search"][21],
+            myfrlang.lang[lang]["pic_search"][22]  % (wfdlen, dfcnt))
     del(frcf)
     del(frfd)
     del(allfound)
@@ -631,7 +656,7 @@ but_video = tk.Button(master=frame2,
                     height=1,
                     font=("Times New Roman", 16),
                     bg='lightgreen',
-                    command=lambda: myfr.splitvid(wnd))
+                    command=lambda: myfr1.splitvid(wnd, lang))
 but_lb.pack(side=tk.LEFT)
 but_lbsub.pack(side=tk.RIGHT)
 but_video.pack(side=tk.BOTTOM)
@@ -652,7 +677,7 @@ but_lw = tk.Button(master=frame3,
                    height=1,
                    font=("Times New Roman", 16),
                    bg='lightgreen',
-                   command=lambda: dir_load_wantedimg(wnd))
+                   command=lambda: dir_load_wantedimg(wnd, lang))
 but_curwdir = tk.Button(master=frame3,
                    text='Поточна тека пошуку...',
                    relief=tk.RAISED,
@@ -660,7 +685,7 @@ but_curwdir = tk.Button(master=frame3,
                    font=("Times New Roman", 16),
                    bg='grey',
                    fg="black",
-                   command=myfr.showcurwdir)
+                   command=lambda: myfr1.showcurwdir(lang))
 but_lw.pack(side=tk.LEFT)
 but_curwdir.pack(side=tk.RIGHT)
 frame3.pack()
@@ -688,7 +713,7 @@ but_dir = tk.Button(master=frame4,
                     font=("Times New Roman", 16),
                     bg='grey',
                     fg="black",
-                    command=lambda: myfr.showdirlist(wnd))
+                    command=lambda: myfr1.showdirlist(wnd, lang))
 but_opt = tk.Button(master=frame4,
                     text='Оптимізація бази даних',
                     relief=tk.SUNKEN,
@@ -696,7 +721,7 @@ but_opt = tk.Button(master=frame4,
                     font=("Times New Roman", 16),
                     bg='grey',
                     fg="black",
-                    command=myfr.optim)
+                    command=lambda: myfr1.optim(lang))
 but_help = tk.Button(master=frame4,
                     text='Довідка...',
                     relief=tk.SUNKEN,
@@ -704,7 +729,7 @@ but_help = tk.Button(master=frame4,
                     font=("Times New Roman", 16),
                     bg='grey',
                     fg="black",
-                    command=myfr.showhelp)
+                    command=lambda: myfr1.showhelp(lang))
 but_ab.pack(side=tk.LEFT)
 but_opt.pack(side=tk.RIGHT)
 but_dir.pack(side=tk.RIGHT)
