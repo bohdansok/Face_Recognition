@@ -1,7 +1,7 @@
 # Face Recognition v1.96
 Starting from this release the latest only  version of code to be placed here. 
 The most recent release of the app:
--	code is more structured now (some functions are moved to MYFR1.PY module as well as some part of language-depended dialogs - to MYFRLANG.PY), a new Face_Dictionary  class was  implemented ;
+-	code is more structured now (some functions are moved to MYFR1.PY module as well as all of language-depended dialogs, screen labels etc.- to MYFRLANG.PY), a new Face_Dictionary  class was  implemented ;
 -	code became slightly more DRY;
 -	some bugs fixed;
 -	also you can try MASCARADE.PY to sеe  (and then save the results as a file) how virtual mask application works: run and choose a face picture (multiface ones are good too);
@@ -9,7 +9,7 @@ The most recent release of the app:
 
 Найсвіжіший випуск, вер. 1.96:
 Починаючи з цього релізу тільки остання версія буде розміщена тут.
--	код став більш структурований (деякі функції перенесено в окремий модулт MYFR1.PY, так само як частина залежних від мови діалогів - до мдулю MYFRLANG.P), введено новий клас Face_Dictionary;
+-	код став більш структурований (деякі функції перенесено в окремий модулт MYFR1.PY, так само як усі залежні від мови діалогиб екранні мітки тощо - до мдулю MYFRLANG.P), введено новий клас Face_Dictionary;
 -	код став трохи більше DRY
 -	виправлено помилки;
 -	також додано програмку mascarade.py. Запустить, щоб побачити (та зберегти результат у файл) як працює віртуальне накладання маски: просто оберіть картинку з обличчям (фото з декількома обличчями теж годяться);
