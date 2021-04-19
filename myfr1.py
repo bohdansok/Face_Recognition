@@ -612,8 +612,8 @@ def optim(lang="ukr"):
         fn = os.path.join(knwdbdir, "opt_" + str(datetime.now()).replace(":", ".") + ".pkl")
         fd.save_as(fn)
     fd.destroy()
-    tk.messagebox.showinfo(myfrlang.lang[lang]["optim"][6],
-                            myfrlang.lang[lang]["optim"][7] % (v3fcnt + fcnt, backupdir))
+    tk.messagebox.showinfo(myfrlang.lang[lang]["optim"][10],
+                            myfrlang.lang[lang]["optim"][11] % (v3fcnt + fcnt, backupdir))
     return
 
 

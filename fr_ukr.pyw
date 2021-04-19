@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 __author__ = """Bohdan SOKRUT"""
 __www__ = 'https://github.com/bohdansok/Face_Recognition'
 __version__ = '1.96'
@@ -17,8 +17,11 @@ from PIL import Image, ImageDraw
 import myfr1
 import myfrlang
 
+
+#################################
+lang = "ukr"  # Language selector
+#################################
 # Global vars - Start
-lang = "ukr"
 appcurver = "Face Recognition 1.96 (Video&Masks) by Bohdan SOKRUT (powered by dlib)"
 Posv_Dir = {}
 fl_Posv_Dir_Loaded = False
@@ -298,7 +301,6 @@ def pic_search(parwnd):
     fl_MultyTh = False
     fl_dir_cmnt_file_loaded = False
     fl_New_knowndir = True
-    fl_New_wonteddir = True
     ###
     answ = tk.simpledialog.askfloat(myfrlang.lang[lang]["pic_search"][0],
                                     myfrlang.lang[lang]["pic_search"][1],
@@ -345,7 +347,7 @@ def pic_search(parwnd):
                 myfrlang.lang[lang]["pic_search"][9].format(e.args[-1]))
     else:
         fl_rep_dir_default = True
-    # init multythread session
+   # init multythread session
     try:
         executor = concurrent.futures.ThreadPoolExecutor()
         fl_MultyTh = True
@@ -353,9 +355,9 @@ def pic_search(parwnd):
         fl_MultyTh = False
     frcf = face_recognition.compare_faces
     frfd = face_recognition.face_distance
-    # перебираємо усі файли .pkl у папці _DB
+    # for all .pkl files in _DB
     dfcnt = 0
-    allfound = []
+    allfound = [] # temp list for search results
     entries = os.scandir(knwdbdir)
     for entry in entries:
         parwnd.title(
@@ -364,7 +366,7 @@ def pic_search(parwnd):
             dfcnt += 1
             kfd = myfr1.Face_Dictionary(entry.path, "load", lang)
             wcnt = 0
-            # у кожному файлі даних шукаємо усі розшукувані пики. Так швидше.
+           # finding wanted encodings at every loaded data file
             for wcnt in range(wfdlen):
                 wenc = wfd.fd["encodings"][wcnt]
                 wname = wfd.fd["names"][wcnt]
@@ -418,14 +420,14 @@ def pic_search(parwnd):
                             fl_dir_cmnt_file_loaded = True
                             cmtf.close()
                             ''' Here is the right place
-                            to add some external DB funcionalyty
+                            to add some external DB functionality
                             (some SQL requests, whatever)
                             - to obtain data to be putted in the report
                             by variable <st>'''
                         extst = ""
                         if fl_dir_cmnt_file_loaded:
                             extst = str(dir_coms.get(t2.rpartition("\\")[2]))
-                        st = " ".join([st, "Дод. коментар:", extst.replace("\n", "")])
+                        st = " ".join([st, myfrlang.lang[lang]["pic_search"][35], extst.replace("\n", "")])
                         if fl_dir_cmnt_file_loaded:
                             del(dir_coms)
                         allfound.append([c1, t1, c2, t2, st, floc, wloc,
@@ -491,27 +493,27 @@ def pic_search(parwnd):
         wrksx.set_column(2, 3, 27)
         wrksx.set_column(5, 6, 30, cell_wrap)
         wrksx.set_column(7, 7, 11, cell_wrap)
-        wrksx.write(0, 0, "Звіт створено " + str(datetime.now().strftime(
-            "%Y-%m-%d %H.%M.%S")) + " з використанням %s" % appcurver, cell_bold)
-        wrksx.write(1, 0, "Задана точність: " + str(tol), cell_bold)
-        wrksx.write(3, 0, "Файл зображення розшук. особи", cell_bold)
-        wrksx.write(3, 1, "Фото розшук. особи", cell_bold)
-        wrksx.write(3, 2, "Обличчя розшук. особи", cell_bold)
-        wrksx.write(3, 3, '"Еталонне" обличчя', cell_bold)
-        wrksx.write(3, 4, '"Еталонне" зображення', cell_bold)
-        wrksx.write(3, 5, "Файл еталонного зображення", cell_bold)
-        wrksx.write(3, 6, "Додаткові дані", cell_bold)
-        wrksx.write(3, 7, "Схожість, %", cell_bold)
+        wrksx.write(0, 0, myfrlang.lang[lang]["pic_search"][23] + str(datetime.now().strftime(
+            "%Y-%m-%d %H.%M.%S")) + myfrlang.lang[lang]["pic_search"][24] % appcurver, cell_bold)
+        wrksx.write(1, 0, myfrlang.lang[lang]["pic_search"][25] + str(tol), cell_bold)
+        wrksx.write(3, 0, myfrlang.lang[lang]["pic_search"][26], cell_bold)
+        wrksx.write(3, 1, myfrlang.lang[lang]["pic_search"][27], cell_bold)
+        wrksx.write(3, 2, myfrlang.lang[lang]["pic_search"][28], cell_bold)
+        wrksx.write(3, 3, myfrlang.lang[lang]["pic_search"][29], cell_bold)
+        wrksx.write(3, 4, myfrlang.lang[lang]["pic_search"][30], cell_bold)
+        wrksx.write(3, 5, myfrlang.lang[lang]["pic_search"][31], cell_bold)
+        wrksx.write(3, 6, myfrlang.lang[lang]["pic_search"][32], cell_bold)
+        wrksx.write(3, 7, myfrlang.lang[lang]["pic_search"][33], cell_bold)
         # txt header
-        print("Звіт створено ", str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")),
-              " з використанням %s" % appcurver, file=txtrep, end="\n", flush=False)
-        print("Задана точність: ", str(tol), file=txtrep, end="\n", flush=False)
-        print("Фото розшукуваної особи", "\t", "Еталонне зображення", "\t",
-              "Додатові дані", "\t", "Схожість, %", file=txtrep, end="\n", flush=False)
+        print(myfrlang.lang[lang]["pic_search"][23], str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")),
+              myfrlang.lang[lang]["pic_search"][24] % appcurver, file=txtrep, end="\n", flush=False)
+        print(myfrlang.lang[lang]["pic_search"][25], str(tol), file=txtrep, end="\n", flush=False)
+        print(myfrlang.lang[lang]["pic_search"][26], "\t", myfrlang.lang[lang]["pic_search"][31], "\t",
+              myfrlang.lang[lang]["pic_search"][32], "\t", myfrlang.lang[lang]["pic_search"][33], file=txtrep, end="\n", flush=False)
         ###
         xlcnt = 4  # starting row at XLSX-sheet
         for r in allfound:
-            wrksx.set_row(xlcnt, 175) # висота рядка
+            wrksx.set_row(xlcnt, 175) # row height
             wrksx.write(xlcnt, 0, r[0], cell_url)
             wrksx.write(xlcnt, 5, r[2], cell_url)
             wrksx.write(xlcnt, 6, r[4])
@@ -523,7 +525,7 @@ def pic_search(parwnd):
                 im = Image.open(r[1])
                 if fl_New_wanteddir:
                     t1t = "".join([r[1], str(r[6]), str(datetime.now()).replace(":", ""),
-                                   "_241.jpg"])  # ескізу для gif-формату не буде
+                                   "_241.jpg"])  # Thumbnail is not available for gif-pictures
                     t1tcr = "".join([r[1], str(r[6]), str(datetime.now()).replace(":", ""), "_cr1.jpg"])
                     imcr = im.crop((r[6][3] - 3, r[6][0] - 3, r[6][1] + 3, r[6][2] + 3))
                     draw = ImageDraw.Draw(im)
@@ -546,13 +548,13 @@ def pic_search(parwnd):
                     tmpwlist.append(t1t)
                     wrksx.insert_image(xlcnt, 1, t1t, {'object_position': 1})
             except:
-                wrksx.write(xlcnt, 1, "Ескізу не буде")
-                wrksx.write(xlcnt, 2, "Ескізу не буде")
+                wrksx.write(xlcnt, 1, myfrlang.lang[lang]["pic_search"][34])
+                wrksx.write(xlcnt, 2, myfrlang.lang[lang]["pic_search"][34])
             try:
                 im = Image.open(r[3])
                 if fl_New_knowndir:
                     t2t = "".join([r[3], str(r[5]), str(datetime.now()).replace(":", ""),
-                                   "_242.jpg"])  # ескізу для gif-формату не буде
+                                   "_242.jpg"])  # no thumb for gif
                     t2tcr = "".join([r[3], str(r[5]), str(datetime.now()).replace(":", ""), "_cr2.jpg"])
                     imcr = im.crop((r[5][3] - 3, r[5][0] - 3, r[5][1] + 3, r[5][2] + 3))
                     draw = ImageDraw.Draw(im)
@@ -569,16 +571,15 @@ def pic_search(parwnd):
                     wrksx.insert_image(xlcnt, 4, t2t, {'object_position': 1})
                 else:
                     t2t = "".join([r[3], str(r[5]), str(datetime.now()).replace(":", ""),
-                                   "_242.jpg"])  # ескізу для gif-формату не буде
+                                   "_242.jpg"])  # Thumbnail is not available for gifpictures
                     im.thumbnail((240, 240))
                     im.save(t2t)
                     tmpetlist.append(t2t)
-                    # wrksx.insert_image(xlcnt, 2, t2t, {'object_position': 1}) # old style w/o cropped thumbs
                     wrksx.insert_image(xlcnt, 4, t2t, {'object_position': 1})
             except Exception as e:
                 print(e)
-                wrksx.write(xlcnt, 3, "Ескізу не буде")
-                wrksx.write(xlcnt, 4, "Ескізу не буде")
+                wrksx.write(xlcnt, 3, myfrlang.lang[lang]["pic_search"][34])
+                wrksx.write(xlcnt, 4, myfrlang.lang[lang]["pic_search"][34])
             xlcnt += 1
     # clear and close
         wsx.close()
@@ -616,7 +617,7 @@ wnd = tk.Tk(screenName=appcurver)
 wnd.title(appcurver)
 frame1 = tk.Frame(master=wnd, relief=tk.RAISED, borderwidth=10)
 label1 = tk.Label(master=frame1,
-                  text="ПОШУК ОБЛИЧЬ У ФАЙЛАХ ЗОБРАЖЕНЬ (НЕВІДОМІ СЕРЕД ВІДОМИХ))",
+                  text=myfrlang.lang[lang]["GUI"][0],
                   font=("Times New Roman", 16),
                   background='green',
                   foreground="white",
@@ -627,9 +628,7 @@ frame1.pack()
 ##
 frame2 = tk.Frame(master=wnd, relief=tk.RAISED, borderwidth=8)
 label2 = tk.Label(master=frame2,
-                  text='''1. Оберіть теки (по одній) з еталонними фото (.jpg, .png, .bmp, .gif) для наповнення бази даних.
-                  Скануйте тільки один раз, а нові еталонні фото кладіть 
-                  у нові теки (із наступним їх скануванням). Для виділення кадрів з обличчями з відeофрагменту натисніть кнопку "Обробка відео..."''',
+                  text=myfrlang.lang[lang]["GUI"][1],
                   font=("Times New Roman", 15),
                   background='green',
                   foreground="white",
@@ -637,21 +636,21 @@ label2 = tk.Label(master=frame2,
                   )
 label2.pack()
 but_lb = tk.Button(master=frame2,
-                   text='Сканувати еталонні фото ',
+                   text=myfrlang.lang[lang]["GUI"][2],
                    relief=tk.RAISED,
                    height=1,
                    font=("Times New Roman", 16),
                    bg='lightgreen',
                    command=lambda: dir_load_allimg(wnd))
 but_lbsub = tk.Button(master=frame2,
-                      text='Сканувати еталонні фото (із вклад. теками) ',
+                      text=myfrlang.lang[lang]["GUI"][3],
                       relief=tk.RAISED,
                       height=1,
                       font=("Times New Roman", 16),
                       bg='lightgreen',
                       command=lambda: dir_load_allimg_sub(wnd))
 but_video = tk.Button(master=frame2,
-                    text='Обробка відео...',
+                    text=myfrlang.lang[lang]["GUI"][4],
                     relief=tk.RAISED,
                     height=1,
                     font=("Times New Roman", 16),
@@ -664,7 +663,7 @@ frame2.pack()
 ##
 frame3 = tk.Frame(master=wnd, relief=tk.RAISED, borderwidth=8)
 label3 = tk.Label(master=frame3,
-                  text='2. Оберіть теку з фото невідомих осіб.',
+                  text=myfrlang.lang[lang]["GUI"][5],
                   font=("Times New Roman", 15),
                   background='green',
                   foreground="white",
@@ -672,14 +671,14 @@ label3 = tk.Label(master=frame3,
                   )
 label3.pack()
 but_lw = tk.Button(master=frame3,
-                   text='Сканувати фото невідомих осіб',
+                   text=myfrlang.lang[lang]["GUI"][6],
                    relief=tk.RAISED,
                    height=1,
                    font=("Times New Roman", 16),
                    bg='lightgreen',
-                   command=lambda: dir_load_wantedimg(wnd, lang))
+                   command=lambda: dir_load_wantedimg(wnd))
 but_curwdir = tk.Button(master=frame3,
-                   text='Поточна тека пошуку...',
+                   text=myfrlang.lang[lang]["GUI"][7],
                    relief=tk.RAISED,
                    height=1,
                    font=("Times New Roman", 16),
@@ -692,7 +691,7 @@ frame3.pack()
 ##
 frame4 = tk.Frame(master=wnd, relief=tk.RAISED, borderwidth=8)
 label4 = tk.Label(master=frame4,
-                  text='3. Натисніть кнопку для початку пошуку. Результати буде збережено в теці з файлами фото невідомих осіб у форматах TXT та XLSX (з ескізами).',
+                  text=myfrlang.lang[lang]["GUI"][8],
                   font=("Times New Roman", 13),
                   background='green',
                   foreground="white",
@@ -700,14 +699,14 @@ label4 = tk.Label(master=frame4,
                   )
 label4.pack()
 but_ab = tk.Button(master=frame4,
-                   text='АНАЛІЗ & ЗВІТ',
+                   text=myfrlang.lang[lang]["GUI"][9],
                    relief=tk.RAISED,
                    height=1,
                    font=("Times New Roman", 16),
                    bg='lightgreen',
                    command=lambda: pic_search(wnd))
 but_dir = tk.Button(master=frame4,
-                    text='Скановані теки...',
+                    text=myfrlang.lang[lang]["GUI"][10],
                     relief=tk.SUNKEN,
                     height=1,
                     font=("Times New Roman", 16),
@@ -715,7 +714,7 @@ but_dir = tk.Button(master=frame4,
                     fg="black",
                     command=lambda: myfr1.showdirlist(wnd, lang))
 but_opt = tk.Button(master=frame4,
-                    text='Оптимізація бази даних',
+                    text=myfrlang.lang[lang]["GUI"][11],
                     relief=tk.SUNKEN,
                     height=1,
                     font=("Times New Roman", 16),
@@ -723,7 +722,7 @@ but_opt = tk.Button(master=frame4,
                     fg="black",
                     command=lambda: myfr1.optim(lang))
 but_help = tk.Button(master=frame4,
-                    text='Довідка...',
+                    text=myfrlang.lang[lang]["GUI"][12],
                     relief=tk.SUNKEN,
                     height=1,
                     font=("Times New Roman", 16),

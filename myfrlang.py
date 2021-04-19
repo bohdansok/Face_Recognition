@@ -22,7 +22,19 @@ lang = {
                        "Attention!", "Can't write report {}",
                        'Information', "Searched %d faces among %d data files. Reports saved to %s and %s",
                        'Information',  "Searched %d faces among %d data files. Found nothing",
-                       ],
+                       "Report created ", #23
+                       "by %s", #24
+                       "Accuracy: ", #25
+                       "Wanted person picture file", #26
+                       "Picture of wanted person", #27
+                       "Face of wanted person", #28
+                       '"Reference" face', #29
+                       '"Reference" picture', #30
+                       "Reference picture file", #31
+                       "Additional data", #32
+                       "Similarity, %", #33
+                       "Thumbnail is not available", #34
+                       "Additional comment:"], #35
         "load": ["Attention!!", "Can't read/find face encodings file: {}"],
         "save": ["Attention!", "Can't create data file %s"],
         "LoadDirList": ["Attention!!", "Can't read/find face encodings file: {}"],
@@ -37,19 +49,33 @@ lang = {
                        "Face encoding model", "1 - small (5 points, faster), 2- large (default, 68 points):",
                        "Additional comment", "Add a comment for all files in folder (Enter if empty)"],
         "facedic_load": ["Attention!!", "Can't read/find face encodings file: {}"],
-        "optim": ["Attention", "Small face encodings data files to be consolidated for faster face search. Proceed?",
-                  "Attention!", "Can't find/read working folder %s",
-                  "Attention!", "Can't creat back-up folder %s",
-                  "Attention!", "Can't create data base file %s. Move mannually file %s back to  %s",
-                  "Attention!",  "Can't create data base file %s. Move mannually file %s back to %s",
-                  'nformation', "Merged %d face encodings data files. Basked up to %s."],
+        "optim": ["Attention", "Small face encodings data files to be consolidated for faster face search. Proceed?", #0, 1
+                  "Attention!", "Can't find/read working folder %s", #2, 3
+                  "Attention!", "Can't create back-up folder %s", #4, 5
+                  "Attention!", "Can't create data base file %s. Move manually file %s back to  %s", #6, 7
+                  "Attention!",  "Can't create data base file %s. Move manually file %s back to %s", #8, 9
+                  'Information', "Merged %d face encodings data files. Basked up to %s."], #10, 11
         "showdirlist": ["Scanned reference picture fo;ders"],
         "splitvid": ["Choose video for proccessing",'Video files',
                      'Attention!', "Place your file under path with Latin letters only}",
                      'Information', "Saved %d frames with faces from totally %d frames of %s."],
         "showhelp": ["Attention!", "Can't find help file"],
         "showcurwdir": ["Attention!", 'No data for current "wanted" folder.',
-                        'Інформація', 'Current "wanted" folder is %s']
+                        'Інформація', 'Current "wanted" folder is %s'],
+        "GUI": ["FIND UNKNOWN FACES AMONG KNOWN ONES", #0
+                '''1. Choose folder(s) with the pictures (.jpg, .png, .bmp, .gif) of reference (known, identified) individuals to create a database.
+                  Scan only once; any new pictures store at new folder(s) and scan them too''',
+                  'Scan reference pictures folder', #2
+                  'Scan reference pictures folder (with subfolders) ', #3
+                  'Video proccessing...', #4
+                  '2. Choose a folder with wanted individual(s) pictures', #5
+                  'Scan wanted  individual(s) pictures folder', #6
+                  'Current "wanted" folder...', #7
+                  '3. Push ANALYZE & REPORT to search the faces. Reports will be saved at current app folder as TXT та XLSX (with thumbnails).', #8
+                  'ANALYZE & REPORT', #9
+                  'List of scanned folders...', #10
+                  'Face database optimization', #11
+                  'Help...'] #12
         },
     "ukr": {
         "dir_load_allimg": ["Оберіть теку з еталонними фото",
@@ -74,7 +100,19 @@ lang = {
                        "Увага!", "Не можу записати файл звіту {}",
                        'Інформація', "Проведено пошук %d обличь у %d файлах еталонних даних. Звіти збережено до файлів %s та %s",
                        "Інформація", "Проведено пошук %d обличь у %d файлах еталонних даних. Збігів не знайдено",
-                       ],
+                       "Звіт створено ",
+                       " з використанням %s",
+                       "Задана точність: ",
+                       "Файл зображення розшук. особи",
+                       "Фото розшук. особи",
+                       "Обличчя розшук. особи",
+                       '"Еталонне" обличчя',
+                       '"Еталонне" зображення',
+                       "Файл еталонного зображення",
+                       "Додаткові дані",
+                       "Схожість, %",
+                       "Ескізу не буде", #34
+                       "Дод. коментар:"], #35
         "load": ["Увага!", "Не можу знайти/прочитати файл кодувань обличь: {}"],
         "save": ["Увага!", "Не можу створити файл бази даних %s"],
         "LoadDirList": ["Увага!", "Не можу знайти/прочитати файл кодувань обличь: {}"],
@@ -102,6 +140,21 @@ lang = {
                      'Інформація', "Збережено %d кадрів з обличчами з %d кадрів відео %s."],
         "showhelp": ["Увага!", "Не можу знайти/прочитати файл довідки"],
         "showcurwdir": ["Увага!", "Дані про поточну пошукову теку відсутны.",
-                        'Інформація', "Поточна пошукова тека %s"]
+                        'Інформація', "Поточна пошукова тека %s"],
+        "GUI": ["ПОШУК ОБЛИЧЬ У ФАЙЛАХ ЗОБРАЖЕНЬ (НЕВІДОМІ СЕРЕД ВІДОМИХ))", #0
+                '''1. Оберіть теки (по одній) з еталонними фото (.jpg, .png, .bmp, .gif) для наповнення бази даних.
+                  Скануйте тільки один раз, а нові еталонні фото кладіть 
+                  у нові теки (із наступним їх скануванням). Для виділення кадрів з обличчями з відeофрагменту натисніть кнопку "Обробка відео..."''',
+                  'Сканувати еталонні фото ', #2
+                  'Сканувати еталонні фото (із вклад. теками) ', #3
+                  'Обробка відео...', #4
+                  '2. Оберіть теку з фото невідомих осіб.', #5
+                  'Сканувати фото невідомих осіб', #6
+                  'Поточна тека пошуку...', #7
+                  '3. Натисніть кнопку для початку пошуку. Результати буде збережено в теці з файлами фото невідомих осіб у форматах TXT та XLSX (з ескізами).',
+                  'АНАЛІЗ & ЗВІТ', #9
+                  'Скановані теки...', #10
+                  'Оптимізація бази даних', #11
+                  'Довідка...'] #12
     }
 }

@@ -17,8 +17,11 @@ from PIL import Image, ImageDraw
 import myfr1
 import myfrlang
 
+
+#################################
+lang = "eng"  # Language selector
+#################################
 # Global vars - Start
-lang = "eng"
 appcurver = "Face Recognition 1.96 (Video&Masks) by Bohdan SOKRUT (powered by dlib)"
 Posv_Dir = {}
 fl_Posv_Dir_Loaded = False
@@ -298,7 +301,6 @@ def pic_search(parwnd):
     fl_MultyTh = False
     fl_dir_cmnt_file_loaded = False
     fl_New_knowndir = True
-    fl_New_wonteddir = True
     ###
     answ = tk.simpledialog.askfloat(myfrlang.lang[lang]["pic_search"][0],
                                     myfrlang.lang[lang]["pic_search"][1],
@@ -418,14 +420,14 @@ def pic_search(parwnd):
                             fl_dir_cmnt_file_loaded = True
                             cmtf.close()
                             ''' Here is the right place
-                            to add some external DB funcionalyty
+                            to add some external DB functionality
                             (some SQL requests, whatever)
                             - to obtain data to be putted in the report
                             by variable <st>'''
                         extst = ""
                         if fl_dir_cmnt_file_loaded:
                             extst = str(dir_coms.get(t2.rpartition("\\")[2]))
-                        st = " ".join([st, "Дод. коментар:", extst.replace("\n", "")])
+                        st = " ".join([st, myfrlang.lang[lang]["pic_search"][35], extst.replace("\n", "")])
                         if fl_dir_cmnt_file_loaded:
                             del(dir_coms)
                         allfound.append([c1, t1, c2, t2, st, floc, wloc,
@@ -491,27 +493,27 @@ def pic_search(parwnd):
         wrksx.set_column(2, 3, 27)
         wrksx.set_column(5, 6, 30, cell_wrap)
         wrksx.set_column(7, 7, 11, cell_wrap)
-        wrksx.write(0, 0, "Report created " + str(datetime.now().strftime(
-            "%Y-%m-%d %H.%M.%S")) + "by %s" % appcurver, cell_bold)
-        wrksx.write(1, 0, "Accuracy: " + str(tol), cell_bold)
-        wrksx.write(3, 0, "Wanted person picture file", cell_bold)
-        wrksx.write(3, 1, "Picture of wanted person", cell_bold)
-        wrksx.write(3, 2, "Face of wanted person", cell_bold)
-        wrksx.write(3, 3, '"Referencal" face', cell_bold)
-        wrksx.write(3, 4, '"Referencal" picture', cell_bold)
-        wrksx.write(3, 5, "Reference picture file", cell_bold)
-        wrksx.write(3, 6, "Additional data", cell_bold)
-        wrksx.write(3, 7, "Similarity, %", cell_bold)
+        wrksx.write(0, 0, myfrlang.lang[lang]["pic_search"][23] + str(datetime.now().strftime(
+            "%Y-%m-%d %H.%M.%S")) + myfrlang.lang[lang]["pic_search"][24] % appcurver, cell_bold)
+        wrksx.write(1, 0, myfrlang.lang[lang]["pic_search"][25] + str(tol), cell_bold)
+        wrksx.write(3, 0, myfrlang.lang[lang]["pic_search"][26], cell_bold)
+        wrksx.write(3, 1, myfrlang.lang[lang]["pic_search"][27], cell_bold)
+        wrksx.write(3, 2, myfrlang.lang[lang]["pic_search"][28], cell_bold)
+        wrksx.write(3, 3, myfrlang.lang[lang]["pic_search"][29], cell_bold)
+        wrksx.write(3, 4, myfrlang.lang[lang]["pic_search"][30], cell_bold)
+        wrksx.write(3, 5, myfrlang.lang[lang]["pic_search"][31], cell_bold)
+        wrksx.write(3, 6, myfrlang.lang[lang]["pic_search"][32], cell_bold)
+        wrksx.write(3, 7, myfrlang.lang[lang]["pic_search"][33], cell_bold)
         # txt header
-        print("Report created  ", str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")),
-              " by %s" % appcurver, file=txtrep, end="\n", flush=False)
-        print("Accuracy: ", str(tol), file=txtrep, end="\n", flush=False)
-        print("Wanted person picture file", "\t", "Reference picture file", "\t",
-              "Additional data'", "\t", "Similarity, %", file=txtrep, end="\n", flush=False)
+        print(myfrlang.lang[lang]["pic_search"][23], str(datetime.now().strftime("%Y-%m-%d %H.%M.%S")),
+              myfrlang.lang[lang]["pic_search"][24] % appcurver, file=txtrep, end="\n", flush=False)
+        print(myfrlang.lang[lang]["pic_search"][25], str(tol), file=txtrep, end="\n", flush=False)
+        print(myfrlang.lang[lang]["pic_search"][26], "\t", myfrlang.lang[lang]["pic_search"][31], "\t",
+              myfrlang.lang[lang]["pic_search"][32], "\t", myfrlang.lang[lang]["pic_search"][33], file=txtrep, end="\n", flush=False)
         ###
         xlcnt = 4  # starting row at XLSX-sheet
         for r in allfound:
-            wrksx.set_row(xlcnt, 175) # row heigth
+            wrksx.set_row(xlcnt, 175) # row height
             wrksx.write(xlcnt, 0, r[0], cell_url)
             wrksx.write(xlcnt, 5, r[2], cell_url)
             wrksx.write(xlcnt, 6, r[4])
@@ -546,8 +548,8 @@ def pic_search(parwnd):
                     tmpwlist.append(t1t)
                     wrksx.insert_image(xlcnt, 1, t1t, {'object_position': 1})
             except:
-                wrksx.write(xlcnt, 1, "No thumbnail")
-                wrksx.write(xlcnt, 2, "No thumbnail")
+                wrksx.write(xlcnt, 1, myfrlang.lang[lang]["pic_search"][34])
+                wrksx.write(xlcnt, 2, myfrlang.lang[lang]["pic_search"][34])
             try:
                 im = Image.open(r[3])
                 if fl_New_knowndir:
@@ -576,8 +578,8 @@ def pic_search(parwnd):
                     wrksx.insert_image(xlcnt, 4, t2t, {'object_position': 1})
             except Exception as e:
                 print(e)
-                wrksx.write(xlcnt, 3, "Thumbnail is not available")
-                wrksx.write(xlcnt, 4, "Thumbnail is not available")
+                wrksx.write(xlcnt, 3, myfrlang.lang[lang]["pic_search"][34])
+                wrksx.write(xlcnt, 4, myfrlang.lang[lang]["pic_search"][34])
             xlcnt += 1
     # clear and close
         wsx.close()
@@ -615,7 +617,7 @@ wnd = tk.Tk(screenName=appcurver)
 wnd.title(appcurver)
 frame1 = tk.Frame(master=wnd, relief=tk.RAISED, borderwidth=10)
 label1 = tk.Label(master=frame1,
-                  text="FIND UNKNOWN FACES AMONG KNOWN ONES",
+                  text=myfrlang.lang[lang]["GUI"][0],
                   font=("Times New Roman", 16),
                   background='green',
                   foreground="white",
@@ -626,8 +628,7 @@ frame1.pack()
 ##
 frame2 = tk.Frame(master=wnd, relief=tk.RAISED, borderwidth=8)
 label2 = tk.Label(master=frame2,
-                  text='''1. Choose folder(s) with the pictures (.jpg, .png, .bmp, .gif) of reference (known, identified) individuals to create a database.
-                  Scan only once; any new pictures store at new folder(s) and scan them too''',
+                  text=myfrlang.lang[lang]["GUI"][1],
                   font=("Times New Roman", 15),
                   background='green',
                   foreground="white",
@@ -635,21 +636,21 @@ label2 = tk.Label(master=frame2,
                   )
 label2.pack()
 but_lb = tk.Button(master=frame2,
-                   text='Scan reference pictures folder',
+                   text=myfrlang.lang[lang]["GUI"][2],
                    relief=tk.RAISED,
                    height=1,
                    font=("Times New Roman", 16),
                    bg='lightgreen',
                    command=lambda: dir_load_allimg(wnd))
 but_lbsub = tk.Button(master=frame2,
-                      text='Scan reference pictures folder (with subfolders) ',
+                      text=myfrlang.lang[lang]["GUI"][3],
                       relief=tk.RAISED,
                       height=1,
                       font=("Times New Roman", 16),
                       bg='lightgreen',
                       command=lambda: dir_load_allimg_sub(wnd))
 but_video = tk.Button(master=frame2,
-                    text='Video proccessing...',
+                    text=myfrlang.lang[lang]["GUI"][4],
                     relief=tk.RAISED,
                     height=1,
                     font=("Times New Roman", 16),
@@ -662,7 +663,7 @@ frame2.pack()
 ##
 frame3 = tk.Frame(master=wnd, relief=tk.RAISED, borderwidth=8)
 label3 = tk.Label(master=frame3,
-                  text='2. Choose a folder with wanted individual(s) pictures',
+                  text=myfrlang.lang[lang]["GUI"][5],
                   font=("Times New Roman", 15),
                   background='green',
                   foreground="white",
@@ -670,14 +671,14 @@ label3 = tk.Label(master=frame3,
                   )
 label3.pack()
 but_lw = tk.Button(master=frame3,
-                   text='Scan wanted  individual(s) pictures folder',
+                   text=myfrlang.lang[lang]["GUI"][6],
                    relief=tk.RAISED,
                    height=1,
                    font=("Times New Roman", 16),
                    bg='lightgreen',
-                   command=lambda: dir_load_wantedimg(wnd, lang))
+                   command=lambda: dir_load_wantedimg(wnd))
 but_curwdir = tk.Button(master=frame3,
-                   text='Curent "wanted" folder...',
+                   text=myfrlang.lang[lang]["GUI"][7],
                    relief=tk.RAISED,
                    height=1,
                    font=("Times New Roman", 16),
@@ -690,7 +691,7 @@ frame3.pack()
 ##
 frame4 = tk.Frame(master=wnd, relief=tk.RAISED, borderwidth=8)
 label4 = tk.Label(master=frame4,
-                  text='3. Push ANALYZE & REPORT to search the faces. Reports will be saved at current app folderї as TXT та XLSX (with thumbnails).',
+                  text=myfrlang.lang[lang]["GUI"][8],
                   font=("Times New Roman", 13),
                   background='green',
                   foreground="white",
@@ -698,14 +699,14 @@ label4 = tk.Label(master=frame4,
                   )
 label4.pack()
 but_ab = tk.Button(master=frame4,
-                   text='ANALYZE & REPORT',
+                   text=myfrlang.lang[lang]["GUI"][9],
                    relief=tk.RAISED,
                    height=1,
                    font=("Times New Roman", 16),
                    bg='lightgreen',
                    command=lambda: pic_search(wnd))
 but_dir = tk.Button(master=frame4,
-                    text='List of scanned folders...',
+                    text=myfrlang.lang[lang]["GUI"][10],
                     relief=tk.SUNKEN,
                     height=1,
                     font=("Times New Roman", 16),
@@ -713,7 +714,7 @@ but_dir = tk.Button(master=frame4,
                     fg="black",
                     command=lambda: myfr1.showdirlist(wnd, lang))
 but_opt = tk.Button(master=frame4,
-                    text='Face database optimization',
+                    text=myfrlang.lang[lang]["GUI"][11],
                     relief=tk.SUNKEN,
                     height=1,
                     font=("Times New Roman", 16),
@@ -721,7 +722,7 @@ but_opt = tk.Button(master=frame4,
                     fg="black",
                     command=lambda: myfr1.optim(lang))
 but_help = tk.Button(master=frame4,
-                    text='Help...',
+                    text=myfrlang.lang[lang]["GUI"][12],
                     relief=tk.SUNKEN,
                     height=1,
                     font=("Times New Roman", 16),
