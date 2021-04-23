@@ -1,5 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-__author__ = """Bohdan SOKRUT"""
+__author__ = "Bohdan SOKRUT"
 __www__ = 'https://github.com/bohdansok/Face_Recognition'
 __version__ = '1/2.96'
 
@@ -17,6 +17,7 @@ from datetime import datetime
 import cv2
 import face_recognition
 import numpy as np
+import mediapipe as mp
 import myfrlang
 
 
@@ -122,8 +123,34 @@ class Face_Dictionary():
             self.fl_Saved = True
             return True   
     
-    
+
+def mp_boxes(image, confid=0.5):
+    """[Function uses Medipipe CNN to find out all faces boxes on the given image. 
+    It's about 50 times faster even on CPU then original dlib / Face_recognition functions.]
+
+    Args:
+        image ([np.array]): [image in memory to be proccessed]
+
+    Returns:
+        [list]: [list of coordinates of face boundaries boxes]
+    """    
+    mp_face_detection = mp.solutions.face_detection
+    face_detection = mp_face_detection.FaceDetection(min_detection_confidence=confid)
+    iheigth, iwidth = image.shape[:2]
+    results = face_detection.process(image)
+    if not results.detections:
+        return
+    boxes = []
+    for d in results.detections:
+        xmin = int(iwidth * d.location_data.relative_bounding_box.xmin)
+        ymin = int(iheigth * d.location_data.relative_bounding_box.ymin)
+        ymax = ymin + int(iheigth * d.location_data.relative_bounding_box.height)
+        xmax = xmin + int(iwidth * d.location_data.relative_bounding_box.width)
+        boxes.append([ymin, xmax, ymax, xmin])
+    return boxes 
 # Читаємо дані про раніше скановані каталоги з файлу "_dirlist.ini", якщо він є
+
+
 def LoadDirList(lang="ukr"):
     """[Reading a list of earlier scanned directories from JSON-type file _dirlist.ini]
 
@@ -228,14 +255,12 @@ def sel_dir(rootwnd, Title, dl, notskipcheck, subd, lang="ukr"):
         return sel_dir_path
 
  
-def put_virt_mask(image_basic, nous, mod5_68, model_hogcnn, executor, fl_MultyTh=False, fl_wanted_scan=False):
+def put_virt_mask(image_basic, confid, mod5_68, executor, fl_MultyTh=False, fl_wanted_scan=False):
     """[Applying virtual medical masks of 4 types]
 
     Args:
         image_basic ([type]): [description]
-        nous ([type]): [description]
         mod ([type]): [description]
-        model_hogcnn ([type]): [description]
         executor ([type]): [description]
         fl_MultyTh (bool, optional): [description]. Defaults to False.
 
@@ -249,10 +274,10 @@ def put_virt_mask(image_basic, nous, mod5_68, model_hogcnn, executor, fl_MultyTh
     images = []
     #
     if fl_MultyTh:
-        boxes = executor.submit(frfl, image_basic, number_of_times_to_upsample=nous, model=model_hogcnn).result()
+        boxes = executor.submit(mp_boxes, image_basic, confid).result()
     else:
-        boxes = frfl(image_basic, number_of_times_to_upsample=nous, model=model_hogcnn)
-    if len(boxes) == 0:
+        boxes = mp_boxes(image_basic, confid)
+    if not boxes:
         images.append([image_basic])
         return images, boxes
     if fl_wanted_scan:
@@ -355,10 +380,8 @@ def put_virt_mask(image_basic, nous, mod5_68, model_hogcnn, executor, fl_MultyTh
 
 def make_encodings(parwnd,
                    entries,
-                   mod,
-                   nous,
+                   confid,
                    njits,
-                   mod5_68,
                    f_pkl,
                    fcmnt,
                    fl_dir_comment,
@@ -372,10 +395,8 @@ def make_encodings(parwnd,
     Args:
         parwnd ([Tkinter]): [Tkinter parent window]
         entries ([list]): [Face pictures. List of path-like entries]
-        mod ([str]): ["hog" or "cnn" face recognition model"]
-        nous ([int]): [number of upsamples for face locations to resample when face encoding]
+        confid ([float]): [Face detection confidence]
         njits ([int]): [number of jitters during face encodings]
-        mod5_68 ([str]): ["large" (68 face landmarks) or "small" (5 face landmarks) model]
         f_pkl ([file]): Full path for PKL-data file.]
         fcmnt ([file]): [OPENED! (wt) ini-file for comments]
         fl_dir_comment ([boolean]): [True of additional comment is present]
@@ -400,6 +421,7 @@ def make_encodings(parwnd,
         fl_MultyTh = True
     except:
         fl_MultyTh = False
+    mod5_68 = "large"
     cnt = 0
     fcnt = 0
     appcurver = parwnd.title()
@@ -435,8 +457,8 @@ def make_encodings(parwnd,
         # making list of images: original and 4 masked virtually
         images = []
         encies = []
-        images, boxes = put_virt_mask(image, nous, mod5_68, mod, executor, fl_MultyTh, fl_wanted_scan)
-        if len(boxes) > 0:
+        images, boxes = put_virt_mask(image, confid, mod5_68, executor, fl_MultyTh, fl_wanted_scan)
+        if boxes:
             for box_index in range(len(boxes)):
                 for image in images[box_index]:
                     if fl_MultyTh:
@@ -465,44 +487,21 @@ def make_encodings(parwnd,
 
 def get_params(fl_dir_comment=True, lang="ukr"):
     #Defaults
-    mod = "hog"
-    nous = 1
+    confid = 0.5
     njits = 1
-    mod5_68 = "large"
     dir_comment = ""
     #
-    answ = tk.simpledialog.askinteger(
-        myfrlang.lang[lang]["get_params"][0],
-        myfrlang.lang[lang]["get_params"][1],
-        minvalue=1, maxvalue=2, initialvalue=1)
-    if answ != None:  # обираємо модель
-        if answ == 1:
-            mod = "hog"
-        if answ == 2:
-            mod = "cnn"
+    answ = tk.simpledialog.askfloat(myfrlang.lang[lang]["get_params"][10],
+                                    myfrlang.lang[lang]["get_params"][11],
+                                    minvalue=0.0, maxvalue=1.0, initialvalue=confid)
+    if answ not in [None, ""]:  # setting cobfidence for facecomp
+        confid = answ
     else:
-        return None
-    # number of upsamles for face locations nd resample when face encoding
-    nous = tk.simpledialog.askinteger(myfrlang.lang[lang]["get_params"][2],
-                                      myfrlang.lang[lang]["get_params"][3],
-                                      minvalue=1, maxvalue=100, initialvalue=1)
-    if nous == None:
-        return None
+        return
     njits = tk.simpledialog.askinteger(myfrlang.lang[lang]["get_params"][4],
                                        myfrlang.lang[lang]["get_params"][5],
                                        minvalue=1, maxvalue=100, initialvalue=1)
-    if njits == None:
-        return None1
-    # setting small or large model for face encoding
-    answ = tk.simpledialog.askinteger(myfrlang.lang[lang]["get_params"][6],
-                                      myfrlang.lang[lang]["get_params"][7],
-                                      minvalue=1, maxvalue=2, initialvalue=2)
-    if answ != None:
-        if answ == 1:
-            mod5_68 = "small"
-        if answ == 2:
-            mod5_68 = "large"
-    else:
+    if not njits:
         return None
     # setting common comment for all pictures in the folder
     if fl_dir_comment:
@@ -514,7 +513,7 @@ def get_params(fl_dir_comment=True, lang="ukr"):
             fl_dir_comment = False
     else:
         dir_comment = ""
-    return mod, nous, njits, mod5_68, fl_dir_comment, dir_comment
+    return confid, njits, fl_dir_comment, dir_comment
 
    
 def facedic_load(dicfilename, lang="ukr"):

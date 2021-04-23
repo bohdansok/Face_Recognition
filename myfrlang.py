@@ -47,7 +47,8 @@ lang = {
                        "Number of upsamples for face locations", "1 - 100 (less - faster, bigger - smaller faces to be found)",
                        "Number of upsamples for face encodings", "1 - 100 (bigger - slower but more accurate)",
                        "Face encoding model", "1 - small (5 points, faster), 2- large (default, 68 points):",
-                       "Additional comment", "Add a comment for all files in folder (Enter if empty)"],
+                       "Additional comment", "Add a comment for all files in folder (Enter if empty)",
+                       "Face detection confidence", "Greater is less acccurate  (0<x<1, default and good 0.5):"],
         "facedic_load": ["Attention!!", "Can't read/find face encodings file: {}"],
         "optim": ["Attention", "Small face encodings data files to be consolidated for faster face search. Proceed?", #0, 1
                   "Attention!", "Can't find/read working folder %s", #2, 3
@@ -126,7 +127,8 @@ lang = {
                        "Проходів пошуку обличь", "1 - 100 (більше - точніше, але довше)",
                        "Проходів при кодуванні обличь", "1 - 100 (більше - точніше, але довше)",
                        "Оберіть модель кодування обличь", "1 - мала (швидше), 2- велика (точніше):",
-                       "Додайте коментар", "Коментар буде додано для усіх зображень (якщо немає - Enter)"],
+                       "Додайте коментар", "Коментар буде додано для усіх зображень (якщо немає - Enter)",
+                       "Точність виявлення обличь", "Менше значення - точніше (0<x<1, непогано 0.5):"],
         "facedic_load": ["Увага!", "Не можу знайти/прочитати файл кодувань обличь: {}"],
         "optim": ["Увага!", "Дрібні файли даних кодувань обличь буде консолідовано для прискорення пошуку. Продовжити?",
                   "Увага!", "Не можу знайти робочу теку %s",

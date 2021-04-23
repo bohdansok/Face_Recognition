@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-__author__ = """Bohdan SOKRUT"""
+__author__ = "Bohdan SOKRUT"
 __www__ = 'https://github.com/bohdansok/Face_Recognition'
-__version__ = '1.96'
+__version__ = '1.97'
 
 ##
 import concurrent.futures
@@ -22,7 +22,7 @@ import myfrlang
 lang = "eng"  # Language selector
 #################################
 # Global vars - Start
-appcurver = "Face Recognition 1.96 (Video&Masks) by Bohdan SOKRUT (powered by dlib)"
+appcurver = "Face Recognition 1.97 by Bohdan SOKRUT.Tnx to davisking/dlib&ageitgey/face_recognition&MediaPipe"
 Posv_Dir = {}
 fl_Posv_Dir_Loaded = False
 # Global vars - End
@@ -36,7 +36,7 @@ def dir_load_allimg(parwnd):
         rootwnd ([Tkinter widget]): [parent Tkinter widget]
     """
     global lang
-    mod = "hog"
+    confid = 0.5
     mod5_68 = "large"
     fl_dir_comment = True
     dir_comment = ""
@@ -51,7 +51,7 @@ def dir_load_allimg(parwnd):
     # Getting various encoding params
     directory = ""
     try:
-        mod, nous, njits, mod5_68, fl_dir_comment, dir_comment = myfr1.get_params(
+        confid, njits, fl_dir_comment, dir_comment = myfr1.get_params(
             fl_dir_comment, lang)
     except:
         return
@@ -92,10 +92,8 @@ def dir_load_allimg(parwnd):
     # calling face encodings maker
     cnt, fcnt = myfr1.make_encodings(parwnd,
                    entries,
-                   mod,
-                   nous,
+                   confid,
                    njits,
-                   mod5_68,
                    fn,
                    fcmnt,
                    fl_dir_comment,
@@ -123,7 +121,7 @@ def dir_load_allimg_sub(parwnd):
     """
     global lang
     allimgf = []
-    mod = "hog"
+    confid = 0.5
     mod5_68 = "large"
     fl_dir_comment = False
     dir_comment = ""
@@ -137,7 +135,7 @@ def dir_load_allimg_sub(parwnd):
     # Getting various encoding params
     directory = ""
     try:
-        mod, nous, njits, mod5_68, fl_dir_comment, dir_comment = myfr1.get_params(
+        confid, njits, fl_dir_comment, dir_comment = myfr1.get_params(
             fl_dir_comment, lang)
     except:
         return
@@ -171,10 +169,8 @@ def dir_load_allimg_sub(parwnd):
     # calling face encodings maker
     cnt, fcnt = myfr1.make_encodings(parwnd,
                    allimgf,
-                   mod,
-                   nous,
+                   confid,
                    njits,
-                   mod5_68,
                    fn,
                    None,
                    False,
@@ -203,7 +199,7 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
     """
     ### vars - start
     global lang
-    mod = "hog"  # default for FR mathem. model
+    confid = 0.5
     mod5_68 = "large"
     fl_dir_comment = True
     dir_comment = ""
@@ -219,7 +215,7 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
     # Getting various encoding params
     directory = ""
     try:
-        mod, nous, njits, mod5_68, fl_dir_comment, dir_comment = myfr1.get_params(
+        confid, njits, fl_dir_comment, dir_comment = myfr1.get_params(
             fl_dir_comment, lang)
     except:
         return
@@ -257,10 +253,8 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
     # calling face encodings maker
     cnt, fcnt = myfr1.make_encodings(parwnd,
                                     entries,
-                                    mod,
-                                    nous,
+                                    confid,
                                     njits,
-                                    mod5_68,
                                     fn,
                                     fcmnt,
                                     fl_dir_comment,
