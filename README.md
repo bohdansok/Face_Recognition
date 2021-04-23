@@ -1,3 +1,11 @@
+# Face Recognition v1.97
+The most recent release of the app:
+-	Now this face recognition app is a hybrid of Face_recognition  /dlib and Mediapipe frameworks. It looks like CNN face detection model from Mediapipe works in 50 times faster even on CPU then dlib HOG model.
+. 
+Найсвіжіший випуск, вер. 1.97:
+-	Зараз цей додаток з розпізнавання обличь став гібридом бібліотек Face_recognition  /dlib та Mediapipe. Схоже, що CNN модель виявлення обличь з Mediapipe працює у 50 разів швидше навіть на ЦПУ, ніж модель HOG, реалізована у dlib.
+
+
 # Face Recognition v1.96
 Starting from this release the latest only  version of code to be placed here. 
 The most recent release of the app:
