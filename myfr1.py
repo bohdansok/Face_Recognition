@@ -19,6 +19,8 @@ import face_recognition
 import numpy as np
 import mediapipe as mp
 import myfrlang
+import face_recognition as fr
+import dlib
 
 
 class Face_Dictionary():
@@ -126,7 +128,10 @@ class Face_Dictionary():
 
 def mp_boxes(image, confid=0.5):
     """[Function uses Medipipe CNN to find out all faces boxes on the given image. 
-    It's about 50 times faster even on CPU then original dlib / Face_recognition functions.]
+    It's about 50 times faster even on CPU 
+    then original dlib / Face_recognition functions.]
+    If Mediapipe found no face boxes (it's possible and depends of image features,
+    the function consequently tries to use dlib CNN and HOG models for that.)
 
     Args:
         image ([np.array]): [image in memory to be proccessed]
@@ -136,20 +141,40 @@ def mp_boxes(image, confid=0.5):
     """    
     mp_face_detection = mp.solutions.face_detection
     face_detection = mp_face_detection.FaceDetection(min_detection_confidence=confid)
+    boxes = []
     iheigth, iwidth = image.shape[:2]
     results = face_detection.process(image)
     if not results.detections:
-        return
-    boxes = []
+        if dlib.DLIB_USE_CUDA:
+            try:
+                boxes = fr.face_locations(image, number_of_times_to_upsample=1, model="cnn")
+                print("INFO: dlib CNN used instead of Mediapipe")
+            except:
+                boxes = fr.face_locations(image, number_of_times_to_upsample=1, model="hog")
+                print("INFO: dlib HOG used instead of Mediapipe")
+                if boxes:
+                    return boxes
+                else:
+                    return None
+            if boxes:
+                return boxes
+            else:
+                return None
+        else:
+            boxes = fr.face_locations(image, number_of_times_to_upsample=1, model="hog")
+            print("INFO: dlib HOG used instead of Mediapipe")
+            if boxes:
+                return boxes
+            else:
+                return None
     for d in results.detections:
         xmin = int(iwidth * d.location_data.relative_bounding_box.xmin)
         ymin = int(iheigth * d.location_data.relative_bounding_box.ymin)
         ymax = ymin + int(iheigth * d.location_data.relative_bounding_box.height)
         xmax = xmin + int(iwidth * d.location_data.relative_bounding_box.width)
         boxes.append([ymin, xmax, ymax, xmin])
-    return boxes 
-# Читаємо дані про раніше скановані каталоги з файлу "_dirlist.ini", якщо він є
-
+    del(face_detection)
+    return boxes
 
 def LoadDirList(lang="ukr"):
     """[Reading a list of earlier scanned directories from JSON-type file _dirlist.ini]
@@ -648,7 +673,7 @@ def showdirlist(root, lang="ukr"):
 
 
 def splitvid(root, lang="ukr"):
-    """[Splits choosen video file into separate frames with face(s) for further face encoding.]
+    """[Splits chosen video file into separate frames with face(s) for further face encoding.]
 
     Args:
         root ([tkinter.Tk]): [tkinter.Tk parent widget window]
