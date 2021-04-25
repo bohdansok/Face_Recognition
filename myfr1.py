@@ -23,6 +23,7 @@ import face_recognition as fr
 import dlib
 
 
+
 class Face_Dictionary():
     """[The class contains all data structures to store in memory as well as load and save to file
     face encodings data, including picture file full path and face location for each face on every picture]
@@ -643,7 +644,6 @@ def optim(lang="ukr"):
 
 def showdirlist(root, lang="ukr"):
     """[If DirList loaded from file outputs a tkinter window with scrillable text of DirList]
-
     Args:
         fl ([boolean]): [True if DirList was leaded from _dirlist.ini]
     """
