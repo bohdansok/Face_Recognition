@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 __author__ = "Bohdan SOKRUT"
 __www__ = 'https://github.com/bohdansok/Face_Recognition'
-__version__ = '1/2.96'
+__version__ = '1/2.97'
 
 ##
 import concurrent.futures
