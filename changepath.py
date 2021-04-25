@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = """Bohdan SOKRUT"""
 __www__ = 'https://github.com/bohdansok/Face_Recognition'
-__version__ = '1.00'
+__version__ = '1.02'
 """ Initial building of reference face encodings takes a time even on GPUs...
 The script allows to save your time in case if you've decided to move that millions of
 your pictures to another location. Just edit dictionary <change_dic>  below. 
