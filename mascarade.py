@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+__author__ = "Bohdan SOKRUT"
+__www__ = 'https://github.com/bohdansok/Face_Recognition'
+__version__ = '1.97'
+
 from tkinter import filedialog, simpledialog
 import face_recognition
 import cv2
