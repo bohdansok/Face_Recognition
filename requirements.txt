@@ -37,8 +37,6 @@ pyparsing==2.4.7
 pypiwin32==223
 pytest==6.2.1
 pytz==2021.1
-pywin32==300
-pywin32-ctypes==0.2.0
 sentry-sdk==1.0.0
 six==1.15.0
 toml==0.10.2
