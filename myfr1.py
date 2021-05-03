@@ -7,6 +7,7 @@ __version__ = '1/2.97'
 import concurrent.futures
 import json
 import os
+import sys
 import os.path
 import pickle
 import shutil
