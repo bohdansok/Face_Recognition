@@ -8,6 +8,7 @@ your pictures to another location. Just edit dictionary <change_dic>  below.
 """
 
 import os.path
+import sys
 import pickle
 from tkinter import filedialog, messagebox
 
