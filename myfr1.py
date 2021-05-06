@@ -1,4 +1,9 @@
 ﻿# -*- coding: utf-8 -*-
+"""Special thanks to:
+-	face_recognition by Adam Geitgey (https://github.com/ageitgey/face_recognition) under MIT License;
+-	dlib by Davis E. King (https://github.com/davisking/dlib ) under BSL-1.0 License;
+-	Mediapipe by Google (https://github.com/google/mediapipe) under Apache-2.0 License.
+"""
 __author__ = "Bohdan SOKRUT"
 __www__ = 'https://github.com/bohdansok/Face_Recognition'
 __version__ = '1/2.97'
