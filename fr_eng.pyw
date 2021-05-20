@@ -27,7 +27,7 @@ import myfrlang
 lang = "eng"  # Language selector
 #################################
 # Global vars - Start
-appcurver = "Face Recognition 1.97 by Bohdan SOKRUT.Tnx to davisking/dlib&ageitgey/face_recognition&MediaPipe"
+appcurver = f"Face Recognition {__version__} by Bohdan SOKRUT."
 Posv_Dir = {}
 fl_Posv_Dir_Loaded = False
 # Global vars - End
