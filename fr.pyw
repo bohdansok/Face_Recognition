@@ -8,6 +8,7 @@ __author__ = "Bohdan SOKRUT"
 __www__ = 'https://github.com/bohdansok/Face_Recognition'
 __version__ = '1.98'
 
+
 ##
 import concurrent.futures
 import glob
