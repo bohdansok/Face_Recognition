@@ -1,3 +1,17 @@
+# Face Recognition v1.98
+The most recent release of the app:
+-	Now this application consists of the single main module <fr.pyw>;
+- 	Interface language selector added. You can choose from English, Ukrainian or Russian now. Learn Wiki how to add a new language support to the app.
+
+Найсвіжіший випуск, вер. 1.98:
+-	Зараз цей додаток складається з єдиного головного модулю <fr.pyw>;
+-	Доданок перемикач мови інтерфейсу. Ви можете вибрати з англійською, української та російської мов. Дивиться Wiki щодо того, як додати підтримку нової мови.
+
+Самый свежий выпуск, вер. 1.98:
+-	Теперь это приложение состоит из единого основного модуля <fr.pyw>;
+-	Добавлен переключатель языка интерфейса. Вы можете выбрать среди английского, украинского или русского языков. Смотрите Wiki как добавить поддержку приложением нового языка.
+
+
 # Face Recognition v1.97
 The most recent release of the app:
 -	Now this face recognition app is a hybrid of Face_recognition  /dlib and Mediapipe frameworks. It looks like CNN face detection model from Mediapipe works in 50 times faster even on CPU then dlib HOG model.
