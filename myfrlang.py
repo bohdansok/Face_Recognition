@@ -10,6 +10,7 @@ __version__ = '1.03'
 
 """  language data module"""
 
+
 lang = {
     "eng": {
         "dir_load_allimg": ["Select a folder with reference pictures",
