@@ -8,7 +8,6 @@ __author__ = "Bohdan SOKRUT"
 __www__ = 'https://github.com/bohdansok/Face_Recognition'
 __version__ = '1.98'
 
-
 ##
 import concurrent.futures
 import glob
@@ -31,6 +30,9 @@ inter_language = "eng"  # default Language selector
 appcurver = f"Face Recognition {__version__} by {__author__}."
 # Global vars - End
 ##
+# making local copies of global funcs
+frcf = face_recognition.compare_faces
+frfd = face_recognition.face_distance
 ## Main Application GUI class
 class Mainapp(tk.Tk):
     """[Main Application GUI class]
@@ -240,7 +242,7 @@ def dir_load_allimg(parwnd):
         try:
             os.mkdir(knwdbdir)
         except OSError:
-            tk.messagebox.showwarning(
+            messagebox.showwarning(
                 myfrlang.lang[lang]["dir_load_allimg"][1], myfrlang.lang[lang]["dir_load_allimg"][2] % knwdbdir)
             if fl_dir_cmnt_file_created:
                 fcmnt.close()
@@ -270,7 +272,7 @@ def dir_load_allimg(parwnd):
                 fcmnt.close()
     myfr1.SaveDirList(Dir_List, lang)
     del(Dir_List)
-    tk.messagebox.showinfo(myfrlang.lang[lang]["dir_load_allimg"][3],
+    messagebox.showinfo(myfrlang.lang[lang]["dir_load_allimg"][3],
                            myfrlang.lang[lang]["dir_load_allimg"][4] % (cnt, fcnt, directory))
     parwnd.title(appcurver)
     return
@@ -315,7 +317,7 @@ def dir_load_allimg_sub(parwnd):
         try:
             os.mkdir(knwdbdir)
         except OSError:
-            tk.messagebox.showwarning(
+            messagebox.showwarning(
                 myfrlang.lang[lang]["dir_load_allimg_sub"][1],
                 myfrlang.lang[lang]["dir_load_allimg_sub"][2] % knwdbdir)
             del(allimgf)  # clearing trash
@@ -345,7 +347,7 @@ def dir_load_allimg_sub(parwnd):
     del(allimgf)
     myfr1.SaveDirList(Dir_List)
     del(Dir_List)
-    tk.messagebox.showinfo(myfrlang.lang[lang]["dir_load_allimg_sub"][3],
+    messagebox.showinfo(myfrlang.lang[lang]["dir_load_allimg_sub"][3],
                            myfrlang.lang[lang]["dir_load_allimg_sub"][4] % (
                                cnt, fcnt, directory)
                            )
@@ -402,7 +404,7 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
         try:
             os.mkdir(wntdbdir)
         except OSError:
-            tk.messagebox.showwarning(
+            messagebox.showwarning(
                 myfrlang.lang[lang]["dir_load_wantedimg"][1],
                 myfrlang.lang[lang]["dir_load_wantedimg"][2] % wntdbdir)
             if fl_dir_cmnt_file_created:
@@ -432,12 +434,12 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
         json.dump(directory, f)
         f.close()
     except OSError:
-        tk.messagebox.showwarning(
+        messagebox.showwarning(
             myfrlang.lang[lang]["dir_load_wantedimg"][3],
             myfrlang.lang[lang]["dir_load_wantedimg"][4] % wssfn)
     if fl_dir_cmnt_file_created:
         fcmnt.close()
-    tk.messagebox.showinfo(myfrlang.lang[lang]["dir_load_wantedimg"][5],
+    messagebox.showinfo(myfrlang.lang[lang]["dir_load_wantedimg"][5],
                             myfrlang.lang[lang]["dir_load_wantedimg"][6] % (cnt, fcnt, directory))
     parwnd.title(appcurver)
     return
@@ -458,7 +460,7 @@ def pic_search(parwnd):
     fl_dir_cmnt_file_loaded = False
     fl_New_knowndir = True
     ###
-    answ = tk.simpledialog.askfloat(myfrlang.lang[lang]["pic_search"][0],
+    answ = simpledialog.askfloat(myfrlang.lang[lang]["pic_search"][0],
                                     myfrlang.lang[lang]["pic_search"][1],
                                     minvalue=0.0, maxvalue=1.0, initialvalue=0.45)
     if answ not in [None, ""]:  # setting tolerance for facecomp
@@ -468,20 +470,20 @@ def pic_search(parwnd):
     knwdbdir = os.path.join(os.path.join(
         os.getcwd(), "_DB"))  # setting path to _DB
     if not os.path.exists(knwdbdir):
-        tk.messagebox.showwarning(
+        messagebox.showwarning(
             myfrlang.lang[lang]["pic_search"][2],
             myfrlang.lang[lang]["pic_search"][3] % knwdbdir)
         return
     # setting path to _Wanted
     wntdbdir = os.path.join(os.path.join(os.getcwd(), "_Wanted"))
     if not os.path.exists(wntdbdir):
-        tk.messagebox.showwarning(
+        messagebox.showwarning(
             myfrlang.lang[lang]["pic_search"][4],
             myfrlang.lang[lang]["pic_search"][5] % wntdbdir)
         return
     fnw = os.path.join(wntdbdir, "wanted.pkl")  # trying to load wanted list
     if not os.path.exists(fnw):
-        tk.messagebox.showwarning(
+        messagebox.showwarning(
             myfrlang.lang[lang]["pic_search"][6],
             myfrlang.lang[lang]["pic_search"][7] % fnw)
         return
@@ -498,7 +500,7 @@ def pic_search(parwnd):
                 fl_rep_dir_default = True  # path to report folder is loaded and is nor blank
         except (IOError, EOFError) as e:
             fl_rep_dir_default = True
-            tk.messagebox.showwarning(
+            messagebox.showwarning(
                 myfrlang.lang[lang]["pic_search"][8],
                 myfrlang.lang[lang]["pic_search"][9].format(e.args[-1]))
     else:
@@ -509,8 +511,6 @@ def pic_search(parwnd):
         fl_MultyTh = True
     except:
         fl_MultyTh = False
-    frcf = face_recognition.compare_faces
-    frfd = face_recognition.face_distance
     # for all .pkl files in _DB
     dfcnt = 0
     allfound = [] # temp list for search results
@@ -601,7 +601,7 @@ def pic_search(parwnd):
                                         ).replace(":", ".") + ".txt"
                 txtrep = open(txtfn, "wt")
             except (IOError, EOFError) as e:
-                tk.messagebox.showwarning(
+                messagebox.showwarning(
                     myfrlang.lang[lang]["pic_search"][11],
                     myfrlang.lang[lang]["pic_search"][12].format(e.args[-1]))
                 return
@@ -610,7 +610,7 @@ def pic_search(parwnd):
                                     ).replace(":", ".") + ".xlsx"  # xlsx
                 wsx = xlsxwriter.Workbook(xlxfn)
             except (IOError, EOFError) as e:
-                tk.messagebox.showwarning(
+                messagebox.showwarning(
                     myfrlang.lang[lang]["pic_search"][13],
                     myfrlang.lang[lang]["pic_search"][14].format(e.args[-1]))
                 return
@@ -620,7 +620,7 @@ def pic_search(parwnd):
                     datetime.now().strftime("%Y-%m-%d %H.%M.%S")).replace(":", ".") + ".txt")
                 txtrep = open(txtfn, "wt")
             except (IOError, EOFError) as e:
-                tk.messagebox.showwarning(
+                messagebox.showwarning(
                     myfrlang.lang[lang]["pic_search"][15],
                     myfrlang.lang[lang]["pic_search"][16].format(e.args[-1]))
                 return
@@ -629,7 +629,7 @@ def pic_search(parwnd):
                     "%Y-%m-%d %H.%M.%S")).replace(":", ".") + ".xlsx")  # xlsx
                 wsx = xlsxwriter.Workbook(xlxfn)
             except (IOError, EOFError) as e:
-                tk.messagebox.showwarning(
+                messagebox.showwarning(
                     myfrlang.lang[lang]["pic_search"][17],
                     myfrlang.lang[lang]["pic_search"][18].format(e.args[-1]))
                 return
@@ -753,16 +753,14 @@ def pic_search(parwnd):
             except:
                 continue
         del(tmpetlist)
-        tk.messagebox.showinfo(
+        messagebox.showinfo(
             myfrlang.lang[lang]["pic_search"][19],
             myfrlang.lang[lang]["pic_search"][20] % (
         wfdlen, dfcnt, txtfn, xlxfn))
     else:
-        tk.messagebox.showinfo(
+        messagebox.showinfo(
             myfrlang.lang[lang]["pic_search"][21],
             myfrlang.lang[lang]["pic_search"][22]  % (wfdlen, dfcnt))
-    del(frcf)
-    del(frfd)
     del(allfound)
     parwnd.title(appcurver)
     return
