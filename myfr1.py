@@ -483,23 +483,19 @@ def make_encodings(parwnd,
                 continue
         # making list of images: original and 4 masked virtually
         images = []
-        encies = []
         images, boxes = put_virt_mask(image, confid, mod5_68, executor, fl_MultyTh, fl_wanted_scan)
         if boxes:
             for box_index in range(len(boxes)):
                 for image in images[box_index]:
                     if fl_MultyTh:
-                        encies.extend(executor.submit(
+                        facedic.Encodings.append(executor.submit(
                                 frfe, image, known_face_locations=[boxes[box_index]],
-                                num_jitters=njits, model=mod5_68).result())
+                                num_jitters=njits, model=mod5_68).result()[0])
                     else:
-                        encies.extend(frfe(image, known_face_locations=[boxes[box_index]],
-                                           num_jitters=njits, model=mod5_68))
-                    for enc in encies:
-                        facedic.Encodings.append(enc)
-                        facedic.Names.append(imfile)
-                        facedic.facelocs.append(boxes[box_index])
-                    encies.clear()
+                        facedic.Encodings.append(frfe(image, known_face_locations=[boxes[box_index]],
+                                           num_jitters=njits, model=mod5_68)[0])
+                    facedic.Names.append(imfile)
+                    facedic.facelocs.append(boxes[box_index])
                 cnt += 1            
             boxes.clear()
     if fl_MultyTh:

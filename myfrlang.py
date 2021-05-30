@@ -10,23 +10,22 @@ __version__ = '1.03'
 
 """  language data module"""
 
-
 lang = {
     "eng": {
-        "dir_load_allimg": ["Select a folder with reference pictures",
+        "dir_load_allimg": ["Select a folder with reference picture(s)",
                            "Attention!", "Can't create working folder %s",
-                           "Information", "Added %d face(s) from %d  pictures at %s. Saving encodings to file..."],
-        "dir_load_allimg_sub": ["Select a folder with reference pictures",
+                           "Information", "Added %d face(s) from %d  picture(s) at %s. Saving encodings to file..."],
+        "dir_load_allimg_sub": ["Select a folder with reference picture(s)",
                                 "Attention!", "Can't create working folder %s",
-                                "Information", "Added %d face(s) from %d  pictures at %s. Saving encodings to file..."],
-        "dir_load_wantedimg": ["Choose folder with wanted persons' pictures",
+                                "Information", "Added %d face(s) from %d  picture(s) at %s. Saving encodings to file..."],
+        "dir_load_wantedimg": ["Choose folder with wanted persons' picture(s)",
                                "Attention!", "Can't create working folder %s",
                                "Attention!", "Can't write search parameters to file %s. Reports to be saved at the app's working folder",
                                'Information', "Added %d faces from %d images at folder %s. Saving encodings to file..."],
         "pic_search": ["Face compare accuracy", "Less is more accurate (0<x<1, default is 0.45):",
                        "Attention!", "Can't find/read working folder %s",
                        "Attention!", "Can't find/read working folder %s",
-                       "Attention!", "Can't find/read wanted individuals(s) data file %s. Please, scan the appropriate folder with pictures",
+                       "Attention!", "Can't find/read wanted individuals(s) data file %s. Please, scan the appropriate folder with picture(s)",
                        "Attention!", "Can't find/read search options file: {}",
                        " - found %d face(s) among %d reference data files",
                        "Attention!", "Can't write report {}",
@@ -77,13 +76,13 @@ lang = {
         "showcurwdir": ["Attention!", 'No data for current "wanted" folder.',
                         'Information', 'Current "wanted" folder is %s'],
         "GUI": ["FIND UNKNOWN FACES AMONG KNOWN ONES", #0
-                '''1. Choose folder(s) with the pictures (.jpg, .png, .bmp, .gif) of reference (known, identified) individuals to create a database.
-                  Scan only once; any new pictures store at new folder(s) and scan them too''',
-                  'Scan reference pictures folder', #2
-                  'Scan reference pictures folder (with subfolders) ', #3
+                '''1. Choose folder(s) with the picture(s) (.jpg, .png, .bmp, .gif) of reference (known, identified) individuals to create a database.
+                  Scan only once; any new picture(s) store at new folder(s) and scan them too''',
+                  'Scan reference picture(s) folder', #2
+                  'Scan reference picture(s) folder (with subfolders) ', #3
                   'Video proccessing...', #4
-                  '2. Choose a folder with wanted individual(s) pictures', #5
-                  'Scan wanted  individual(s) pictures folder', #6
+                  '2. Choose a folder with wanted individual(s) picture(s)', #5
+                  'Scan wanted  individual(s) picture(s) folder', #6
                   'Current "wanted" folder...', #7
                   '3. Push ANALYZE & REPORT to search the faces. Reports will be saved at current app folder as TXT та XLSX (with thumbnails).', #8
                   'ANALYZE & REPORT', #9
