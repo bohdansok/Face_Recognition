@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 """Special thanks to:
 -	face_recognition by Adam Geitgey (https://github.com/ageitgey/face_recognition) under MIT License;
 -	dlib by Davis E. King (https://github.com/davisking/dlib ) under BSL-1.0 License;
@@ -238,7 +237,7 @@ def dir_load_allimg(parwnd):
             fl_dir_cmnt_file_created = False
         else:
             fl_dir_cmnt_file_created = True
-    knwdbdir = os.path.join(os.path.join(os.getcwd(), "_DB"))
+    knwdbdir = os.path.join(os.getcwd(), "_DB")
     if not os.path.exists(knwdbdir):
         try:
             os.mkdir(knwdbdir)
@@ -313,7 +312,7 @@ def dir_load_allimg_sub(parwnd):
             del(allimgf)  # clearing trash
             return
     # creating workin folders
-    knwdbdir = os.path.join(os.path.join(os.getcwd(), "_DB"))
+    knwdbdir = os.path.join(os.getcwd(), "_DB")
     if not os.path.exists(knwdbdir):
         try:
             os.mkdir(knwdbdir)
@@ -400,7 +399,7 @@ def dir_load_wantedimg(parwnd):  # Loading and encoding wanted people
         else:
             fl_dir_cmnt_file_created = True
     # check if _wanted folder available
-    wntdbdir = os.path.join(os.path.join(os.getcwd(), "_Wanted"))
+    wntdbdir = os.path.join(os.getcwd(), "_Wanted")
     if not os.path.exists(wntdbdir):
         try:
             os.mkdir(wntdbdir)
@@ -468,15 +467,14 @@ def pic_search(parwnd):
         tol = answ
     else:
         return
-    knwdbdir = os.path.join(os.path.join(
-        os.getcwd(), "_DB"))  # setting path to _DB
+    knwdbdir = os.path.join(os.getcwd(), "_DB")  # setting path to _DB
     if not os.path.exists(knwdbdir):
         messagebox.showwarning(
             myfrlang.lang[lang]["pic_search"][2],
             myfrlang.lang[lang]["pic_search"][3] % knwdbdir)
         return
     # setting path to _Wanted
-    wntdbdir = os.path.join(os.path.join(os.getcwd(), "_Wanted"))
+    wntdbdir = os.path.join(os.getcwd(), "_Wanted")
     if not os.path.exists(wntdbdir):
         messagebox.showwarning(
             myfrlang.lang[lang]["pic_search"][4],
