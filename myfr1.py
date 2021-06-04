@@ -1,5 +1,4 @@
 ﻿# -*- coding: utf-8 -*-
-    
 """Special thanks to:
 -	face_recognition by Adam Geitgey (https://github.com/ageitgey/face_recognition) under MIT License;
 -	dlib by Davis E. King (https://github.com/davisking/dlib ) under BSL-1.0 License;
@@ -577,12 +576,12 @@ def optim(lang="ukr"):
         myfrlang.lang[lang]["optim"][0],
         myfrlang.lang[lang]["optim"][1]):
         return
-    knwdbdir = os.path.join(os.path.join(os.getcwd(), "_DB"))
+    knwdbdir = os.path.join(os.getcwd(), "_DB")
     if not os.path.exists(knwdbdir):
         messagebox.showwarning(myfrlang.lang[lang]["optim"][2],
                                   myfrlang.lang[lang]["optim"][3] % knwdbdir)
         return
-    backupdir = os.path.join(os.path.join(knwdbdir, "_backup"))
+    backupdir = os.path.join(knwdbdir, "_backup")
     if not os.path.exists(backupdir):
         try:
             os.mkdir(backupdir)
@@ -743,7 +742,7 @@ def showhelp(lang="ukr"):
 
 def showcurwdir(lang="ukr"):
     rep_dir = ""
-    wntdbdir = os.path.join(os.path.join(os.getcwd(), "_Wanted"))
+    wntdbdir = os.path.join(os.getcwd(), "_Wanted")
     rep_conf_fn = os.path.join(wntdbdir, "_dir.ini")
     try:
         dcf = open(rep_conf_fn, "r")
