@@ -1,3 +1,6 @@
+June 23, 2021: API and a test web-client are coming soon!
+
+
 # Face Recognition v1.98
 The most recent release of the app:
 -	Now this application consists of the single main module <fr.pyw>;
