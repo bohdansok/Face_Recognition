@@ -678,6 +678,7 @@ def pic_search(parwnd):
             # thumbnails:
             try:
                 im = Image.open(r[1])
+                im = im.convert("RGB")
                 if fl_New_wanteddir:
                     t1t = "".join([r[1], str(r[6]), str(datetime.now()).replace(":", ""),
                                    "_241.jpg"])  # Thumbnail is not available for gif-pictures
@@ -707,6 +708,7 @@ def pic_search(parwnd):
                 wrksx.write(xlcnt, 2, myfrlang.lang[lang]["pic_search"][34])
             try:
                 im = Image.open(r[3])
+                im = im.convert("RGB")
                 if fl_New_knowndir:
                     t2t = "".join([r[3], str(r[5]), str(datetime.now()).replace(":", ""),
                                    "_242.jpg"])  # no thumb for gif
