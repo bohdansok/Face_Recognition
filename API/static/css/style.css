@@ -1,1 +1,19 @@
-1
+h1 {
+    border: 2px #eee solid;
+    color: white;
+    background-color: green;
+    text-align: center;
+    padding: 10px;
+}
+h2 {
+    color: black;
+    background-color: lightgreen;
+    text-align: left;
+    padding: 10px;
+}
+h3 {
+    color: black;
+    background-color: lightgreen;
+    text-align: left;
+    padding: 3px;
+}
