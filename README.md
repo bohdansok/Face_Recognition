@@ -1,3 +1,5 @@
+June 28, 2021: API and a test web-client (Flask on Waitress) are already here!
+***
 June 24, 2021: some potential image-conversation bugs fixed.
 ***
 June 23, 2021: API and a test web-client are coming soon!
