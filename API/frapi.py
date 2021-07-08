@@ -425,7 +425,6 @@ def API(input_image_path, user_ip, common_dir, dir_comment="", fl_use_dlib=True,
             try:
                 im = Image.open(r[3])
                 im = im.convert("RGB")
-                im.thumbnail(max_size)
                 if fl_New_knowndir:
                     t2t = "".join([r[3], str(r[5]), str(datetime.now()).replace(":", ""),
                                    "_242.jpg"])  # ескізу для gif-формату не буде
