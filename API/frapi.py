@@ -557,7 +557,7 @@ def api_make_encodings(entries,
                 facedic.Names.append(imfile)
                 facedic.facelocs.append(box)
                 # encodimg all gaves on image
-        boxes.clear()
+            boxes.clear()
     if fl_MultyTh:
         executor.shutdown(wait=False)
     facedic.save()
