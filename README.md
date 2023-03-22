@@ -1,3 +1,6 @@
+Dear All,
+Let me be faithful: this code is outdated and I'm not going to update it. The reason: I went forward and now all my face-recognition products are based on wonderfull capabilities of Elasticsearch.
+***
 June 28, 2021: a test web-client (Flask on Waitress) is already here!
 ***
 June 24, 2021: some potential image-conversation bugs fixed.
